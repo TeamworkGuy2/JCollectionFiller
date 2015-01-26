@@ -1,0 +1,88 @@
+PrimitiveList(var) ::= <<
+package $var.packageName$;
+
+/** An interface for class that wrap $var.type$ arrays.  This interface provides
+ * methods for getting, setting and removing values from the $var.objectType$ array.
+ * @author TeamworkGuy2
+ * @since 2013-1-20
+ */
+@javax.annotation.Generated("StringTemplate")
+public interface $var.className$ extends $var.implementClassNames:{x | $x$}; separator=", "$java.util.RandomAccess {
+
+	/** Create a copy of this $var.type$ list
+	 * @return a copy of this $var.type$ list
+	 */
+	public $var.className$ copy();
+
+
+	/** Get the $var.type$ at the specified index
+	 * @param index the index within the range {@code [0, }{@link #size()}{@code -1]} inclusive to retrieve
+	 * @return the $var.type$ found at the specified index
+	 */
+	public $var.type$ get(int index);
+
+
+	/** Check if the specified values is contained in this list of $var.type$s
+	 * @param value the value to check for in this list
+	 * @return true if the value was found in the list, false otherwise
+	 */
+	public boolean contains($var.type$ value);
+
+
+	/** Find the first occurring index of the specified $var.type$ in this list
+	 * @param value the value to search for in this list
+	 * @return an index between {@code [0, }{@link #size()}{@code -1]} if the value
+	 * is found, or -1 if the value cannot be found
+	 */
+	public int indexOf($var.type$ value);
+
+
+	/** Remove the $var.type$ at the specified index
+	 * @param index the index within the range {@code [0, }{@link #size()}{@code -1]}
+	 * inclusive to remove
+	 * @return the $var.type$ found at the specified index
+	 */
+	public $var.type$ remove(int index);
+
+
+	/** Remove the specified value from this list
+	 * @param item the value to remove
+	 * @return true if the value was found and removed successfully, false otherwise
+	 */
+	public boolean removeValue($var.type$ item);
+
+
+	/** Add the specified item to this list of elements
+	 * @param item the item to add to this list of elements
+	 */
+	public boolean add($var.type$ item);
+
+
+	/** Clear the list of elements
+	 */
+	public void clear();
+
+
+	/** Get the current size of this list of elements
+	 * @return the size of this list of elements
+	 */
+	public int size();
+
+
+	/** Is this list of elements empty
+	 * @return true if this list of elements is empty, false otherwise
+	 */
+	public boolean isEmpty();
+
+
+	public $var.type$[] toArray();
+
+
+	public $var.type$[] toArray($var.type$[] dst, int dstOffset);
+
+
+	public String toString();
+
+}
+
+>>
