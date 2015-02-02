@@ -13,7 +13,7 @@ package dataCollections;
  * @since 2013-4-6
  */
 public class SimpleByteBuffer {
-	private byte[] data;
+	private final byte[] data;
 	private int offset;
 	private int limit;
 

@@ -21,6 +21,7 @@ public class GenerateArrayUtils {
 
 		ArrayInfo.ArrayType genericType = new ArrayInfo.ArrayType(true, "<T>", ".equals", false);
 		genericType.type = "T";
+
 		info.types = Arrays.asList(
 				PrimitiveTemplates.newBooleanTemplate(new ArrayInfo.ArrayType(false, null, " == ", false), null, null),
 				PrimitiveTemplates.newByteTemplate(new ArrayInfo.ArrayType(false, null, " == ",	true), null, null),

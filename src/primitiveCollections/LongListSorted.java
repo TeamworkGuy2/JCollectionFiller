@@ -23,7 +23,7 @@ import java.util.RandomAccess;
  */
 @javax.annotation.Generated("StringTemplate")
 public class LongListSorted implements LongList, RandomAccess, Iterable<Long> {
-	protected int mod;
+	protected volatile int mod;
 	protected long[] data;
 	protected int size;
 
@@ -104,9 +104,9 @@ public class LongListSorted implements LongList, RandomAccess, Iterable<Long> {
 		if(index < size - 1) {
 			System.arraycopy(data, index + 1, data, index, size - index - 1);
 		}
+		mod++;
 		// Decrease the size because we removed one item
 		size--;
-		mod++;
 		return item;
 	}
 
@@ -120,9 +120,9 @@ public class LongListSorted implements LongList, RandomAccess, Iterable<Long> {
 		// Search for the item to remove
 		int index = Arrays.binarySearch(data, 0, size, value);
 		if(index > -1 && index < size) {
+			mod++;
 			System.arraycopy(data, index + 1, data, index, size - index - 1);
 			size--;
-			mod++;
 			return true;
 		}
 		return false;
@@ -138,6 +138,7 @@ public class LongListSorted implements LongList, RandomAccess, Iterable<Long> {
 		if(size == data.length) {
 			expandList();
 		}
+		mod++;
 		// Add the new item
 		int index = Arrays.binarySearch(data, 0, size, item);
 		if(index < 0) { index = -index - 1; }
@@ -145,7 +146,6 @@ public class LongListSorted implements LongList, RandomAccess, Iterable<Long> {
 		System.arraycopy(data, index, data, index + 1, size - index);
 		data[index] = item;
 		size++;
-		mod++;
 		return true;
 	}
 
@@ -156,11 +156,11 @@ public class LongListSorted implements LongList, RandomAccess, Iterable<Long> {
 
 
 	public boolean addAll(long[] items, int off, int len) {
+		mod++;
 		boolean res = true;
 		for(int i = off, size = off + len; i < size; i++) {
 			res &= add(items[i]);
 		}
-		mod++;
 		return res;
 	}
 
@@ -169,13 +169,13 @@ public class LongListSorted implements LongList, RandomAccess, Iterable<Long> {
 	 */
 	@Override
 	public void clear() {
+		mod++;
 		// Clear list to null
 		for(int i = 0; i < size; i++) {
 			data[i] = 0L;
 		}
 		// Set the size to zero
 		size = 0;
-		mod++;
 	}
 
 

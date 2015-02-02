@@ -59,6 +59,31 @@ public final class ArrayUtil {
 	}
 
 
+	/** Search for the last matching boolean in an array of booleans
+	 * @param ary the array of values to search
+	 * @param value the value to search for
+	 * @return the index of the matching value, or -1 if the {@code value} could not be found
+	 */
+	public static final int lastIndexOf(boolean[] ary, boolean value) {
+		return lastIndexOf(ary, 0, ary.length, value);
+	}
+
+
+	/** Search for the last matching boolean in an array of booleans
+	 * @param ary the array of values to search
+	 * @param off the offset into {@code ary} at which to stop searching for values
+	 * @param len the number of values to search for starting at {@code off + len} in {@code ary}
+	 * @param value the value to search for
+	 * @return the index of the matching value, or -1 if the {@code value} could not be found
+	 */
+	public static final int lastIndexOf(boolean[] ary, int off, int len, boolean value) {
+		for(int i = off + len - 1; i >= off; i--) {
+			if(ary[i] == (value)) { return i; }
+		}
+		return -1;
+	}
+
+
 	/** Return an array containing a copy of array {@code a} and {@code b}
 	 * @param a the first array
 	 * @param b the second array
@@ -68,6 +93,20 @@ public final class ArrayUtil {
 		boolean[] r = Arrays.copyOf(a, a.length + b.length);
 		System.arraycopy(b, 0, r, a.length, b.length);
 		return r;
+	}
+
+
+	/** Return an array containing a copy of array {@code a} and {@code b}
+	 * @param a the first array
+	 * @param b the second array
+	 * @param dst the destination array to store the copied elements in
+	 * @param dstOff the offset into {@code dst} at which to append array {@code a} and {@code b}
+	 * @return a new array containing a shallow copy of both arrays
+	 */
+	public static final boolean[] concat(boolean[] a, boolean[] b, boolean[] dst, int dstOff) {
+		System.arraycopy(a, 0, dst, dstOff, a.length);
+		System.arraycopy(b, 0, dst, dstOff + a.length, b.length);
+		return dst;
 	}
 
 
@@ -134,6 +173,31 @@ public final class ArrayUtil {
 	}
 
 
+	/** Search for the last matching byte in an array of bytes
+	 * @param ary the array of values to search
+	 * @param value the value to search for
+	 * @return the index of the matching value, or -1 if the {@code value} could not be found
+	 */
+	public static final int lastIndexOf(byte[] ary, byte value) {
+		return lastIndexOf(ary, 0, ary.length, value);
+	}
+
+
+	/** Search for the last matching byte in an array of bytes
+	 * @param ary the array of values to search
+	 * @param off the offset into {@code ary} at which to stop searching for values
+	 * @param len the number of values to search for starting at {@code off + len} in {@code ary}
+	 * @param value the value to search for
+	 * @return the index of the matching value, or -1 if the {@code value} could not be found
+	 */
+	public static final int lastIndexOf(byte[] ary, int off, int len, byte value) {
+		for(int i = off + len - 1; i >= off; i--) {
+			if(ary[i] == (value)) { return i; }
+		}
+		return -1;
+	}
+
+
 	/** Return an array containing a copy of array {@code a} and {@code b}
 	 * @param a the first array
 	 * @param b the second array
@@ -143,6 +207,20 @@ public final class ArrayUtil {
 		byte[] r = Arrays.copyOf(a, a.length + b.length);
 		System.arraycopy(b, 0, r, a.length, b.length);
 		return r;
+	}
+
+
+	/** Return an array containing a copy of array {@code a} and {@code b}
+	 * @param a the first array
+	 * @param b the second array
+	 * @param dst the destination array to store the copied elements in
+	 * @param dstOff the offset into {@code dst} at which to append array {@code a} and {@code b}
+	 * @return a new array containing a shallow copy of both arrays
+	 */
+	public static final byte[] concat(byte[] a, byte[] b, byte[] dst, int dstOff) {
+		System.arraycopy(a, 0, dst, dstOff, a.length);
+		System.arraycopy(b, 0, dst, dstOff + a.length, b.length);
+		return dst;
 	}
 
 
@@ -310,6 +388,31 @@ public final class ArrayUtil {
 	}
 
 
+	/** Search for the last matching short in an array of shorts
+	 * @param ary the array of values to search
+	 * @param value the value to search for
+	 * @return the index of the matching value, or -1 if the {@code value} could not be found
+	 */
+	public static final int lastIndexOf(short[] ary, short value) {
+		return lastIndexOf(ary, 0, ary.length, value);
+	}
+
+
+	/** Search for the last matching short in an array of shorts
+	 * @param ary the array of values to search
+	 * @param off the offset into {@code ary} at which to stop searching for values
+	 * @param len the number of values to search for starting at {@code off + len} in {@code ary}
+	 * @param value the value to search for
+	 * @return the index of the matching value, or -1 if the {@code value} could not be found
+	 */
+	public static final int lastIndexOf(short[] ary, int off, int len, short value) {
+		for(int i = off + len - 1; i >= off; i--) {
+			if(ary[i] == (value)) { return i; }
+		}
+		return -1;
+	}
+
+
 	/** Return an array containing a copy of array {@code a} and {@code b}
 	 * @param a the first array
 	 * @param b the second array
@@ -319,6 +422,20 @@ public final class ArrayUtil {
 		short[] r = Arrays.copyOf(a, a.length + b.length);
 		System.arraycopy(b, 0, r, a.length, b.length);
 		return r;
+	}
+
+
+	/** Return an array containing a copy of array {@code a} and {@code b}
+	 * @param a the first array
+	 * @param b the second array
+	 * @param dst the destination array to store the copied elements in
+	 * @param dstOff the offset into {@code dst} at which to append array {@code a} and {@code b}
+	 * @return a new array containing a shallow copy of both arrays
+	 */
+	public static final short[] concat(short[] a, short[] b, short[] dst, int dstOff) {
+		System.arraycopy(a, 0, dst, dstOff, a.length);
+		System.arraycopy(b, 0, dst, dstOff + a.length, b.length);
+		return dst;
 	}
 
 
@@ -486,6 +603,31 @@ public final class ArrayUtil {
 	}
 
 
+	/** Search for the last matching char in an array of chars
+	 * @param ary the array of values to search
+	 * @param value the value to search for
+	 * @return the index of the matching value, or -1 if the {@code value} could not be found
+	 */
+	public static final int lastIndexOf(char[] ary, char value) {
+		return lastIndexOf(ary, 0, ary.length, value);
+	}
+
+
+	/** Search for the last matching char in an array of chars
+	 * @param ary the array of values to search
+	 * @param off the offset into {@code ary} at which to stop searching for values
+	 * @param len the number of values to search for starting at {@code off + len} in {@code ary}
+	 * @param value the value to search for
+	 * @return the index of the matching value, or -1 if the {@code value} could not be found
+	 */
+	public static final int lastIndexOf(char[] ary, int off, int len, char value) {
+		for(int i = off + len - 1; i >= off; i--) {
+			if(ary[i] == (value)) { return i; }
+		}
+		return -1;
+	}
+
+
 	/** Return an array containing a copy of array {@code a} and {@code b}
 	 * @param a the first array
 	 * @param b the second array
@@ -495,6 +637,20 @@ public final class ArrayUtil {
 		char[] r = Arrays.copyOf(a, a.length + b.length);
 		System.arraycopy(b, 0, r, a.length, b.length);
 		return r;
+	}
+
+
+	/** Return an array containing a copy of array {@code a} and {@code b}
+	 * @param a the first array
+	 * @param b the second array
+	 * @param dst the destination array to store the copied elements in
+	 * @param dstOff the offset into {@code dst} at which to append array {@code a} and {@code b}
+	 * @return a new array containing a shallow copy of both arrays
+	 */
+	public static final char[] concat(char[] a, char[] b, char[] dst, int dstOff) {
+		System.arraycopy(a, 0, dst, dstOff, a.length);
+		System.arraycopy(b, 0, dst, dstOff + a.length, b.length);
+		return dst;
 	}
 
 
@@ -662,6 +818,31 @@ public final class ArrayUtil {
 	}
 
 
+	/** Search for the last matching int in an array of ints
+	 * @param ary the array of values to search
+	 * @param value the value to search for
+	 * @return the index of the matching value, or -1 if the {@code value} could not be found
+	 */
+	public static final int lastIndexOf(int[] ary, int value) {
+		return lastIndexOf(ary, 0, ary.length, value);
+	}
+
+
+	/** Search for the last matching int in an array of ints
+	 * @param ary the array of values to search
+	 * @param off the offset into {@code ary} at which to stop searching for values
+	 * @param len the number of values to search for starting at {@code off + len} in {@code ary}
+	 * @param value the value to search for
+	 * @return the index of the matching value, or -1 if the {@code value} could not be found
+	 */
+	public static final int lastIndexOf(int[] ary, int off, int len, int value) {
+		for(int i = off + len - 1; i >= off; i--) {
+			if(ary[i] == (value)) { return i; }
+		}
+		return -1;
+	}
+
+
 	/** Return an array containing a copy of array {@code a} and {@code b}
 	 * @param a the first array
 	 * @param b the second array
@@ -671,6 +852,20 @@ public final class ArrayUtil {
 		int[] r = Arrays.copyOf(a, a.length + b.length);
 		System.arraycopy(b, 0, r, a.length, b.length);
 		return r;
+	}
+
+
+	/** Return an array containing a copy of array {@code a} and {@code b}
+	 * @param a the first array
+	 * @param b the second array
+	 * @param dst the destination array to store the copied elements in
+	 * @param dstOff the offset into {@code dst} at which to append array {@code a} and {@code b}
+	 * @return a new array containing a shallow copy of both arrays
+	 */
+	public static final int[] concat(int[] a, int[] b, int[] dst, int dstOff) {
+		System.arraycopy(a, 0, dst, dstOff, a.length);
+		System.arraycopy(b, 0, dst, dstOff + a.length, b.length);
+		return dst;
 	}
 
 
@@ -838,6 +1033,31 @@ public final class ArrayUtil {
 	}
 
 
+	/** Search for the last matching long in an array of longs
+	 * @param ary the array of values to search
+	 * @param value the value to search for
+	 * @return the index of the matching value, or -1 if the {@code value} could not be found
+	 */
+	public static final int lastIndexOf(long[] ary, long value) {
+		return lastIndexOf(ary, 0, ary.length, value);
+	}
+
+
+	/** Search for the last matching long in an array of longs
+	 * @param ary the array of values to search
+	 * @param off the offset into {@code ary} at which to stop searching for values
+	 * @param len the number of values to search for starting at {@code off + len} in {@code ary}
+	 * @param value the value to search for
+	 * @return the index of the matching value, or -1 if the {@code value} could not be found
+	 */
+	public static final int lastIndexOf(long[] ary, int off, int len, long value) {
+		for(int i = off + len - 1; i >= off; i--) {
+			if(ary[i] == (value)) { return i; }
+		}
+		return -1;
+	}
+
+
 	/** Return an array containing a copy of array {@code a} and {@code b}
 	 * @param a the first array
 	 * @param b the second array
@@ -847,6 +1067,20 @@ public final class ArrayUtil {
 		long[] r = Arrays.copyOf(a, a.length + b.length);
 		System.arraycopy(b, 0, r, a.length, b.length);
 		return r;
+	}
+
+
+	/** Return an array containing a copy of array {@code a} and {@code b}
+	 * @param a the first array
+	 * @param b the second array
+	 * @param dst the destination array to store the copied elements in
+	 * @param dstOff the offset into {@code dst} at which to append array {@code a} and {@code b}
+	 * @return a new array containing a shallow copy of both arrays
+	 */
+	public static final long[] concat(long[] a, long[] b, long[] dst, int dstOff) {
+		System.arraycopy(a, 0, dst, dstOff, a.length);
+		System.arraycopy(b, 0, dst, dstOff + a.length, b.length);
+		return dst;
 	}
 
 
@@ -1014,6 +1248,31 @@ public final class ArrayUtil {
 	}
 
 
+	/** Search for the last matching float in an array of floats
+	 * @param ary the array of values to search
+	 * @param value the value to search for
+	 * @return the index of the matching value, or -1 if the {@code value} could not be found
+	 */
+	public static final int lastIndexOf(float[] ary, float value) {
+		return lastIndexOf(ary, 0, ary.length, value);
+	}
+
+
+	/** Search for the last matching float in an array of floats
+	 * @param ary the array of values to search
+	 * @param off the offset into {@code ary} at which to stop searching for values
+	 * @param len the number of values to search for starting at {@code off + len} in {@code ary}
+	 * @param value the value to search for
+	 * @return the index of the matching value, or -1 if the {@code value} could not be found
+	 */
+	public static final int lastIndexOf(float[] ary, int off, int len, float value) {
+		for(int i = off + len - 1; i >= off; i--) {
+			if(ary[i] == (value)) { return i; }
+		}
+		return -1;
+	}
+
+
 	/** Return an array containing a copy of array {@code a} and {@code b}
 	 * @param a the first array
 	 * @param b the second array
@@ -1023,6 +1282,20 @@ public final class ArrayUtil {
 		float[] r = Arrays.copyOf(a, a.length + b.length);
 		System.arraycopy(b, 0, r, a.length, b.length);
 		return r;
+	}
+
+
+	/** Return an array containing a copy of array {@code a} and {@code b}
+	 * @param a the first array
+	 * @param b the second array
+	 * @param dst the destination array to store the copied elements in
+	 * @param dstOff the offset into {@code dst} at which to append array {@code a} and {@code b}
+	 * @return a new array containing a shallow copy of both arrays
+	 */
+	public static final float[] concat(float[] a, float[] b, float[] dst, int dstOff) {
+		System.arraycopy(a, 0, dst, dstOff, a.length);
+		System.arraycopy(b, 0, dst, dstOff + a.length, b.length);
+		return dst;
 	}
 
 
@@ -1190,6 +1463,31 @@ public final class ArrayUtil {
 	}
 
 
+	/** Search for the last matching double in an array of doubles
+	 * @param ary the array of values to search
+	 * @param value the value to search for
+	 * @return the index of the matching value, or -1 if the {@code value} could not be found
+	 */
+	public static final int lastIndexOf(double[] ary, double value) {
+		return lastIndexOf(ary, 0, ary.length, value);
+	}
+
+
+	/** Search for the last matching double in an array of doubles
+	 * @param ary the array of values to search
+	 * @param off the offset into {@code ary} at which to stop searching for values
+	 * @param len the number of values to search for starting at {@code off + len} in {@code ary}
+	 * @param value the value to search for
+	 * @return the index of the matching value, or -1 if the {@code value} could not be found
+	 */
+	public static final int lastIndexOf(double[] ary, int off, int len, double value) {
+		for(int i = off + len - 1; i >= off; i--) {
+			if(ary[i] == (value)) { return i; }
+		}
+		return -1;
+	}
+
+
 	/** Return an array containing a copy of array {@code a} and {@code b}
 	 * @param a the first array
 	 * @param b the second array
@@ -1199,6 +1497,20 @@ public final class ArrayUtil {
 		double[] r = Arrays.copyOf(a, a.length + b.length);
 		System.arraycopy(b, 0, r, a.length, b.length);
 		return r;
+	}
+
+
+	/** Return an array containing a copy of array {@code a} and {@code b}
+	 * @param a the first array
+	 * @param b the second array
+	 * @param dst the destination array to store the copied elements in
+	 * @param dstOff the offset into {@code dst} at which to append array {@code a} and {@code b}
+	 * @return a new array containing a shallow copy of both arrays
+	 */
+	public static final double[] concat(double[] a, double[] b, double[] dst, int dstOff) {
+		System.arraycopy(a, 0, dst, dstOff, a.length);
+		System.arraycopy(b, 0, dst, dstOff + a.length, b.length);
+		return dst;
 	}
 
 
@@ -1367,6 +1679,31 @@ public final class ArrayUtil {
 	}
 
 
+	/** Search for the last matching T in an array of Ts
+	 * @param ary the array of values to search
+	 * @param value the value to search for
+	 * @return the index of the matching value, or -1 if the {@code value} could not be found
+	 */
+	public static final <T> int lastIndexOf(T[] ary, T value) {
+		return lastIndexOf(ary, 0, ary.length, value);
+	}
+
+
+	/** Search for the last matching T in an array of Ts
+	 * @param ary the array of values to search
+	 * @param off the offset into {@code ary} at which to stop searching for values
+	 * @param len the number of values to search for starting at {@code off + len} in {@code ary}
+	 * @param value the value to search for
+	 * @return the index of the matching value, or -1 if the {@code value} could not be found
+	 */
+	public static final <T> int lastIndexOf(T[] ary, int off, int len, T value) {
+		for(int i = off + len - 1; i >= off; i--) {
+			if(ary[i].equals(value)) { return i; }
+		}
+		return -1;
+	}
+
+
 	/** Return an array containing a copy of array {@code a} and {@code b}
 	 * @param a the first array
 	 * @param b the second array
@@ -1376,6 +1713,20 @@ public final class ArrayUtil {
 		T[] r = Arrays.copyOf(a, a.length + b.length);
 		System.arraycopy(b, 0, r, a.length, b.length);
 		return r;
+	}
+
+
+	/** Return an array containing a copy of array {@code a} and {@code b}
+	 * @param a the first array
+	 * @param b the second array
+	 * @param dst the destination array to store the copied elements in
+	 * @param dstOff the offset into {@code dst} at which to append array {@code a} and {@code b}
+	 * @return a new array containing a shallow copy of both arrays
+	 */
+	public static final <T> T[] concat(T[] a, T[] b, T[] dst, int dstOff) {
+		System.arraycopy(a, 0, dst, dstOff, a.length);
+		System.arraycopy(b, 0, dst, dstOff + a.length, b.length);
+		return dst;
 	}
 
 

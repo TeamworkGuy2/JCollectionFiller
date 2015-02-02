@@ -10,7 +10,7 @@ import java.util.Map;
  */
 public final class MapBuilder {
 
-	private MapBuilder() { throw new AssertionError("cannot instantiate MapBuilder"); }
+	private MapBuilder() { throw new AssertionError("cannot instantiate static class MapBuilder"); }
 
 
 	/** Creates an immutable map containing the list of entries

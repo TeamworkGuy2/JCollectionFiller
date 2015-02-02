@@ -87,8 +87,8 @@ public class MultiBag<T> {
 	@SuppressWarnings("unchecked")
 	public T get(int listId, int index) {
 		final int offset = offsets[listId];
-		index = offset+index;
-		if(index >= offset+sizes[listId]) { throw new IndexOutOfBoundsException(); }
+		index = offset + index;
+		if(index >= offset + sizes[listId]) { throw new IndexOutOfBoundsException(); }
 		return (T)arrays[index];
 	}
 
@@ -101,8 +101,8 @@ public class MultiBag<T> {
 	@SuppressWarnings("unchecked")
 	public T remove(int listId, int index) {
 		final int offset = offsets[listId];
-		if(offset+index >= offset+sizes[listId]) { throw new IndexOutOfBoundsException(); }
-		final int size = offset+sizes[listId];
+		if(offset+index >= offset + sizes[listId]) { throw new IndexOutOfBoundsException(); }
+		final int size = offset + sizes[listId];
 		// Get the item to remove
 		Object item = arrays[offset+index];
 		// Replace the item to remove with the last element from our array
@@ -125,7 +125,7 @@ public class MultiBag<T> {
 	public boolean remove(int listId, T item) {
 		// Search for the item to remove
 		if(item != null) {
-			int afterLastIndex = offsets[listId]+sizes[listId];
+			int afterLastIndex = offsets[listId] + sizes[listId];
 			for(int i = offsets[listId]; i < afterLastIndex; i++) {
 				// If the item is found, remove it
 				if(item.equals(arrays[i])) {
@@ -136,7 +136,7 @@ public class MultiBag<T> {
 		}
 		// Else if the item is null, search for a null item in our list
 		else {
-			int afterLastIndex = offsets[listId]+sizes[listId];
+			int afterLastIndex = offsets[listId] + sizes[listId];
 			for(int i = offsets[listId]; i < afterLastIndex; i++) {
 				// If the item is found, remove it
 				if(arrays[i] == null) {
@@ -159,7 +159,7 @@ public class MultiBag<T> {
 			expandArray(listId);
 		}
 		// Add the new item
-		arrays[offsets[listId]+sizes[listId]] = item;
+		arrays[offsets[listId] + sizes[listId]] = item;
 		sizes[listId]++;
 		sizeTotal++;
 		return true;
@@ -172,7 +172,7 @@ public class MultiBag<T> {
 		// Clear each internal list to null
 		int size = 0;
 		for(int a = 0; a < arrayCount; a++) {
-			size = offsets[a]+sizes[a];
+			size = offsets[a] + sizes[a];
 			for(int i = offsets[a]; i < size; i++) {
 				arrays[i] = null;
 			}
@@ -186,7 +186,7 @@ public class MultiBag<T> {
 	 * @param listId the index of the list within this object to remove the specified index from
 	 */
 	public void clear(int listId) {
-		int size = offsets[listId]+sizes[listId];
+		int size = offsets[listId] + sizes[listId];
 		for(int i = offsets[listId]; i < size; i++) {
 			arrays[listId] = null;
 		}
@@ -237,11 +237,11 @@ public class MultiBag<T> {
 		// Expand array size 1.5x + 4, +4 instead of +1 to prevent small bags from constantly needed to resize
 		final int sizeIncrease = (lengths[listId] >>> 1) + 4;
 		this.arrays = new Object[oldData.length + sizeIncrease];
-		final int remainingIndex = offsets[listId]+lengths[listId];
+		final int remainingIndex = offsets[listId] + lengths[listId];
 		lengths[listId] += sizeIncrease;
-		System.arraycopy(oldData, 0, this.arrays, 0, offsets[listId]+sizes[listId]);
-		System.arraycopy(oldData, remainingIndex, this.arrays, remainingIndex+sizeIncrease,
-				(offsets[arrayCount-1]+sizes[arrayCount-1])-remainingIndex);
+		System.arraycopy(oldData, 0, this.arrays, 0, offsets[listId] + sizes[listId]);
+		System.arraycopy(oldData, remainingIndex, this.arrays, remainingIndex + sizeIncrease,
+				(offsets[arrayCount - 1] + sizes[arrayCount - 1]) - remainingIndex);
 
 		for(int i = listId+1; i < arrayCount; i++) {
 			offsets[i] += sizeIncrease;

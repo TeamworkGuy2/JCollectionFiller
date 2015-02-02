@@ -61,6 +61,31 @@ $endif$	public static final $if(ary.isGeneric)$$ary.genericSignature$ $endif$$ar
 	\}
 
 
+	/** Search for the last matching $ary.type$ in an array of $ary.type$s
+	 * @param ary the array of values to search
+	 * @param value the value to search for
+	 * @return the index of the matching value, or -1 if the {@code value\} could not be found
+	 */
+	public static final $if(ary.isGeneric)$$ary.genericSignature$ $endif$int lastIndexOf($ary.type$[] ary, $ary.type$ value) {
+		return lastIndexOf(ary, 0, ary.length, value);
+	\}
+
+
+	/** Search for the last matching $ary.type$ in an array of $ary.type$s
+	 * @param ary the array of values to search
+	 * @param off the offset into {@code ary\} at which to stop searching for values
+	 * @param len the number of values to search for starting at {@code off + len\} in {@code ary\}
+	 * @param value the value to search for
+	 * @return the index of the matching value, or -1 if the {@code value\} could not be found
+	 */
+	public static final $if(ary.isGeneric)$$ary.genericSignature$ $endif$int lastIndexOf($ary.type$[] ary, int off, int len, $ary.type$ value) {
+		for(int i = off + len - 1; i >= off; i--) {
+			if(ary[i]$ary.checkEquality$(value)) { return i; \}
+		\}
+		return -1;
+	\}
+
+
 	/** Return an array containing a copy of array {@code a\} and {@code b\}
 	 * @param a the first array
 	 * @param b the second array
@@ -70,6 +95,20 @@ $endif$	public static final $if(ary.isGeneric)$$ary.genericSignature$ $endif$$ar
 		$ary.type$[] r = Arrays.copyOf(a, a.length + b.length);
 		System.arraycopy(b, 0, r, a.length, b.length);
 		return r;
+	\}
+
+
+	/** Return an array containing a copy of array {@code a\} and {@code b\}
+	 * @param a the first array
+	 * @param b the second array
+	 * @param dst the destination array to store the copied elements in
+	 * @param dstOff the offset into {@code dst\} at which to append array {@code a\} and {@code b\}
+	 * @return a new array containing a shallow copy of both arrays
+	 */
+	public static final $if(ary.isGeneric)$$ary.genericSignature$ $endif$$ary.type$[] concat($ary.type$[] a, $ary.type$[] b, $ary.type$[] dst, int dstOff) {
+		System.arraycopy(a, 0, dst, dstOff, a.length);
+		System.arraycopy(b, 0, dst, dstOff + a.length, b.length);
+		return dst;
 	\}
 
 

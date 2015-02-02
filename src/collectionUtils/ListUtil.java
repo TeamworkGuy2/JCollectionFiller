@@ -1,6 +1,9 @@
 package collectionUtils;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.RandomAccess;
 
 /** Utility methods for dealing with {@link List lists}.
@@ -65,6 +68,46 @@ public final class ListUtil {
 			}
 		}
 		return true;
+	}
+
+
+	@SafeVarargs
+	public static final <E> List<E> ofMutable(E... elements) {
+		List<E> list = new ArrayList<>();
+		if(elements != null) {
+			Collections.addAll(list, elements);
+			for(E elem : elements) {
+				list.add(elem);
+			}
+		}
+		return list;
+	}
+
+
+	/** Creates a shallow copy of the set of keys in a map with a given condition
+	 * @return the set of keys from the map provided or a new empty list of the map was empty
+	 * @see AddCondition
+	 */
+	public static final <K, V> List<K> copyOfKeys(Map<K, V> map, AddCondition condition) {
+		List<K> list = new ArrayList<K>();
+		if(map != null) {
+			ListAdd.addCollectionToList(map.keySet(), list, condition);
+		}
+		return list;
+	}
+
+
+
+	/** Creates a shallow copy of the set of keys in a map with a given condition
+	 * @return the set of keys from the map provided or a new empty list of the map was empty
+	 * @see AddCondition
+	 */
+	public static final <K, V> List<V> copyOfValues(Map<K, V> map, AddCondition condition) {
+		List<V> list = new ArrayList<V>();
+		if(map != null) {
+			ListAdd.addCollectionToList(map.values(), list, condition);
+		}
+		return list;
 	}
 
 }

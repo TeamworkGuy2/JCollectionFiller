@@ -226,9 +226,9 @@ public class CircularByteArray {
 		StringBuilder b = new StringBuilder("index=" + index + ", length=" + length +
 				", (size=" + array.length + "), data[");
 		for(int i = 0; i < length-1; i++) {
-			b.append(array[(index + i) % array.length] + ", ");
+			b.append(array[(index + i) % array.length]).append(", ");
 		}
-		b.append(array[(index+length-1) % array.length] + "]");
+		b.append(array[(index+length-1) % array.length]).append(']');
 		return b.toString();
 	}
 

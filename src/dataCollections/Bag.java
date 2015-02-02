@@ -72,16 +72,16 @@ public class Bag<T> implements ModifiableCollection<T>, Iterable<T> {
 	@Override
 	public T remove(int index) {
 		if(index >= size) { throw new IndexOutOfBoundsException(); }
+		action++;
 		// Get the item to remove
 		@SuppressWarnings("unchecked")
 		T item = (T)data[index];
 		// Replace the item to remove with the last element from our array
-		data[index] = data[size-1];
+		data[index] = data[size - 1];
 		// Set the last element to null
 		data[size-1] = null;
 		// Decrease the size because we removed one item
 		size--;
-		action++;
 		return item;
 	}
 
@@ -136,10 +136,10 @@ public class Bag<T> implements ModifiableCollection<T>, Iterable<T> {
 		if(size >= data.length) {
 			expandArray();
 		}
+		action++;
 		// Add the new item
 		data[size] = item;
 		size++;
-		action++;
 	}
 
 
@@ -147,13 +147,13 @@ public class Bag<T> implements ModifiableCollection<T>, Iterable<T> {
 	 */
 	@Override
 	public void clear() {
+		action++;
 		// Clear list to null
 		for(int i = 0; i < size; i++) {
 			data[i] = null;
 		}
 		// Set the size back to the beginning of the array
 		size = 0;
-		action++;
 	}
 
 
@@ -210,34 +210,39 @@ public class Bag<T> implements ModifiableCollection<T>, Iterable<T> {
 		private int expectedActions;
 		private int currentIndex;
 
+
 		public BagIterator() {
 			super();
 			expectedActions = Bag.this.action;
 		}
 
+
 		@Override
 		public boolean hasNext() {
-			if(expectedActions != Bag.this.action) {
-				throw new ConcurrentModificationException("Bag was modified while iterating");
-			}
+			checkMod();
 			return currentIndex < size;
 		}
+
 
 		@SuppressWarnings("unchecked")
 		@Override
 		public T next() {
-			if(expectedActions != Bag.this.action) {
-				throw new ConcurrentModificationException("Bag was modified while iterating");
-			}
+			checkMod();
 			currentIndex++;
 			return (T)data[currentIndex-1];
 		}
 
-		@Override
-		public void remove() {
+
+		protected final void checkMod() {
 			if(expectedActions != Bag.this.action) {
 				throw new ConcurrentModificationException("Bag was modified while iterating");
 			}
+		}
+
+
+		@Override
+		public void remove() {
+			checkMod();
 			expectedActions++; // Since remove() increments the action count, keep the two in sync
 			Bag.this.remove(currentIndex);
 			// Rewind so that next() call returns same index, which now contains new item since removed item indices

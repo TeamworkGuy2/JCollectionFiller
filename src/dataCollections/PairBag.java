@@ -29,7 +29,7 @@ public class PairBag<K, V> implements PairCollection<K, V>, IndexedMap<K, V>, It
 	 * also equivalent to the zero based size of this bag */
 	private int size;
 	/** Used by iterators to ensure that the list has not been modified while iterating */
-	private int action;
+	private volatile int action;
 	private BagMapKeyView keyView;
 	private BagMapValueView valueView;
 	private IndexedMap<K, V> keyValueView;
@@ -203,18 +203,18 @@ public class PairBag<K, V> implements PairCollection<K, V>, IndexedMap<K, V>, It
 	 */
 	public K remove(int index) {
 		if(index < 0 || index >= size) { throw new ArrayIndexOutOfBoundsException(index); }
+		action++;
 		// Get the item to remove
 		@SuppressWarnings("unchecked")
 		K key = (K)keys[index];
 		// Replace the item to remove with the last element from our array
-		keys[index] = keys[size-1];
-		values[index] = values[size-1];
+		keys[index] = keys[size - 1];
+		values[index] = values[size - 1];
 		// Set the last element to null
-		keys[size-1] = null;
-		values[size-1] = null;
+		keys[size - 1] = null;
+		values[size - 1] = null;
 		// Item removed - decrease size, action occurred
 		size--;
-		action++;
 		return key;
 	}
 
@@ -225,20 +225,20 @@ public class PairBag<K, V> implements PairCollection<K, V>, IndexedMap<K, V>, It
 	 */
 	public Map.Entry<K, V> removeEntry(int index) {
 		if(index < 0 || index >= size) { throw new ArrayIndexOutOfBoundsException(index); }
+		action++;
 		// Get the item to remove
 		@SuppressWarnings("unchecked")
 		K key = (K) keys[index];
 		@SuppressWarnings("unchecked")
 		V value = (V) values[index];
 		// Replace the item to remove with the last element from our array
-		keys[index] = keys[size-1];
-		values[index] = values[size-1];
+		keys[index] = keys[size - 1];
+		values[index] = values[size - 1];
 		// Set the last element to null
-		keys[size-1] = null;
-		values[size-1] = null;
+		keys[size - 1] = null;
+		values[size - 1] = null;
 		// Item removed - decrease size, action occurred
 		size--;
-		action++;
 		return new AbstractMap.SimpleImmutableEntry<K, V>(key, value);
 	}
 
@@ -254,14 +254,14 @@ public class PairBag<K, V> implements PairCollection<K, V>, IndexedMap<K, V>, It
 			for(int i = 0; i < size; i++) {
 				// If the item is found, remove it
 				if(key.equals(keys[i])) {
+					action++;
 					@SuppressWarnings("unchecked")
 					V value = (V)values[i];
-					keys[i] = keys[size-1];
-					values[i] = values[size-1];
-					keys[size-1] = null;
-					values[size-1] = null;
+					keys[i] = keys[size - 1];
+					values[i] = values[size - 1];
+					keys[size - 1] = null;
+					values[size - 1] = null;
 					size--;
-					action++;
 					return value;
 				}
 			}
@@ -271,14 +271,14 @@ public class PairBag<K, V> implements PairCollection<K, V>, IndexedMap<K, V>, It
 			for(int i = 0; i < size; i++) {
 				// If the item is found, remove it
 				if(keys[i] == null) {
+					action++;
 					@SuppressWarnings("unchecked")
 					V value = (V)values[i];
-					keys[i] = keys[size-1];
-					values[i] = values[size-1];
-					keys[size-1] = null;
-					values[size-1] = null;
+					keys[i] = keys[size - 1];
+					values[i] = values[size - 1];
+					keys[size - 1] = null;
+					values[size - 1] = null;
 					size--;
-					action++;
 					return value;
 				}
 			}
@@ -288,9 +288,9 @@ public class PairBag<K, V> implements PairCollection<K, V>, IndexedMap<K, V>, It
 
 
 	public void setKeyValue(int index, K key, V value) {
+		action++;
 		keys[index] = key;
 		values[index] = value;
-		action++;
 	}
 
 
@@ -316,6 +316,7 @@ public class PairBag<K, V> implements PairCollection<K, V>, IndexedMap<K, V>, It
 	 */
 	@Override
 	public void add(K key, V value) {
+		action++;
 		// If the bag is to small, expand it
 		if(size >= keys.length) {
 			expandBag();
@@ -324,7 +325,6 @@ public class PairBag<K, V> implements PairCollection<K, V>, IndexedMap<K, V>, It
 		keys[size] = key;
 		values[size] = value;
 		size++;
-		action++;
 	}
 
 
@@ -371,6 +371,7 @@ public class PairBag<K, V> implements PairCollection<K, V>, IndexedMap<K, V>, It
 	/** Clear the group of elements
 	 */
 	public void clear() {
+		action++;
 		// Clear list to null
 		for(int i = 0; i < size; i++) {
 			keys[i] = null;
@@ -378,7 +379,6 @@ public class PairBag<K, V> implements PairCollection<K, V>, IndexedMap<K, V>, It
 		}
 		// Set the size back to the beginning of the array
 		size = 0;
-		action++;
 	}
 
 

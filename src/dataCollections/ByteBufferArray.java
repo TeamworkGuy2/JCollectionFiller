@@ -128,7 +128,7 @@ public class ByteBufferArray implements DataOutput, DataInput, Closeable {
 		// Write a short, assumed 2 bytes (big endian format)
 		ensureNewDataFits(2);
 		buffer[pos] = (byte)((value >>> 8) & 0xFF);
-		buffer[pos+1] = (byte)(value & 0xFF);
+		buffer[pos + 1] = (byte)(value & 0xFF);
 		bytesAdded(2);
 	}
 
@@ -141,7 +141,7 @@ public class ByteBufferArray implements DataOutput, DataInput, Closeable {
 		// Write a char, assumed 2 bytes (big endian format)
 		ensureNewDataFits(2);
 		buffer[pos] = (byte)((value >>> 8) & 0xFF);
-		buffer[pos+1] = (byte)(value & 0xFF);
+		buffer[pos + 1] = (byte)(value & 0xFF);
 		bytesAdded(2);
 	}
 
@@ -154,9 +154,9 @@ public class ByteBufferArray implements DataOutput, DataInput, Closeable {
 		// Write an int, assumed 4 bytes (big endian format)
 		ensureNewDataFits(4);
 		buffer[pos] = (byte)((value >>> 24) & 0xFF);
-		buffer[pos+1] = (byte)((value >>> 16) & 0xFF);
-		buffer[pos+2] = (byte)((value >>> 8) & 0xFF);
-		buffer[pos+3] = (byte)(value & 0xFF);
+		buffer[pos + 1] = (byte)((value >>> 16) & 0xFF);
+		buffer[pos + 2] = (byte)((value >>> 8) & 0xFF);
+		buffer[pos + 3] = (byte)(value & 0xFF);
 		bytesAdded(4);
 	}
 
@@ -169,13 +169,13 @@ public class ByteBufferArray implements DataOutput, DataInput, Closeable {
 		// Write a long, assumed 8 bytes (big endian format)
 		ensureNewDataFits(8);
 		buffer[pos] = (byte)((value >>> 56) & 0xFF);
-		buffer[pos+1] = (byte)((value >>> 48) & 0xFF);
-		buffer[pos+2] = (byte)((value >>> 40) & 0xFF);
-		buffer[pos+3] = (byte)((value >>> 32) & 0xFF);
-		buffer[pos+4] = (byte)((value >>> 24) & 0xFF);
-		buffer[pos+5] = (byte)((value >>> 16) & 0xFF);
-		buffer[pos+6] = (byte)((value >>> 8) & 0xFF);
-		buffer[pos+7] = (byte)(value & 0xFF);
+		buffer[pos + 1] = (byte)((value >>> 48) & 0xFF);
+		buffer[pos + 2] = (byte)((value >>> 40) & 0xFF);
+		buffer[pos + 3] = (byte)((value >>> 32) & 0xFF);
+		buffer[pos + 4] = (byte)((value >>> 24) & 0xFF);
+		buffer[pos + 5] = (byte)((value >>> 16) & 0xFF);
+		buffer[pos + 6] = (byte)((value >>> 8) & 0xFF);
+		buffer[pos + 7] = (byte)(value & 0xFF);
 		bytesAdded(8);
 	}
 
@@ -227,7 +227,7 @@ public class ByteBufferArray implements DataOutput, DataInput, Closeable {
 		for(int i = 0, index = pos; i < length; i++, index+=2) {
 			character = string.charAt(i);
 			buffer[index] = (byte)((character >>> 8) & 0xFF);
-			buffer[index+1] = (byte)(character & 0xFF);
+			buffer[index + 1] = (byte)(character & 0xFF);
 		}
 		bytesAdded(size);
 	}
@@ -291,13 +291,13 @@ public class ByteBufferArray implements DataOutput, DataInput, Closeable {
 				}
 				else if(character > 0x07FF) {
 					buffer[offset] = (byte)(0xE0 | ((character >>> 12) & 0x0F));
-					buffer[offset+1] = (byte)(0x80 | ((character >>> 6) & 0x3F));
-					buffer[offset+2] = (byte)(0x80 | (character & 0x3F));
+					buffer[offset + 1] = (byte)(0x80 | ((character >>> 6) & 0x3F));
+					buffer[offset + 2] = (byte)(0x80 | (character & 0x3F));
 					offset+=3;
 				}
 				else {
 					buffer[offset] = (byte)(0xC0 | ((character >>> 6) & 0x1F));
-					buffer[offset+1] = (byte)(0x80 | (character & 0x3F));
+					buffer[offset + 1] = (byte)(0x80 | (character & 0x3F));
 					offset+=2;
 				}
 			}
@@ -437,7 +437,7 @@ public class ByteBufferArray implements DataOutput, DataInput, Closeable {
 	@Override
 	public short readShort() {
 		int validPos = checkAndRead(2); // Adds 2 to this buffer's position!
-		short result = (short)(((buffer[validPos] & 0xFF) << 8) | (buffer[validPos+1] & 0xFF));
+		short result = (short)(((buffer[validPos] & 0xFF) << 8) | (buffer[validPos + 1] & 0xFF));
 		return result;
 	}
 
@@ -448,7 +448,7 @@ public class ByteBufferArray implements DataOutput, DataInput, Closeable {
 	@Override
 	public int readUnsignedShort() {
 		int validPos = checkAndRead(2); // Adds 2 to this buffer's position!
-		int result = (buffer[validPos] << 8) + buffer[validPos+1];
+		int result = (buffer[validPos] << 8) + buffer[validPos + 1];
 		return result;
 	}
 
@@ -459,7 +459,7 @@ public class ByteBufferArray implements DataOutput, DataInput, Closeable {
 	@Override
 	public char readChar() {
 		int validPos = checkAndRead(2); // Adds 2 to this buffer's position!
-		char ch = (char)(((buffer[validPos] & 0xFF) << 8) | (buffer[validPos+1] & 0xFF));
+		char ch = (char)(((buffer[validPos] & 0xFF) << 8) | (buffer[validPos + 1] & 0xFF));
 		return ch;
 	}
 
@@ -470,8 +470,10 @@ public class ByteBufferArray implements DataOutput, DataInput, Closeable {
 	@Override
 	public int readInt() {
 		int validPos = checkAndRead(4); // Adds 4 to this buffer's position!
-		int result = (int)(((buffer[validPos] & 0xFF) << 24) | ((buffer[validPos+1] & 0xFF) << 16)
-				| ((buffer[validPos+2] & 0xFF) << 8) | (buffer[validPos+3] & 0xFF));
+		int result = (int)(((buffer[validPos] & 0xFF) << 24) |
+				((buffer[validPos + 1] & 0xFF) << 16) |
+				((buffer[validPos + 2] & 0xFF) << 8) |
+				(buffer[validPos + 3] & 0xFF));
 		return result;
 	}
 
@@ -483,13 +485,13 @@ public class ByteBufferArray implements DataOutput, DataInput, Closeable {
 	public long readLong() {
 		int validPos = checkAndRead(8); // Adds 8 to this buffer's position!
 		long result = (long)(((long)(buffer[validPos] & 0xFF) << 56) |
-				((long)(buffer[validPos+1] & 0xFF) << 48) |
-				((long)(buffer[validPos+2] & 0xFF) << 40) |
-				((long)(buffer[validPos+3] & 0xFF) << 32) |
-				((long)(buffer[validPos+4] & 0xFF) << 24) |
-				((buffer[validPos+5] & 0xFF) << 16) |
-				((buffer[validPos+6] & 0xFF) << 8) |
-				(buffer[validPos+7] & 0xFF));
+				((long)(buffer[validPos + 1] & 0xFF) << 48) |
+				((long)(buffer[validPos + 2] & 0xFF) << 40) |
+				((long)(buffer[validPos + 3] & 0xFF) << 32) |
+				((long)(buffer[validPos + 4] & 0xFF) << 24) |
+				((buffer[validPos + 5] & 0xFF) << 16) |
+				((buffer[validPos + 6] & 0xFF) << 8) |
+				(buffer[validPos + 7] & 0xFF));
 		return result;
 	}
 
@@ -551,7 +553,7 @@ public class ByteBufferArray implements DataOutput, DataInput, Closeable {
 			// If the first byte indicates a 2 byte character (range: 110xxxxx 10xxxxxx)
 			else if((ch >>> 5) == 0x6) {
 				if(offset+2 > utfLength) { throw new UTFDataFormatException("malformed string: partial end character"); }
-				b2 = buffer[offset+1];
+				b2 = buffer[offset + 1];
 				if((b2 & 0xC0) != 0x80) {
 					throw new UTFDataFormatException("malformed char at buffer index " + (offset+1));
 				}
@@ -662,7 +664,7 @@ public class ByteBufferArray implements DataOutput, DataInput, Closeable {
 	 * @return this buffer's remaining size, equivalent to <code>{@link #size()} - {@link #position()}</code>
 	 */
 	public int remaining() {
-		return maxPos-pos;
+		return maxPos - pos;
 	}
 
 
@@ -716,7 +718,7 @@ public class ByteBufferArray implements DataOutput, DataInput, Closeable {
 	 */
 	private final void ensureNewDataFits(int byteCount) {
 		int bufferLength = buffer.length;
-		int newSize = pos+byteCount;
+		int newSize = pos + byteCount;
 		// integer size overflow since adding two positive numbers should be larger than either of the original numbers
 		if(pos > newSize) {
 			throw new IllegalStateException("buffer integer size overflow");

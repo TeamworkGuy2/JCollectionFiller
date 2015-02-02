@@ -275,7 +275,7 @@ public class PairList<K, V> implements RandomAccessCollection<K>, PairCollection
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder(64);
-		builder.append("[");
+		builder.append('[');
 		if(keys.size() > 0) {
 			int sizeTemp = keys.size() - 1;
 			for(int i = 0; i < sizeTemp; i++) {

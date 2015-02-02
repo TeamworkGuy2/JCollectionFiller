@@ -22,7 +22,7 @@ import java.util.RandomAccess;
  */
 @javax.annotation.Generated("StringTemplate")
 public class LongArrayList implements LongList, RandomAccess, Iterable<Long> {
-	protected int mod;
+	protected volatile int mod;
 	protected long[] data;
 	protected int size;
 
@@ -163,6 +163,7 @@ public class LongArrayList implements LongList, RandomAccess, Iterable<Long> {
 		if(index < 0 || index >= size) {
 			throw new ArrayIndexOutOfBoundsException(index);
 		}
+		mod++;
 		// Shift all elements above the remove element to fill the empty index
 		// Get the item to remove
 		long item = data[index];
@@ -172,7 +173,6 @@ public class LongArrayList implements LongList, RandomAccess, Iterable<Long> {
 		}
 		// Decrease the size because we removed one item
 		size--;
-		mod++;
 		return item;
 	}
 
@@ -187,11 +187,11 @@ public class LongArrayList implements LongList, RandomAccess, Iterable<Long> {
 		for(int i = 0; i < size; i++) {
 			// If the item is found, remove it
 			if(item == data[i]) {
+				mod++;
 				if(i < size - 1) {
 					System.arraycopy(data, i + 1, data, i, size - i - 1);
 				}
 				size--;
-				mod++;
 				return true;
 			}
 		}
@@ -204,6 +204,7 @@ public class LongArrayList implements LongList, RandomAccess, Iterable<Long> {
 	 */
 	@Override
 	public boolean add(long item) {
+		mod++;
 		// If the list is too small, expand it
 		if(size >= data.length) {
 			expandList();
@@ -211,7 +212,6 @@ public class LongArrayList implements LongList, RandomAccess, Iterable<Long> {
 		// Add the new item
 		data[size] = item;
 		size++;
-		mod++;
 		return true;
 	}
 
@@ -223,6 +223,7 @@ public class LongArrayList implements LongList, RandomAccess, Iterable<Long> {
 	 */
 	public boolean add(int index, long value) {
 		if(index < 0 || index > size) { throw new ArrayIndexOutOfBoundsException(index); }
+		mod++;
 		// If the list is too small, expand it
 		if(size >= data.length) {
 			expandList();
@@ -231,7 +232,6 @@ public class LongArrayList implements LongList, RandomAccess, Iterable<Long> {
 		// Add the new item
 		data[index] = value;
 		size++;
-		mod++;
 		return true;
 	}
 
@@ -253,6 +253,7 @@ public class LongArrayList implements LongList, RandomAccess, Iterable<Long> {
 		if(len < 0) {
 			throw new IllegalArgumentException("number of elements to add must not be negative (" + len + ")");
 		}
+		mod++;
 		// If the list is too small, expand it 
 		// -1 because if data.length=2 and size=1, and len=1, we could fit an
 		// element without expanding the list, but 1+1 >= 2 is true, so instead 1+1-1 >= 2
@@ -265,7 +266,6 @@ public class LongArrayList implements LongList, RandomAccess, Iterable<Long> {
 			data[size + i] = items[i];
 		}
 		size += len;
-		mod++;
 		return true;
 	}
 
@@ -283,6 +283,7 @@ public class LongArrayList implements LongList, RandomAccess, Iterable<Long> {
 		if(size+len-1 >= data.length) {
 			expandList(len);
 		}
+		mod++;
 		// Add the new items
 		if(items instanceof List && items instanceof RandomAccess) {
 			List<? extends Long> itemsList = (List<? extends Long>)items;
@@ -298,7 +299,6 @@ public class LongArrayList implements LongList, RandomAccess, Iterable<Long> {
 			}
 		}
 		size += len;
-		mod++;
 		return true;
 	}
 
@@ -312,9 +312,9 @@ public class LongArrayList implements LongList, RandomAccess, Iterable<Long> {
 	 */
 	public long set(int index, long value) {
 		if(index < 0 || index >= size) { throw new ArrayIndexOutOfBoundsException(index); }
+		mod++;
 		long oldValue = data[index];
 		data[index] = value;
-		mod++;
 		return oldValue;
 	}
 
@@ -323,13 +323,13 @@ public class LongArrayList implements LongList, RandomAccess, Iterable<Long> {
 	 */
 	@Override
 	public void clear() {
+		mod++;
 		// Clear list to null
 		for(int i = 0; i < size; i++) {
 			data[i] = 0L;
 		}
 		// Set the size back to the beginning of the array
 		size = 0;
-		mod++;
 	}
 
 
