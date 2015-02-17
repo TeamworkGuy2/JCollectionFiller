@@ -50,6 +50,14 @@ public class DoubleBag extends DoubleArrayList implements DoubleList, java.util.
 	}
 
 
+	/** Create a new copy of a primitive list
+	 * @param list the primitive list to copy
+	 */
+	public DoubleBag(DoubleList list) {
+		super(list);
+	}
+
+
 	/** Remove the double at the specified index
 	 * @param index the index between {@code [0, }{@link #size()}{@code -1} to remove
 	 * @return the double found at the specified index

@@ -17,6 +17,7 @@ public class UniqueIdGenerator {
 	private int lastId;
 	private int highestId;
 	private IntListSorted unusedIds;
+	@SuppressWarnings("unused")
 	private volatile int mod;
 
 
@@ -71,15 +72,14 @@ public class UniqueIdGenerator {
 	 */
 	public boolean deleteId(int id) {
 		if(contains(id)) {
+			mod++;
 			if(id == counter - 1) {
-				mod++;
 				counter--;
 				return true;
 			}
 			else {
-				boolean result = unusedIds.add(id);
-				mod++;
-				return result;
+				unusedIds.add(id);
+				return true;
 			}
 		}
 		return false;

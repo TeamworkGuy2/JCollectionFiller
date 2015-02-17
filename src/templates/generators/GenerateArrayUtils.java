@@ -19,7 +19,7 @@ public class GenerateArrayUtils {
 		info.className = "ArrayUtil";
 		info.packageName = "arrayUtils";
 
-		ArrayInfo.ArrayType genericType = new ArrayInfo.ArrayType(true, "<T>", ".equals", false);
+		ArrayInfo.ArrayType genericType = new ArrayInfo.ArrayType(true, "<T>", ".equals", false, "null");
 		genericType.type = "T";
 
 		info.types = Arrays.asList(

@@ -50,6 +50,14 @@ public class FloatBag extends FloatArrayList implements FloatList, java.util.Ran
 	}
 
 
+	/** Create a new copy of a primitive list
+	 * @param list the primitive list to copy
+	 */
+	public FloatBag(FloatList list) {
+		super(list);
+	}
+
+
 	/** Remove the float at the specified index
 	 * @param index the index between {@code [0, }{@link #size()}{@code -1} to remove
 	 * @return the float found at the specified index

@@ -191,7 +191,7 @@ public final class FloatArrayView implements FloatList, java.util.RandomAccess, 
 
 
 	@Override
-	public boolean add(float e) {
+	public void add(float e) {
 		throw new UnsupportedOperationException("cannot modified immutable view");
 	}
 
@@ -239,13 +239,25 @@ public final class FloatArrayView implements FloatList, java.util.RandomAccess, 
 
 
 	public void add(int index, float element) {
-		throw new UnsupportedOperationException("cannot modified immutable view");
+		throw new UnsupportedOperationException("cannot modify immutable view");
+	}
+
+
+	@Override
+	public void addAll(float... items) {
+		throw new UnsupportedOperationException("cannot modify immutable view");
+	}
+
+
+	@Override
+	public void addAll(float[] items, int off, int len) {
+		throw new UnsupportedOperationException("cannot modify immutable view");
 	}
 
 
 	@Override
 	public float remove(int index) {
-		throw new UnsupportedOperationException("cannot modified immutable view");
+		throw new UnsupportedOperationException("cannot modify immutable view");
 	}
 
 

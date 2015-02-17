@@ -110,6 +110,34 @@ public final class ArrayUtil {
 	}
 
 
+	/** Compare two sub-arrays for equality to one another
+	 * @param a the first array to compare
+	 * @param offA the offset into {@code a} at which to start comparing
+	 * @param b the second array to compare
+	 * @param offB the offset into {@code b} at which to start comparing
+	 * @param len the number of elements from {@code a} to compare to elements from {@code b}
+	 * @return true if {@code len} number of elements from {@code a} and {@code b} are equal, false
+	 * if one or more elements are not equal
+	 */
+	public static final boolean equals(boolean[] a, int offA, boolean[] b, int offB, int len) {
+		if(a == b) {
+			return true;
+		}
+		if(a == null || b == null) {
+			return false;
+		}
+
+		for(int i = 0; i < len; i++) {
+			boolean objA = a[i];
+			boolean objB = b[i];
+			if(objA != objB) {
+				return false;
+			}
+		}
+		return true;		
+	}
+
+
 	/** Reverse an boolean array.<br>
 	 * For example {@code ary=[0, 1, 2, 3]}, the result would be {@code ary=[3, 2, 1, 0]}.
 	 * @param ary the array to reverse a portion of
@@ -221,6 +249,34 @@ public final class ArrayUtil {
 		System.arraycopy(a, 0, dst, dstOff, a.length);
 		System.arraycopy(b, 0, dst, dstOff + a.length, b.length);
 		return dst;
+	}
+
+
+	/** Compare two sub-arrays for equality to one another
+	 * @param a the first array to compare
+	 * @param offA the offset into {@code a} at which to start comparing
+	 * @param b the second array to compare
+	 * @param offB the offset into {@code b} at which to start comparing
+	 * @param len the number of elements from {@code a} to compare to elements from {@code b}
+	 * @return true if {@code len} number of elements from {@code a} and {@code b} are equal, false
+	 * if one or more elements are not equal
+	 */
+	public static final boolean equals(byte[] a, int offA, byte[] b, int offB, int len) {
+		if(a == b) {
+			return true;
+		}
+		if(a == null || b == null) {
+			return false;
+		}
+
+		for(int i = 0; i < len; i++) {
+			byte objA = a[i];
+			byte objB = b[i];
+			if(objA != objB) {
+				return false;
+			}
+		}
+		return true;		
 	}
 
 
@@ -439,6 +495,34 @@ public final class ArrayUtil {
 	}
 
 
+	/** Compare two sub-arrays for equality to one another
+	 * @param a the first array to compare
+	 * @param offA the offset into {@code a} at which to start comparing
+	 * @param b the second array to compare
+	 * @param offB the offset into {@code b} at which to start comparing
+	 * @param len the number of elements from {@code a} to compare to elements from {@code b}
+	 * @return true if {@code len} number of elements from {@code a} and {@code b} are equal, false
+	 * if one or more elements are not equal
+	 */
+	public static final boolean equals(short[] a, int offA, short[] b, int offB, int len) {
+		if(a == b) {
+			return true;
+		}
+		if(a == null || b == null) {
+			return false;
+		}
+
+		for(int i = 0; i < len; i++) {
+			short objA = a[i];
+			short objB = b[i];
+			if(objA != objB) {
+				return false;
+			}
+		}
+		return true;		
+	}
+
+
 	/** Reverse an short array.<br>
 	 * For example {@code ary=[0, 1, 2, 3]}, the result would be {@code ary=[3, 2, 1, 0]}.
 	 * @param ary the array to reverse a portion of
@@ -651,6 +735,34 @@ public final class ArrayUtil {
 		System.arraycopy(a, 0, dst, dstOff, a.length);
 		System.arraycopy(b, 0, dst, dstOff + a.length, b.length);
 		return dst;
+	}
+
+
+	/** Compare two sub-arrays for equality to one another
+	 * @param a the first array to compare
+	 * @param offA the offset into {@code a} at which to start comparing
+	 * @param b the second array to compare
+	 * @param offB the offset into {@code b} at which to start comparing
+	 * @param len the number of elements from {@code a} to compare to elements from {@code b}
+	 * @return true if {@code len} number of elements from {@code a} and {@code b} are equal, false
+	 * if one or more elements are not equal
+	 */
+	public static final boolean equals(char[] a, int offA, char[] b, int offB, int len) {
+		if(a == b) {
+			return true;
+		}
+		if(a == null || b == null) {
+			return false;
+		}
+
+		for(int i = 0; i < len; i++) {
+			char objA = a[i];
+			char objB = b[i];
+			if(objA != objB) {
+				return false;
+			}
+		}
+		return true;		
 	}
 
 
@@ -869,6 +981,34 @@ public final class ArrayUtil {
 	}
 
 
+	/** Compare two sub-arrays for equality to one another
+	 * @param a the first array to compare
+	 * @param offA the offset into {@code a} at which to start comparing
+	 * @param b the second array to compare
+	 * @param offB the offset into {@code b} at which to start comparing
+	 * @param len the number of elements from {@code a} to compare to elements from {@code b}
+	 * @return true if {@code len} number of elements from {@code a} and {@code b} are equal, false
+	 * if one or more elements are not equal
+	 */
+	public static final boolean equals(int[] a, int offA, int[] b, int offB, int len) {
+		if(a == b) {
+			return true;
+		}
+		if(a == null || b == null) {
+			return false;
+		}
+
+		for(int i = 0; i < len; i++) {
+			int objA = a[i];
+			int objB = b[i];
+			if(objA != objB) {
+				return false;
+			}
+		}
+		return true;		
+	}
+
+
 	/** Reverse an int array.<br>
 	 * For example {@code ary=[0, 1, 2, 3]}, the result would be {@code ary=[3, 2, 1, 0]}.
 	 * @param ary the array to reverse a portion of
@@ -1081,6 +1221,34 @@ public final class ArrayUtil {
 		System.arraycopy(a, 0, dst, dstOff, a.length);
 		System.arraycopy(b, 0, dst, dstOff + a.length, b.length);
 		return dst;
+	}
+
+
+	/** Compare two sub-arrays for equality to one another
+	 * @param a the first array to compare
+	 * @param offA the offset into {@code a} at which to start comparing
+	 * @param b the second array to compare
+	 * @param offB the offset into {@code b} at which to start comparing
+	 * @param len the number of elements from {@code a} to compare to elements from {@code b}
+	 * @return true if {@code len} number of elements from {@code a} and {@code b} are equal, false
+	 * if one or more elements are not equal
+	 */
+	public static final boolean equals(long[] a, int offA, long[] b, int offB, int len) {
+		if(a == b) {
+			return true;
+		}
+		if(a == null || b == null) {
+			return false;
+		}
+
+		for(int i = 0; i < len; i++) {
+			long objA = a[i];
+			long objB = b[i];
+			if(objA != objB) {
+				return false;
+			}
+		}
+		return true;		
 	}
 
 
@@ -1299,6 +1467,34 @@ public final class ArrayUtil {
 	}
 
 
+	/** Compare two sub-arrays for equality to one another
+	 * @param a the first array to compare
+	 * @param offA the offset into {@code a} at which to start comparing
+	 * @param b the second array to compare
+	 * @param offB the offset into {@code b} at which to start comparing
+	 * @param len the number of elements from {@code a} to compare to elements from {@code b}
+	 * @return true if {@code len} number of elements from {@code a} and {@code b} are equal, false
+	 * if one or more elements are not equal
+	 */
+	public static final boolean equals(float[] a, int offA, float[] b, int offB, int len) {
+		if(a == b) {
+			return true;
+		}
+		if(a == null || b == null) {
+			return false;
+		}
+
+		for(int i = 0; i < len; i++) {
+			float objA = a[i];
+			float objB = b[i];
+			if(objA != objB) {
+				return false;
+			}
+		}
+		return true;		
+	}
+
+
 	/** Reverse an float array.<br>
 	 * For example {@code ary=[0, 1, 2, 3]}, the result would be {@code ary=[3, 2, 1, 0]}.
 	 * @param ary the array to reverse a portion of
@@ -1511,6 +1707,34 @@ public final class ArrayUtil {
 		System.arraycopy(a, 0, dst, dstOff, a.length);
 		System.arraycopy(b, 0, dst, dstOff + a.length, b.length);
 		return dst;
+	}
+
+
+	/** Compare two sub-arrays for equality to one another
+	 * @param a the first array to compare
+	 * @param offA the offset into {@code a} at which to start comparing
+	 * @param b the second array to compare
+	 * @param offB the offset into {@code b} at which to start comparing
+	 * @param len the number of elements from {@code a} to compare to elements from {@code b}
+	 * @return true if {@code len} number of elements from {@code a} and {@code b} are equal, false
+	 * if one or more elements are not equal
+	 */
+	public static final boolean equals(double[] a, int offA, double[] b, int offB, int len) {
+		if(a == b) {
+			return true;
+		}
+		if(a == null || b == null) {
+			return false;
+		}
+
+		for(int i = 0; i < len; i++) {
+			double objA = a[i];
+			double objB = b[i];
+			if(objA != objB) {
+				return false;
+			}
+		}
+		return true;		
 	}
 
 
@@ -1727,6 +1951,34 @@ public final class ArrayUtil {
 		System.arraycopy(a, 0, dst, dstOff, a.length);
 		System.arraycopy(b, 0, dst, dstOff + a.length, b.length);
 		return dst;
+	}
+
+
+	/** Compare two sub-arrays for equality to one another
+	 * @param a the first array to compare
+	 * @param offA the offset into {@code a} at which to start comparing
+	 * @param b the second array to compare
+	 * @param offB the offset into {@code b} at which to start comparing
+	 * @param len the number of elements from {@code a} to compare to elements from {@code b}
+	 * @return true if {@code len} number of elements from {@code a} and {@code b} are equal, false
+	 * if one or more elements are not equal
+	 */
+	public static final <T> boolean equals(T[] a, int offA, T[] b, int offB, int len) {
+		if(a == b) {
+			return true;
+		}
+		if(a == null || b == null) {
+			return false;
+		}
+
+		for(int i = 0; i < len; i++) {
+			T objA = a[i];
+			T objB = b[i];
+			if(!(objA == null ? objB == null : objA.equals(objB))) {
+				return false;
+			}
+		}
+		return true;		
 	}
 
 

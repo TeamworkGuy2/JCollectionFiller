@@ -50,6 +50,14 @@ public class CharBag extends CharArrayList implements CharList, java.util.Random
 	}
 
 
+	/** Create a new copy of a primitive list
+	 * @param list the primitive list to copy
+	 */
+	public CharBag(CharList list) {
+		super(list);
+	}
+
+
 	/** Remove the char at the specified index
 	 * @param index the index between {@code [0, }{@link #size()}{@code -1} to remove
 	 * @return the char found at the specified index

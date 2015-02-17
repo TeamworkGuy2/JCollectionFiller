@@ -88,9 +88,9 @@ public class UniqueIdArray {
 				return true;
 			}
 			else {
-				boolean result = unusedIds.add(id);
+				unusedIds.add(id);
 				usedIds[id] = EMPTY_VALUE;
-				return result;
+				return true;
 			}
 		}
 		return false;

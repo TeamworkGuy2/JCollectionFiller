@@ -51,10 +51,24 @@ public interface IntList extends java.util.RandomAccess {
 	public boolean removeValue(int item);
 
 
-	/** Add the specified item to this list of elements
-	 * @param item the item to add to this list of elements
+	/** Add the specified item to this collection
+	 * @param item the item to add to this collection
 	 */
-	public boolean add(int item);
+	public void add(int item);
+
+
+	/** Add an array of items to this collection
+	 * @param items the array of items to add to this collection
+	 */
+	public void addAll(int... items);
+
+
+	/** Add the specified array of items to this collection
+	 * @param items the array of items to add to this collection
+	 * @param off the {@code items} offset at which to start adding items to this collection
+	 * @param len the number of items to add from {@code items} into this collection
+	 */
+	public void addAll(int[] items, int off, int len);
 
 
 	/** Clear the list of elements
@@ -62,14 +76,14 @@ public interface IntList extends java.util.RandomAccess {
 	public void clear();
 
 
-	/** Get the current size of this list of elements
-	 * @return the size of this list of elements
+	/** Get the current size of this collection
+	 * @return the size of this collection
 	 */
 	public int size();
 
 
-	/** Is this list of elements empty
-	 * @return true if this list of elements is empty, false otherwise
+	/** Check if this collection is empty
+	 * @return true if this has zero elements, false otherwise
 	 */
 	public boolean isEmpty();
 
@@ -80,6 +94,7 @@ public interface IntList extends java.util.RandomAccess {
 	public int[] toArray(int[] dst, int dstOffset);
 
 
+	@Override
 	public String toString();
 
 }

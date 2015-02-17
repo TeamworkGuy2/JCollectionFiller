@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import templates.MapInfo;
 import templates.PrimitiveListInfo;
 import typeInfo.JavaPrimitives;
 import codeTemplate.ClassTemplate;
@@ -16,7 +17,7 @@ import codeTemplate.TemplateUtil;
  * @author TeamworkGuy2
  * @since 2014-12-20
  */
-public class GeneratePrimitiveLists {
+public class GeneratePrimitiveCollections {
 
 	public static final void generatePrimitiveList() throws IOException {
 		String pkgName = "primitiveCollections";
@@ -88,18 +89,15 @@ public class GeneratePrimitiveLists {
 
 
 	public static final void generatePrimitiveMaps() throws IOException {
-		// TODO not yet implemented
-		/*
 		String pkgName = "primitiveCollections";
 
-		ArrayViewInfo charT = PrimitiveTemplates.newCharTemplate(new ArrayViewInfo(Character.TYPE, "o == objs[i]", true), "CharArrayView", pkgName);
-		ArrayViewInfo intT = PrimitiveTemplates.newIntTemplate(new ArrayViewInfo(Integer.TYPE, "o == objs[i]", true), "IntArrayView", pkgName);
-		ArrayViewInfo floatT = PrimitiveTemplates.newFloatTemplate(new ArrayViewInfo(Float.TYPE, "o == objs[i]", true), "FloatArrayView", pkgName);
-		ArrayViewInfo longT = PrimitiveTemplates.newLongTemplate(new ArrayViewInfo(Long.TYPE, "o == objs[i]", true), "LongArrayView", pkgName);
-		ArrayViewInfo doubleT = PrimitiveTemplates.newDoubleTemplate(new ArrayViewInfo(Double.TYPE, "o == objs[i]", true), "DoubleArrayView", pkgName);
+		MapInfo.MapType charT = PrimitiveTemplates.newCharTemplate(new MapInfo.MapType(Character.TYPE, "T", "T", ".equals", "null"), "CharMapSorted", pkgName);
+		MapInfo.MapType intT = PrimitiveTemplates.newIntTemplate(new MapInfo.MapType(Integer.TYPE, "T", "T", ".equals", "null"), "IntMapSorted", pkgName);
+		MapInfo.MapType floatT = PrimitiveTemplates.newFloatTemplate(new MapInfo.MapType(Float.TYPE, "T", "T", ".equals", "null"), "FloatMapSorted", pkgName);
+		MapInfo.MapType longT = PrimitiveTemplates.newLongTemplate(new MapInfo.MapType(Long.TYPE, "T", "T", ".equals", "null"), "LongMapSorted", pkgName);
+		MapInfo.MapType doubleT = PrimitiveTemplates.newDoubleTemplate(new MapInfo.MapType(Double.TYPE, "T", "T", ".equals", "null"), "DoubleMapSorted", pkgName);
 
-		TemplateUtil.renderTemplates("src/templates/PrimitiveMap.stg", "PrimitiveMap", charT, intT, floatT, longT, doubleT);
-		*/
+		TemplateUtil.renderTemplates("src/templates/PrimitiveSortedMap.stg", "PrimitiveSortedMap", charT, intT, floatT, longT, doubleT);
 	}
 
 

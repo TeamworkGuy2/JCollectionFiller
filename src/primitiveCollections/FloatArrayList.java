@@ -64,6 +64,20 @@ public class FloatArrayList implements FloatList, RandomAccess, Iterable<Float> 
 	}
 
 
+	/** Create a new copy of a primitive list
+	 * @param list the primitive list to copy
+	 */
+	public FloatArrayList(FloatList list) {
+		this(list.size());
+
+		final int size = list.size();
+		for(int i = 0; i < size; i++) {
+			this.data[i] = list.get(i);
+		}
+		this.size = size;
+	}
+
+
 	@Override
 	public FloatArrayList copy() {
 		FloatArrayList newList = new FloatArrayList(data.length);
@@ -203,7 +217,7 @@ public class FloatArrayList implements FloatList, RandomAccess, Iterable<Float> 
 	 * @param item the item to add to this group of elements
 	 */
 	@Override
-	public boolean add(float item) {
+	public void add(float item) {
 		mod++;
 		// If the list is too small, expand it
 		if(size >= data.length) {
@@ -212,7 +226,6 @@ public class FloatArrayList implements FloatList, RandomAccess, Iterable<Float> 
 		// Add the new item
 		data[size] = item;
 		size++;
-		return true;
 	}
 
 
@@ -221,7 +234,7 @@ public class FloatArrayList implements FloatList, RandomAccess, Iterable<Float> 
 	 * @param value the value to add to this list of elements
 	 * @throws ArrayIndexOutOfBoundsException if the index is outside the range {@code [0, }{@link #size()}{@code ]}
 	 */
-	public boolean add(int index, float value) {
+	public void add(int index, float value) {
 		if(index < 0 || index > size) { throw new ArrayIndexOutOfBoundsException(index); }
 		mod++;
 		// If the list is too small, expand it
@@ -232,12 +245,13 @@ public class FloatArrayList implements FloatList, RandomAccess, Iterable<Float> 
 		// Add the new item
 		data[index] = value;
 		size++;
-		return true;
 	}
 
 
-	public boolean addAll(float[] items) {
-		return addAll(items, 0, items.length);
+	@Override
+	@SafeVarargs
+	public final void addAll(float... items) {
+		addAll(items, 0, items.length);
 	}
 
 
@@ -249,7 +263,8 @@ public class FloatArrayList implements FloatList, RandomAccess, Iterable<Float> 
 	 * add to this group of elements from {@code items}
 	 * @return true if the items are added successfully, false otherwise
 	 */
-	public boolean addAll(float[] items, int off, int len) {
+	@Override
+	public void addAll(float[] items, int off, int len) {
 		if(len < 0) {
 			throw new IllegalArgumentException("number of elements to add must not be negative (" + len + ")");
 		}
@@ -266,7 +281,6 @@ public class FloatArrayList implements FloatList, RandomAccess, Iterable<Float> 
 			data[size + i] = items[i];
 		}
 		size += len;
-		return true;
 	}
 
 

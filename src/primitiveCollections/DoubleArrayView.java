@@ -191,7 +191,7 @@ public final class DoubleArrayView implements DoubleList, java.util.RandomAccess
 
 
 	@Override
-	public boolean add(double e) {
+	public void add(double e) {
 		throw new UnsupportedOperationException("cannot modified immutable view");
 	}
 
@@ -239,13 +239,25 @@ public final class DoubleArrayView implements DoubleList, java.util.RandomAccess
 
 
 	public void add(int index, double element) {
-		throw new UnsupportedOperationException("cannot modified immutable view");
+		throw new UnsupportedOperationException("cannot modify immutable view");
+	}
+
+
+	@Override
+	public void addAll(double... items) {
+		throw new UnsupportedOperationException("cannot modify immutable view");
+	}
+
+
+	@Override
+	public void addAll(double[] items, int off, int len) {
+		throw new UnsupportedOperationException("cannot modify immutable view");
 	}
 
 
 	@Override
 	public double remove(int index) {
-		throw new UnsupportedOperationException("cannot modified immutable view");
+		throw new UnsupportedOperationException("cannot modify immutable view");
 	}
 
 

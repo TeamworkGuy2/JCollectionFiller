@@ -64,6 +64,20 @@ public class IntArrayList implements IntList, RandomAccess, Iterable<Integer> {
 	}
 
 
+	/** Create a new copy of a primitive list
+	 * @param list the primitive list to copy
+	 */
+	public IntArrayList(IntList list) {
+		this(list.size());
+
+		final int size = list.size();
+		for(int i = 0; i < size; i++) {
+			this.data[i] = list.get(i);
+		}
+		this.size = size;
+	}
+
+
 	@Override
 	public IntArrayList copy() {
 		IntArrayList newList = new IntArrayList(data.length);
@@ -203,7 +217,7 @@ public class IntArrayList implements IntList, RandomAccess, Iterable<Integer> {
 	 * @param item the item to add to this group of elements
 	 */
 	@Override
-	public boolean add(int item) {
+	public void add(int item) {
 		mod++;
 		// If the list is too small, expand it
 		if(size >= data.length) {
@@ -212,7 +226,6 @@ public class IntArrayList implements IntList, RandomAccess, Iterable<Integer> {
 		// Add the new item
 		data[size] = item;
 		size++;
-		return true;
 	}
 
 
@@ -221,7 +234,7 @@ public class IntArrayList implements IntList, RandomAccess, Iterable<Integer> {
 	 * @param value the value to add to this list of elements
 	 * @throws ArrayIndexOutOfBoundsException if the index is outside the range {@code [0, }{@link #size()}{@code ]}
 	 */
-	public boolean add(int index, int value) {
+	public void add(int index, int value) {
 		if(index < 0 || index > size) { throw new ArrayIndexOutOfBoundsException(index); }
 		mod++;
 		// If the list is too small, expand it
@@ -232,12 +245,13 @@ public class IntArrayList implements IntList, RandomAccess, Iterable<Integer> {
 		// Add the new item
 		data[index] = value;
 		size++;
-		return true;
 	}
 
 
-	public boolean addAll(int[] items) {
-		return addAll(items, 0, items.length);
+	@Override
+	@SafeVarargs
+	public final void addAll(int... items) {
+		addAll(items, 0, items.length);
 	}
 
 
@@ -249,7 +263,8 @@ public class IntArrayList implements IntList, RandomAccess, Iterable<Integer> {
 	 * add to this group of elements from {@code items}
 	 * @return true if the items are added successfully, false otherwise
 	 */
-	public boolean addAll(int[] items, int off, int len) {
+	@Override
+	public void addAll(int[] items, int off, int len) {
 		if(len < 0) {
 			throw new IllegalArgumentException("number of elements to add must not be negative (" + len + ")");
 		}
@@ -266,7 +281,6 @@ public class IntArrayList implements IntList, RandomAccess, Iterable<Integer> {
 			data[size + i] = items[i];
 		}
 		size += len;
-		return true;
 	}
 
 

@@ -248,6 +248,7 @@ public class PairBag<K, V> implements PairCollection<K, V>, IndexedMap<K, V>, It
 	 * is not null, or get(i)==null if item is null, where i is [0, size()-1]
 	 * @return the value associated with the specified key, or null if the key was not found
 	 */
+	@Override
 	public V remove(K key) {
 		// Search for the item to remove
 		if(key != null) {
@@ -370,6 +371,7 @@ public class PairBag<K, V> implements PairCollection<K, V>, IndexedMap<K, V>, It
 
 	/** Clear the group of elements
 	 */
+	@Override
 	public void clear() {
 		action++;
 		// Clear list to null
@@ -394,6 +396,7 @@ public class PairBag<K, V> implements PairCollection<K, V>, IndexedMap<K, V>, It
 	/** Is this group of elements empty
 	 * @return true if this group of elements is empty, false otherwise
 	 */
+	@Override
 	public boolean isEmpty() {
 		return size == 0;
 	}

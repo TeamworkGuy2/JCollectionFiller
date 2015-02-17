@@ -191,7 +191,7 @@ public final class CharArrayView implements CharList, java.util.RandomAccess, It
 
 
 	@Override
-	public boolean add(char e) {
+	public void add(char e) {
 		throw new UnsupportedOperationException("cannot modified immutable view");
 	}
 
@@ -239,13 +239,25 @@ public final class CharArrayView implements CharList, java.util.RandomAccess, It
 
 
 	public void add(int index, char element) {
-		throw new UnsupportedOperationException("cannot modified immutable view");
+		throw new UnsupportedOperationException("cannot modify immutable view");
+	}
+
+
+	@Override
+	public void addAll(char... items) {
+		throw new UnsupportedOperationException("cannot modify immutable view");
+	}
+
+
+	@Override
+	public void addAll(char[] items, int off, int len) {
+		throw new UnsupportedOperationException("cannot modify immutable view");
 	}
 
 
 	@Override
 	public char remove(int index) {
-		throw new UnsupportedOperationException("cannot modified immutable view");
+		throw new UnsupportedOperationException("cannot modify immutable view");
 	}
 
 

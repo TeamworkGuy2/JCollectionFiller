@@ -192,7 +192,7 @@ public final class $var.className$ implements $var.implementClassNames:{x | $x$}
 
 
 	@Override
-	public boolean add($var.type$ e) {
+	public void add($var.type$ e) {
 		throw new UnsupportedOperationException("cannot modified immutable view");
 	}
 
@@ -240,13 +240,25 @@ public final class $var.className$ implements $var.implementClassNames:{x | $x$}
 
 
 	public void add(int index, $var.type$ element) {
-		throw new UnsupportedOperationException("cannot modified immutable view");
+		throw new UnsupportedOperationException("cannot modify immutable view");
+	}
+
+
+	@Override
+	public void addAll($var.type$... items) {
+		throw new UnsupportedOperationException("cannot modify immutable view");
+	}
+
+
+	@Override
+	public void addAll($var.type$[] items, int off, int len) {
+		throw new UnsupportedOperationException("cannot modify immutable view");
 	}
 
 
 	@Override
 	public $var.type$ remove(int index) {
-		throw new UnsupportedOperationException("cannot modified immutable view");
+		throw new UnsupportedOperationException("cannot modify immutable view");
 	}
 
 

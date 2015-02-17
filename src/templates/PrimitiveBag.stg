@@ -51,6 +51,14 @@ public class $var.className$ extends $var.extendClassName$ implements $var.imple
 	}
 
 
+	/** Create a new copy of a primitive list
+	 * @param list the primitive list to copy
+	 */
+	public $var.className$($var.typeShortUpperCase$List list) {
+		super(list);
+	}
+
+
 	/** Remove the $var.type$ at the specified index
 	 * @param index the index between {@code [0, }{@link #size()}{@code -1} to remove
 	 * @return the $var.type$ found at the specified index

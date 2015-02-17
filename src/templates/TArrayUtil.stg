@@ -112,6 +112,34 @@ $endif$	public static final $if(ary.isGeneric)$$ary.genericSignature$ $endif$$ar
 	\}
 
 
+	/** Compare two sub-arrays for equality to one another
+	 * @param a the first array to compare
+	 * @param offA the offset into {@code a\} at which to start comparing
+	 * @param b the second array to compare
+	 * @param offB the offset into {@code b\} at which to start comparing
+	 * @param len the number of elements from {@code a\} to compare to elements from {@code b\}
+	 * @return true if {@code len\} number of elements from {@code a\} and {@code b\} are equal, false
+	 * if one or more elements are not equal
+	 */
+	public static final $if(ary.isGeneric)$$ary.genericSignature$ $endif$boolean equals($ary.type$[] a, int offA, $ary.type$[] b, int offB, int len) {
+		if(a == b) {
+			return true;
+		\}
+		if(a == null || b == null) {
+			return false;
+		\}
+
+		for(int i = 0; i < len; i++) {
+			$ary.type$ objA = a[i];
+			$ary.type$ objB = b[i];
+			if($if(ary.isGeneric)$!(objA == $ary.defaultValue$ ? objB == $ary.defaultValue$ : objA$ary.checkEquality$(objB))$else$objA != objB$endif$) {
+				return false;
+			\}
+		\}
+		return true;		
+	\}
+
+
 	/** Reverse an $ary.type$ array.<br>
 	 * For example {@code ary=[0, 1, 2, 3]\}, the result would be {@code ary=[3, 2, 1, 0]\}.
 	 * @param ary the array to reverse a portion of

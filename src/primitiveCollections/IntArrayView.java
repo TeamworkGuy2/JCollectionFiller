@@ -191,7 +191,7 @@ public final class IntArrayView implements IntList, java.util.RandomAccess, Iter
 
 
 	@Override
-	public boolean add(int e) {
+	public void add(int e) {
 		throw new UnsupportedOperationException("cannot modified immutable view");
 	}
 
@@ -239,13 +239,25 @@ public final class IntArrayView implements IntList, java.util.RandomAccess, Iter
 
 
 	public void add(int index, int element) {
-		throw new UnsupportedOperationException("cannot modified immutable view");
+		throw new UnsupportedOperationException("cannot modify immutable view");
+	}
+
+
+	@Override
+	public void addAll(int... items) {
+		throw new UnsupportedOperationException("cannot modify immutable view");
+	}
+
+
+	@Override
+	public void addAll(int[] items, int off, int len) {
+		throw new UnsupportedOperationException("cannot modify immutable view");
 	}
 
 
 	@Override
 	public int remove(int index) {
-		throw new UnsupportedOperationException("cannot modified immutable view");
+		throw new UnsupportedOperationException("cannot modify immutable view");
 	}
 
 

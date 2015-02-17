@@ -50,6 +50,14 @@ public class IntBag extends IntArrayList implements IntList, java.util.RandomAcc
 	}
 
 
+	/** Create a new copy of a primitive list
+	 * @param list the primitive list to copy
+	 */
+	public IntBag(IntList list) {
+		super(list);
+	}
+
+
 	/** Remove the int at the specified index
 	 * @param index the index between {@code [0, }{@link #size()}{@code -1} to remove
 	 * @return the int found at the specified index

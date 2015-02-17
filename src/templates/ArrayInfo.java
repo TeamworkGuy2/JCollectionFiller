@@ -25,6 +25,14 @@ public class ArrayInfo extends ClassTemplate {
 		public String checkEquality;
 
 
+		public ArrayType(boolean isGeneric, String genericSignature, String checkEquality, boolean doAggregate) {
+			this.isGeneric = isGeneric;
+			this.genericSignature = genericSignature;
+			this.checkEquality = checkEquality;
+			this.isAggregatable = doAggregate;
+		}
+
+
 		/**
 		 * @param typeName the name of the data type, for example {@code int} or
 		 * {@code String}
@@ -39,11 +47,12 @@ public class ArrayInfo extends ClassTemplate {
 		 * @param averageType the average data type for this type, for example {@code float} for {@code int}
 		 * @param doAggregate true to include {@code sum(), avg(), min(), max()} methods for this type
 		 */
-		public ArrayType(boolean isGeneric, String genericSignature, String checkEquality, boolean doAggregate) {
+		public ArrayType(boolean isGeneric, String genericSignature, String checkEquality, boolean doAggregate, String defaultValue) {
 			this.isGeneric = isGeneric;
 			this.genericSignature = genericSignature;
 			this.checkEquality = checkEquality;
 			this.isAggregatable = doAggregate;
+			this.defaultValue = defaultValue;
 		}
 
 

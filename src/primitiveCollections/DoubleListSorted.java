@@ -133,7 +133,7 @@ public class DoubleListSorted implements DoubleList, RandomAccess, Iterable<Doub
 	 * @param item the item to add to this group of elements
 	 */
 	@Override
-	public boolean add(double item) {
+	public void add(double item) {
 		// If the list is to small, expand it
 		if(size == data.length) {
 			expandList();
@@ -146,22 +146,22 @@ public class DoubleListSorted implements DoubleList, RandomAccess, Iterable<Doub
 		System.arraycopy(data, index, data, index + 1, size - index);
 		data[index] = item;
 		size++;
-		return true;
 	}
 
 
-	public boolean addAll(double[] items) {
-		return addAll(items, 0, items.length);
+	@Override
+	@SafeVarargs
+	public final void addAll(double... items) {
+		addAll(items, 0, items.length);
 	}
 
 
-	public boolean addAll(double[] items, int off, int len) {
+	@Override
+	public void addAll(double[] items, int off, int len) {
 		mod++;
-		boolean res = true;
 		for(int i = off, size = off + len; i < size; i++) {
-			res &= add(items[i]);
+			add(items[i]);
 		}
-		return res;
 	}
 
 

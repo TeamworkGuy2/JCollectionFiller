@@ -6,12 +6,15 @@ import org.junit.Test;
 import primitiveCollections.CharArrayList;
 import primitiveCollections.CharBag;
 import primitiveCollections.CharListSorted;
+import primitiveCollections.CharMapSorted;
 import primitiveCollections.FloatArrayList;
-import primitiveCollections.FloatListSorted;
 import primitiveCollections.FloatBag;
+import primitiveCollections.FloatListSorted;
+import primitiveCollections.FloatMapSorted;
 import primitiveCollections.IntArrayList;
 import primitiveCollections.IntBag;
 import primitiveCollections.IntListSorted;
+import primitiveCollections.IntMapSorted;
 
 /**
  * @author TeamworkGuy2
@@ -180,6 +183,73 @@ public class PrimitiveCollectionTest {
 	public void testIntList() {
 		testIntListDefault(new IntArrayList(8));
 		testIntListSorted(new IntListSorted(8));
+	}
+
+
+	@Test
+	public void testSortedMap() {
+		{
+			CharMapSorted<String> cMap = new CharMapSorted<String>();
+
+			cMap.put((char)5, "5");
+
+			char[] chars = { 0, 5, 22, 105 };
+			String[] strs = { "zero", "twenty two", "five", "one hundred and five" };
+			Assert.assertTrue("array lengths", chars.length == strs.length);
+			for(int i = 0, size = chars.length; i < size; i++) {
+				cMap.put(chars[i], strs[i]);
+			}
+			Assert.assertTrue(cMap.size() == strs.length);
+
+			for(int i = 0; i < strs.length; i++) {
+				Assert.assertTrue("contains key: " + chars[i], cMap.contains(chars[i]));
+				Assert.assertTrue("contains value: " + strs[i], cMap.containsValue(strs[i]));
+				cMap.removeValue(strs[i]);
+			}
+			Assert.assertTrue(cMap.size() == 0);
+		}
+
+		{
+			IntMapSorted<String> iMap = new IntMapSorted<String>();
+
+			iMap.put(5, "5");
+
+			int[] ints = { 0, 5, 22, 105 };
+			String[] strs = { "zero", "twenty two", "five", "one hundred and five" };
+			Assert.assertTrue("array lengths", ints.length == strs.length);
+			for(int i = 0, size = ints.length; i < size; i++) {
+				iMap.put(ints[i], strs[i]);
+			}
+			Assert.assertTrue(iMap.size() == strs.length);
+
+			for(int i = 0; i < strs.length; i++) {
+				Assert.assertTrue("contains key: " + ints[i], iMap.contains(ints[i]));
+				Assert.assertTrue("contains value: " + strs[i], iMap.containsValue(strs[i]));
+				iMap.removeValue(strs[i]);
+			}
+			Assert.assertTrue(iMap.size() == 0);
+		}
+
+		{
+			FloatMapSorted<String> fMap = new FloatMapSorted<String>();
+
+			fMap.put(5f, "5");
+
+			float[] floats = { 0.0f, 5f, 22.22f, 105.2f };
+			String[] strs = { "zero", "twenty two", "five", "one hundred and five" };
+			Assert.assertTrue("array lengths", floats.length == strs.length);
+			for(int i = 0, size = floats.length; i < size; i++) {
+				fMap.put(floats[i], strs[i]);
+			}
+			Assert.assertTrue(fMap.size() == strs.length);
+
+			for(int i = 0; i < strs.length; i++) {
+				Assert.assertTrue("contains key: " + floats[i], fMap.contains(floats[i]));
+				Assert.assertTrue("contains value: " + strs[i], fMap.containsValue(strs[i]));
+				fMap.removeValue(strs[i]);
+			}
+			Assert.assertTrue(fMap.size() == 0);
+		}
 	}
 
 

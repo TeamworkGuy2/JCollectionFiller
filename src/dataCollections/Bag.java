@@ -1,8 +1,13 @@
 package dataCollections;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
+import java.util.List;
+
+import arrayUtils.ArrayUtil;
 
 /** Bag, a collection similar to an {@link ArrayList} that does not preserve the insertion order of items. 
  * All operations are O(1), except {@link #remove(Object) remove(T)} and {@link #add(Object) add(T)} when
@@ -21,22 +26,35 @@ public class Bag<T> implements ModifiableCollection<T>, Iterable<T> {
 	 * also equivalent to the zero based size of this bag */
 	private int size;
 	/** Used by iterators to ensure that the list has not been modified while iterating */
-	private int action;
+	private volatile int action;
 
 
-	/** Creates an unsorted group of items with a default size of 16
+	/** Creates an unsorted collection with a default size of 16
 	 */
 	public Bag() {
 		this(16);
 	}
 
 
-	/** Create an unsorted group of items with the specified size as the starting size
-	 * @param capacity the initial size of the group of items
+	/** Create an unsorted collection with the specified size as the starting size
+	 * @param capacity the initial size of this collection
 	 */
 	public Bag(int capacity) {
 		this.data = new Object[capacity];
 		this.size = 0;
+	}
+
+
+	public Bag(Collection<T> coll) {
+		this.data = new Object[coll.size()];
+		this.size = 0;
+		this.addAll(coll);
+	}
+
+
+	public Bag(T[] vals, int off, int len) {
+		this.data = new Object[len];
+		this.addAll(vals, off, len);
 	}
 
 
@@ -133,13 +151,56 @@ public class Bag<T> implements ModifiableCollection<T>, Iterable<T> {
 	@Override
 	public void add(T item) {
 		// If the bag is to small, expand it
-		if(size >= data.length) {
+		if(size + 1 > data.length) {
 			expandArray();
 		}
 		action++;
 		// Add the new item
 		data[size] = item;
 		size++;
+	}
+
+
+	/** Add the specified item to this group of elements
+	 * @param item the item to add to this group of elements
+	 */
+	public void addAll(Collection<? extends T> items) {
+		if(items == null) {
+			return;
+		}
+
+		if(size + items.size() > data.length) {
+			expandArray(size + items.size());
+		}
+		action++;
+		for(T item : items) {
+			data[size] = item;
+			size++;
+		}
+	}
+
+
+	public void addAll(T[] items) {
+		this.addAll(items, 0, items.length);
+	}
+
+
+	/** Add an array of items to this collection
+	 * @param item the array of items to add to this group of elements
+	 * @param off the {@code items} offset
+	 * @param len the number of {@code items} to copy into this collection starting at {@code off}
+	 */
+	public void addAll(T[] items, int off, int len) {
+		if(items == null) {
+			return;
+		}
+
+		if(size + len > data.length) {
+			expandArray(size + len);
+		}
+		action++;
+		System.arraycopy(items, off, this.data, size, len);
+		size += len;
 	}
 
 
@@ -154,6 +215,54 @@ public class Bag<T> implements ModifiableCollection<T>, Iterable<T> {
 		}
 		// Set the size back to the beginning of the array
 		size = 0;
+	}
+
+
+	/** Clear the group of elements and add the specific elements
+	 */
+	public void clearAndAddAll(List<T> items) {
+		if(items == null) {
+			clear();
+			return;
+		}
+		action++;
+
+		int itemsCount = items.size();
+		// Clear elements past the last index that will be occupied by the new group of items
+		for(int i = itemsCount; i < size; i++) {
+			data[i] = null;
+		}
+		// Set the size back to the beginning of the array
+		size = itemsCount;
+
+		if(itemsCount > data.length) {
+			expandArray(itemsCount);
+		}
+
+		for(int i = 0; i < itemsCount; i++) {
+			data[i] = items.get(i);
+		}
+	}
+
+
+	/** Clear the group of elements and add the specific elements
+	 */
+	public void clearAndAddAll(T[] items) {
+		if(items == null) {
+			clear();
+			return;
+		}
+		action++;
+
+		int itemsCount = items.length;
+		// Clear elements past the last index that will be occupied by the new group of items
+		for(int i = itemsCount; i < size; i++) {
+			data[i] = null;
+		}
+		// Set the size back to the beginning of the array
+		size = 0;
+
+		this.addAll(items, 0, itemsCount);
 	}
 
 
@@ -180,6 +289,59 @@ public class Bag<T> implements ModifiableCollection<T>, Iterable<T> {
 	}
 
 
+	public Object[] toArray() {
+		Object[] objs = new Object[this.size];
+		System.arraycopy(this.data, 0, objs, 0, this.size);
+		return objs;
+	}
+
+
+	public Object[] toArray(T[] dst) {
+		if(dst.length < this.size) {
+			@SuppressWarnings("unchecked")
+			T[] copy = (T[])Arrays.copyOf(this.data, this.size, dst.getClass());
+			return copy;
+		}
+		System.arraycopy(this.data, 0, dst, 0, this.size);
+		return dst;
+	}
+
+
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + Arrays.hashCode(data);
+		result = prime * result + size;
+		return result;
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (!(obj instanceof Bag)) {
+			return false;
+		}
+
+		@SuppressWarnings("unchecked")
+		Bag<T> other = (Bag<T>)obj;
+		if (size != other.size) {
+			return false;
+		}
+		if (!ArrayUtil.equals(this.data, 0, other.data, 0, this.size)) {
+			return false;
+		}
+		return true;
+	}
+
+
 	@Override
 	public String toString() {
 		StringBuilder strB = new StringBuilder();
@@ -188,6 +350,7 @@ public class Bag<T> implements ModifiableCollection<T>, Iterable<T> {
 			int count = size - 1;
 			for(int i = 0; i < count; i++) {
 				strB.append(data[i]);
+				strB.append(", ");
 			}
 			strB.append(data[count]);
 		}
@@ -200,6 +363,15 @@ public class Bag<T> implements ModifiableCollection<T>, Iterable<T> {
 		Object[] oldData = this.data;
 		// Expand array size 1.5x + 4, +4 instead of +1 to prevent small bags from constantly needed to resize
 		this.data = new Object[oldData.length + (oldData.length >>> 1) + 4];
+		System.arraycopy(oldData, 0, this.data, 0, oldData.length);
+	}
+
+
+	private final void expandArray(int totalSize) {
+		Object[] oldData = this.data;
+		// Expand array size 1.5x + 4, +4 instead of +1 to prevent small bags from constantly needed to resize
+		int newSize = Math.max(totalSize, oldData.length + (oldData.length >>> 1) + 4);
+		this.data = new Object[newSize];
 		System.arraycopy(oldData, 0, this.data, 0, oldData.length);
 	}
 
