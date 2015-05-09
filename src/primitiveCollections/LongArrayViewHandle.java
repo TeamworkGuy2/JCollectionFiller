@@ -1,7 +1,7 @@
 package primitiveCollections;
 
 /** The handle for an {@link LongArrayView} which is used to modify the LongArrayView's
- * underlying array using {@link #setLongArrayView(Object[], int, int)}.
+ * underlying array using {@link #setLongArrayView(long[], int, int)}.
  * Use {@link #getLongArrayView()} to retrieve the array view.
  * An instance of this class manages exactly one {@link LongArrayView}.
  * @author TeamworkGuy2
@@ -38,7 +38,7 @@ public class LongArrayViewHandle {
 	 * @param objs the array to create a view of
 	 * @param offset the offset into {@code objs} of the array view's {@code 0th} index
 	 * @param length the number of values starting at {@code offset} to include in this view
-	 * @param allowSet true to allow this handle's {@link ArrayView#set(int, Object)} method
+	 * @param allowSet true to allow this handle's {@link LongArrayView#set(int, long)} method
 	 * to be called, false to throw an {@link UnsupportedOperationException} when {@code set} is called
 	 */
 	public LongArrayViewHandle(long[] objs, int offset, int length, boolean allowSet) {

@@ -1,8 +1,6 @@
 package dataCollections;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 
 /** Map implementation which allows duplicate keys and values 
@@ -13,50 +11,11 @@ import java.util.Map;
  * be self explanatory.
  * This is basically a {@code List<Map.Entry<K, V>>} with the ability to store duplicate key-value pairs.
  */
-public interface PairCollection<K, V> extends RandomAccessCollection<K> {
+public interface PairCollection<K, V> extends RandomAccessCollection<K>, PairCollectionImmutable<K, V> {
 
 	/** clear, removes all key-value pairs from this instance
 	 */
 	public void clear();
-
-
-	/** Check if this pair collection contains a specific key
-	 * @param key Object to check for in this instance's list of keys
-	 * @return true if this instance contains a key which equals the 'key' parameter
-	 */
-	public boolean containsKey(K key);
-
-
-	/** Check if this pair collection contains a specific value
-	 * @param value Object to check for in this instance's list of values
-	 * @return true if this instance contains a value which equals the 'value' parameter
-	 */
-	public boolean containsValue(V value);
-
-
-	/** get the value associated the first occurrence of the specified key
-	 * @param key key who's corresponding value is to be returned
-	 * @return the value which matches the 'key' parameter, returns null if the key does not exist
-	 */
-	public V get(K key);
-
-
-	/** isEmpty
-	 * @return true if this PairList instance has no key-value associates, returns false otherwise
-	 */
-	public boolean isEmpty();
-
-
-	/** keyList, (Replaces the purpose of keySet)
-	 * @return the List of keys from this map 
-	 */
-	public List<K> keyList();
-
-
-	/** valueList
-	 * @return the List of values from this map 
-	 */
-	public List<V> valueList();
 
 
 	/** put
@@ -96,22 +55,5 @@ public interface PairCollection<K, V> extends RandomAccessCollection<K> {
 	 * @return the previous value associated with the deleted key
 	 */
 	public V remove(K key);
-
-
-	/** size
-	 * @return the size of this PairList instance
-	 */
-	@Override
-	public int size();
-
-
-	/** values
-	 * @return a Collection of this instance's values
-	 */
-	public Collection<V> values();
-
-
-	@Override
-	public String toString();
 
 }

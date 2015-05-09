@@ -3,7 +3,7 @@ package primitiveCollections;
 /** A primitive char implementation of an {@link java.util.ArrayList ArrayList}.<br>
  * The order of elements in the bag is not preserved when items are removed.<br>
  * This allows {@link #add(char) add()}, {@link #remove(int) remove()}, and {@link #get(int) get()}
- * operations to execute in O(1). Whereas {@link #contains(int) contains()} operations
+ * operations to execute in O(1). Whereas {@link #contains(char) contains()} operations
  * are approximately O(n).<br>
  * This class' purpose is to provide minor performance and memory usage improvements over an
  * {@code ArrayList<Character>} by storing the Characters as type <code>char</code>

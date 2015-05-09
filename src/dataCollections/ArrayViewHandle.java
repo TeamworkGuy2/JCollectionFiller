@@ -53,10 +53,7 @@ public class ArrayViewHandle<E> {
 
 
 	public void setArrayView(E[] objs, int offset, int length) {
-		arrayView.mod++;
-		arrayView.objs = objs;
-		arrayView.off = offset;
-		arrayView.len = length;
+		arrayView.setArrayView(objs, offset, length);
 	}
 
 }

@@ -3,7 +3,7 @@ package primitiveCollections;
 /** A primitive long implementation of an {@link java.util.ArrayList ArrayList}.<br>
  * The order of elements in the bag is not preserved when items are removed.<br>
  * This allows {@link #add(long) add()}, {@link #remove(int) remove()}, and {@link #get(int) get()}
- * operations to execute in O(1). Whereas {@link #contains(int) contains()} operations
+ * operations to execute in O(1). Whereas {@link #contains(long) contains()} operations
  * are approximately O(n).<br>
  * This class' purpose is to provide minor performance and memory usage improvements over an
  * {@code ArrayList<Long>} by storing the Longs as type <code>long</code>

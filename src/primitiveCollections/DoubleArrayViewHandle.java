@@ -1,7 +1,7 @@
 package primitiveCollections;
 
 /** The handle for an {@link DoubleArrayView} which is used to modify the DoubleArrayView's
- * underlying array using {@link #setDoubleArrayView(Object[], int, int)}.
+ * underlying array using {@link #setDoubleArrayView(double[], int, int)}.
  * Use {@link #getDoubleArrayView()} to retrieve the array view.
  * An instance of this class manages exactly one {@link DoubleArrayView}.
  * @author TeamworkGuy2
@@ -38,7 +38,7 @@ public class DoubleArrayViewHandle {
 	 * @param objs the array to create a view of
 	 * @param offset the offset into {@code objs} of the array view's {@code 0th} index
 	 * @param length the number of values starting at {@code offset} to include in this view
-	 * @param allowSet true to allow this handle's {@link ArrayView#set(int, Object)} method
+	 * @param allowSet true to allow this handle's {@link DoubleArrayView#set(int, double)} method
 	 * to be called, false to throw an {@link UnsupportedOperationException} when {@code set} is called
 	 */
 	public DoubleArrayViewHandle(double[] objs, int offset, int length, boolean allowSet) {

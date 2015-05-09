@@ -139,7 +139,7 @@ public class FloatMapSorted<T> implements RandomAccess {
 
 
 	/** Check if the specified values is contained in this list of integers
-	 * @param key the key to check for in this list
+	 * @param value the value to check for in this list
 	 * @return true if the key was found in the list, false otherwise
 	 */
 	public boolean containsValue(T value) {
@@ -192,7 +192,7 @@ public class FloatMapSorted<T> implements RandomAccess {
 
 
 	/** Remove the specified value from this group
-	 * @param item the value to remove
+	 * @param value the value to remove
 	 * @return true if the value was found and removed successfully, false otherwise
 	 */
 	public boolean removeValue(T value) {
@@ -207,7 +207,7 @@ public class FloatMapSorted<T> implements RandomAccess {
 
 
 	/**
-	 * @see #put(float, T, boolean)
+	 * @see #put(float, Object, boolean)
 	 */
 	public T put(float key, T value) {
 		return put(key, value, false);
@@ -215,7 +215,7 @@ public class FloatMapSorted<T> implements RandomAccess {
 
 
 	/**
-	 * @see #put(float, T, boolean)
+	 * @see #put(float, Object, boolean)
 	 */
 	public boolean putIfAbsent(float key, T value) {
 		return put(key, value, true) == null;

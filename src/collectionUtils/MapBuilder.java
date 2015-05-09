@@ -1,8 +1,12 @@
 package collectionUtils;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+import java.util.RandomAccess;
 
 /** A utility class for building {@link Map Maps}
  * @author TeamworkGuy2
@@ -14,13 +18,27 @@ public final class MapBuilder {
 
 
 	/** Creates an immutable map containing the list of entries
-	 * @param entries the list entries to include in the map
-	 * @return a new, immutable, map containing the list of input entries
 	 * @see #newImmutable(java.util.Map.Entry...)
 	 */
 	@SafeVarargs
 	public static final <K, V> Map<K, V> of(Map.Entry<K, V>... entries) {
 		return newImmutable(entries);
+	}
+
+
+	/** Creates an immutable map containing the list of entries
+	 * @see #newImmutable(Collection)
+	 */
+	public static final <K, V> Map<K, V> of(Collection<Map.Entry<K, V>> entries) {
+		return newImmutable(entries);
+	}
+
+
+	/** Creates an immutable map containing the list of entries
+	 * @see #newImmutable(Iterator)
+	 */
+	public static final <K, V> Map<K, V> of(Iterator<Map.Entry<K, V>> entryIter) {
+		return newImmutable(entryIter);
 	}
 
 
@@ -34,6 +52,25 @@ public final class MapBuilder {
 	}
 
 
+
+	/** Creates an immutable map containing the list of entries
+	 * @param entries the list entries to include in the map
+	 * @return a new, immutable, map containing the list of input entries
+	 */
+	public static final <K, V> Map<K, V> newImmutable(Collection<Map.Entry<K, V>> entries) {
+		return Collections.unmodifiableMap(newMutable(entries));
+	}
+
+
+	/** Creates an immutable map containing the remaining entries from the iterator provided
+	 * @param entryIter an entry iterator containing the values to include in the map
+	 * @return a new, immutable, map containing the input iterator's entries
+	 */
+	public static final <K, V> Map<K, V> newImmutable(Iterator<Map.Entry<K, V>> entryIter) {
+		return Collections.unmodifiableMap(newMutable(entryIter));
+	}
+
+
 	/** Creates a mutable map containing the list of entries
 	 * @param entries the list entries to include in the map
 	 * @return a new, mutable, map containing the list of input entries
@@ -42,6 +79,43 @@ public final class MapBuilder {
 	public static final <K, V> Map<K, V> newMutable(Map.Entry<K, V>... entries) {
 		Map<K, V> entryMap = new HashMap<>();
 		for(Map.Entry<K, V> entry : entries) {
+			entryMap.put(entry.getKey(), entry.getValue());
+		}
+		return entryMap;
+	}
+
+
+
+	/** Creates a mutable map containing the collection of entries
+	 * @param entries the collection entries to include in the map
+	 * @return a new, mutable, map containing the collection of input entries
+	 */
+	public static final <K, V> Map<K, V> newMutable(Collection<Map.Entry<K, V>> entries) {
+		Map<K, V> entryMap = new HashMap<>();
+		if(entries instanceof List && entries instanceof RandomAccess) {
+			List<Map.Entry<K, V>> entryList = (List<Map.Entry<K, V>>)entries;
+			for(int i = 0, size= entryList.size(); i < size; i++) {
+				Map.Entry<K, V> entry = entryList.get(i);
+				entryMap.put(entry.getKey(), entry.getValue());
+			}
+		}
+		else {
+			for(Map.Entry<K, V> entry : entries) {
+				entryMap.put(entry.getKey(), entry.getValue());
+			}
+		}
+		return entryMap;
+	}
+
+
+	/** Creates a mutable map containing the remaining entries from the iterator provided
+	 * @param entryIter an entry iterator containing the values to include in the map
+	 * @return a new, mutable, map containing the input iterator's entries
+	 */
+	public static final <K, V> Map<K, V> newMutable(Iterator<Map.Entry<K, V>> entryIter) {
+		Map<K, V> entryMap = new HashMap<>();
+		while(entryIter.hasNext()) {
+			Map.Entry<K, V> entry = entryIter.next();
 			entryMap.put(entry.getKey(), entry.getValue());
 		}
 		return entryMap;

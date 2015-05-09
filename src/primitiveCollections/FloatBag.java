@@ -3,7 +3,7 @@ package primitiveCollections;
 /** A primitive float implementation of an {@link java.util.ArrayList ArrayList}.<br>
  * The order of elements in the bag is not preserved when items are removed.<br>
  * This allows {@link #add(float) add()}, {@link #remove(int) remove()}, and {@link #get(int) get()}
- * operations to execute in O(1). Whereas {@link #contains(int) contains()} operations
+ * operations to execute in O(1). Whereas {@link #contains(float) contains()} operations
  * are approximately O(n).<br>
  * This class' purpose is to provide minor performance and memory usage improvements over an
  * {@code ArrayList<Float>} by storing the Floats as type <code>float</code>

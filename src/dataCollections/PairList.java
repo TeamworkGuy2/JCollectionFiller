@@ -22,6 +22,42 @@ public class PairList<K, V> implements RandomAccessCollection<K>, PairCollection
 	private List<V> valuesIm; // Immutable copy of the values
 
 
+
+	/** Create a pair list from a {@link Map} of keys and values.
+	 * Note: changes to the map are not reflected in this pair list
+	 * @param keys the keys to put in this pair list
+	 * @param values the values to put in this pair list
+	 */
+	public PairList(Map<? extends K, ? extends V> keyValues) {
+		this();
+		for(Map.Entry<? extends K, ? extends V> entry : keyValues.entrySet()) {
+			this.keys.add(entry.getKey());
+			this.values.add(entry.getValue());
+		}
+	}
+
+
+	/** Create a pair list from two collections of keys and values.
+	 * Both collections must be the same size.
+	 * Note: changes to the collection are not reflected in this pair list
+	 * @param keys the keys to put in this pair list
+	 * @param values the values to put in this pair list
+	 */
+	public PairList(Collection<? extends K> keys, Collection<? extends V> values) {
+		this();
+		if(keys == null || values == null || keys.size() != values.size()) {
+			throw new IllegalArgumentException("the number of keys (" + (keys != null ? keys.size() : "null") + ") " +
+					"does not equal the number of values (" + (values != null ? values.size() : "null"));
+		}
+		for(K key : keys) {
+			this.keys.add(key);
+		}
+		for(V val : values) {
+			this.values.add(val);
+		}
+	}
+
+
 	/** Create a PairList with a default size of 10.
 	 */
 	public PairList() {

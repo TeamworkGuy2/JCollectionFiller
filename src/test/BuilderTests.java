@@ -1,8 +1,13 @@
 package test;
 
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -11,6 +16,7 @@ import checks.Check;
 import collectionUtils.AddCondition;
 import collectionUtils.ListAdd;
 import collectionUtils.ListUtil;
+import collectionUtils.MapBuilder;
 
 
 /**
@@ -46,6 +52,34 @@ public final class BuilderTests {
 		// add a duplicate item and check for duplicates
 		ListAdd.addCollectionToList(new HashSet<>(Arrays.asList("f")), strs, AddCondition.ADD_ALL);
 		Assert.assertTrue("list should have duplicate", !ListUtil.isUnique(strs));
+	}
+
+
+	@Test
+	public void testMapBuilder() {
+		@SuppressWarnings("unchecked")
+		Map.Entry<String, String>[] list1 = new Map.Entry[] {
+				new AbstractMap.SimpleImmutableEntry<>("__a", "alpha"),
+				new AbstractMap.SimpleImmutableEntry<>("__b", "beta"),
+				new AbstractMap.SimpleImmutableEntry<>("__c", "charlie"), // conflicting
+				new AbstractMap.SimpleImmutableEntry<>("__c", "gamma") // conflicting
+		};
+
+		@SuppressWarnings("unchecked")
+		Map.Entry<String, String>[] expect1 = new Map.Entry[] {
+				new AbstractMap.SimpleImmutableEntry<>("__a", "alpha"),
+				new AbstractMap.SimpleImmutableEntry<>("__b", "beta"),
+				new AbstractMap.SimpleImmutableEntry<>("__c", "gamma") // last conflict overwrites previous
+		};
+
+		Map<String, String> map = MapBuilder.of(Arrays.asList(list1).iterator());
+		List<Map.Entry<String, String>> listA = new ArrayList<>(map.entrySet());
+		List<Map.Entry<String, String>> listB = Arrays.asList(expect1);
+		// sort the lists since one came from a map
+		Comparator<Map.Entry<String, String>> comparator = (a, b) -> a.getKey().compareTo(b.getKey());
+		Collections.sort(listA, comparator);
+		Collections.sort(listB, comparator);
+		Assert.assertEquals(listA, listB);
 	}
 
 }

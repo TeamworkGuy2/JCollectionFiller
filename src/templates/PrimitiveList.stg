@@ -64,6 +64,12 @@ public interface $var.className$ extends $var.implementClassNames:{x | $x$}; sep
 	public void addAll($var.type$... items);
 
 
+	/** Add an array of items to this collection
+	 * @param coll the collection of items to add to this collection
+	 */
+	public void addAll($var.className$ coll);
+
+
 	/** Add the specified array of items to this collection
 	 * @param items the array of items to add to this collection
 	 * @param off the {@code items} offset at which to start adding items to this collection

@@ -112,7 +112,7 @@ public class DoubleListSorted implements DoubleList, RandomAccess, Iterable<Doub
 
 
 	/** Remove the specified value from this group
-	 * @param item the value to remove
+	 * @param value the value to remove
 	 * @return true if the value was found and removed successfully, false otherwise
 	 */
 	@Override
@@ -161,6 +161,26 @@ public class DoubleListSorted implements DoubleList, RandomAccess, Iterable<Doub
 		mod++;
 		for(int i = off, size = off + len; i < size; i++) {
 			add(items[i]);
+		}
+	}
+
+
+	@Override
+	public void addAll(DoubleList coll) {
+		mod++;
+		int collSize = coll.size();
+		// trick: copy the other (unsorted) collection's items into this collection's sorted data array above the existing item indices
+		// this works because add() only expands this data array if it is too small (which we handle before hand) and never copies (and overwrites) data up by more than 1 index when inserting items
+		if(size + collSize > data.length) {
+			expandList(size + collSize);
+		}
+		int off = this.size;
+		double[] itemsAry = this.data;
+
+		coll.toArray(itemsAry, off);
+
+		for(int i = off, size = off + collSize; i < size; i++) {
+			add(itemsAry[i]);
 		}
 	}
 
@@ -222,10 +242,17 @@ public class DoubleListSorted implements DoubleList, RandomAccess, Iterable<Doub
 
 
 	private final void expandList() {
+		// Expand the size by 1.5x
+		int len = this.data.length;
+		expandList(len + (len >>> 1));
+	}
+
+
+	private final void expandList(int totalSize) {
 		double[] oldData = this.data;
-		// Increase the size by 1.5x + 4, +4 in case the size is 0 or 1,
+		// Expand the size by the number of new elements + 4
 		// +4 rather than +1 to prevent constantly expanding a small list
-		this.data = new double[oldData.length + (oldData.length >>> 1) + 1];
+		this.data = new double[totalSize + 4];
 		System.arraycopy(oldData, 0, this.data, 0, size);
 	}
 

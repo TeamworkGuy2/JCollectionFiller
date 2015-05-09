@@ -63,6 +63,12 @@ public interface DoubleList extends java.util.RandomAccess {
 	public void addAll(double... items);
 
 
+	/** Add an array of items to this collection
+	 * @param coll the collection of items to add to this collection
+	 */
+	public void addAll(DoubleList coll);
+
+
 	/** Add the specified array of items to this collection
 	 * @param items the array of items to add to this collection
 	 * @param off the {@code items} offset at which to start adding items to this collection

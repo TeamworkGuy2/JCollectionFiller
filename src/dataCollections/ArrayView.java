@@ -18,10 +18,10 @@ import java.util.ListIterator;
  * @since 2014-11-29
  */
 public final class ArrayView<E> implements List<E>, RandomAccessCollection<E> {
-	Object[] objs;
-	int off;
-	int len;
-	volatile int mod;
+	private Object[] objs;
+	private int off;
+	private int len;
+	private volatile int mod;
 	private final boolean allowSet;
 
 
@@ -77,10 +77,20 @@ public final class ArrayView<E> implements List<E>, RandomAccessCollection<E> {
 	 * false to throw an {@link UnsupportedOperationException} when {@code set} is called
 	 */
 	public ArrayView(E[] objs, int offset, int length, boolean allowSet) {
+		this.setArrayView(objs, offset, length);
+
+		this.allowSet = allowSet;
+	}
+
+
+	// package-private
+	/** This function should only be invoked from code in this package
+	 */
+	void setArrayView(E[] objs, int offset, int length) {
+		this.mod++;
 		this.objs = objs;
 		this.off = offset;
 		this.len = length;
-		this.allowSet = allowSet;
 	}
 
 
@@ -116,12 +126,12 @@ public final class ArrayView<E> implements List<E>, RandomAccessCollection<E> {
 	@Override
 	public int indexOf(Object o) {
 		int modCached = mod;
-		for(int i = off, size = off+len; i < size; i++) {
-			if(o != null && o.equals(objs[i]) || objs[i] == null) {
+		for(int i = off, size = off + len; i < size; i++) {
+			if(o != null ? o.equals(objs[i]) : objs[i] == null) {
 				if(modCached != mod) {
 					throw new ConcurrentModificationException();
 				}
-				return i;
+				return i - off;
 			}
 		}
 		if(modCached != mod) {
@@ -135,11 +145,11 @@ public final class ArrayView<E> implements List<E>, RandomAccessCollection<E> {
 	public int lastIndexOf(Object o) {
 		int modCached = mod;
 		for(int i = off + len - 1; i >= off; i--) {
-			if(o != null && o.equals(objs[i]) || objs[i] == null) {
+			if(o != null ? o.equals(objs[i]) : objs[i] == null) {
 				if(modCached != mod) {
 					throw new ConcurrentModificationException();
 				}
-				return i;
+				return i - off;
 			}
 		}
 		if(modCached != mod) {

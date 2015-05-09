@@ -1,6 +1,7 @@
 package primitiveCollections;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.RandomAccess;
@@ -261,7 +262,6 @@ public class CharArrayList implements CharList, RandomAccess, Iterable<Character
 	 * into this group of elements
 	 * @param len the number of elements, starting at index {@code off}, to
 	 * add to this group of elements from {@code items}
-	 * @return true if the items are added successfully, false otherwise
 	 */
 	@Override
 	public void addAll(char[] items, int off, int len) {
@@ -273,14 +273,26 @@ public class CharArrayList implements CharList, RandomAccess, Iterable<Character
 		// -1 because if data.length=2 and size=1, and len=1, we could fit an
 		// element without expanding the list, but 1+1 >= 2 is true, so instead 1+1-1 >= 2
 		// keeps the list from expanding unnecessarily
-		if(size+len-1 >= data.length) {
-			expandList(len);
+		if(size + len > data.length) {
+			expandList(size + len);
 		}
 		// Add the new items
 		for(int i = 0; i < len; i++) {
 			data[size + i] = items[i];
 		}
 		size += len;
+	}
+
+
+	@Override
+	public void addAll(CharList coll) {
+		mod++;
+		int collSize = coll.size();
+		if(size + collSize > data.length) {
+			expandList(size + collSize);
+		} 
+		coll.toArray(data, size);
+		this.size += collSize;
 	}
 
 
@@ -294,8 +306,8 @@ public class CharArrayList implements CharList, RandomAccess, Iterable<Character
 		// -1 because if data.length=2 and size=1, and len=1, we could fit an
 		// element without expanding the list, but 1+1 >= 2 is true, so instead 1+1-1 >= 2
 		// keeps the list from expanding unnecessarily
-		if(size+len-1 >= data.length) {
-			expandList(len);
+		if(size + len > data.length) {
+			expandList(size + len);
 		}
 		mod++;
 		// Add the new items
@@ -390,17 +402,17 @@ public class CharArrayList implements CharList, RandomAccess, Iterable<Character
 
 
 	private final void expandList() {
-		// Increase the size by 1.5x + 4, +4 in case the size is 0 or 1,
-		// +4 rather than +1 to prevent constantly expanding a small list
-		expandList((this.data.length >>> 1));
+		// Expand the size by 1.5x
+		int len = this.data.length;
+		expandList(len + (len >>> 1));
 	}
 
 
-	private final void expandList(int increaseCount) {
+	private final void expandList(int totalSize) {
 		char[] oldData = this.data;
-		// Increase the size by the number of new elements + 4
+		// Expand the size by the number of new elements + 4
 		// +4 rather than +1 to prevent constantly expanding a small list
-		this.data = new char[oldData.length + increaseCount + 4];
+		this.data = new char[totalSize + 4];
 		System.arraycopy(oldData, 0, this.data, 0, size);
 	}
 
@@ -447,6 +459,21 @@ public class CharArrayList implements CharList, RandomAccess, Iterable<Character
 	public static final CharArrayList of(char... values) {
 		CharArrayList inst = new CharArrayList();
 		inst.addAll(values);
+		return inst;
+	}
+
+
+	public static final CharArrayList newListOfDefaultValues(int length) {
+		CharArrayList inst = new CharArrayList(length);
+		inst.size = length;
+		return inst;
+	}
+
+
+	public static final CharArrayList newListOfDefaultValues(int length, char defaultVal) {
+		CharArrayList inst = new CharArrayList(length);
+		inst.size = length;
+		Arrays.fill(inst.data, 0, length, defaultVal);
 		return inst;
 	}
 

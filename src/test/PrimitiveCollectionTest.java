@@ -1,8 +1,11 @@
 package test;
 
+import java.util.Arrays;
+
 import org.junit.Assert;
 import org.junit.Test;
 
+import arrayUtils.ArrayUtil;
 import primitiveCollections.CharArrayList;
 import primitiveCollections.CharBag;
 import primitiveCollections.CharListSorted;
@@ -13,6 +16,7 @@ import primitiveCollections.FloatListSorted;
 import primitiveCollections.FloatMapSorted;
 import primitiveCollections.IntArrayList;
 import primitiveCollections.IntBag;
+import primitiveCollections.IntList;
 import primitiveCollections.IntListSorted;
 import primitiveCollections.IntMapSorted;
 
@@ -253,6 +257,32 @@ public class PrimitiveCollectionTest {
 	}
 
 
+	@Test
+	public void testAddAll() {
+		IntArrayList aryList1 = IntArrayList.of(3, 4, 5);
+		IntArrayList aryList2 = IntArrayList.of(1, 2);
+		IntListSorted sortedList1 = IntListSorted.of(8, 9);
+		IntListSorted sortedList2 = IntListSorted.of(10);
+		IntList tmp = null;
+
+		tmp = aryList1.copy();
+		tmp.addAll(sortedList2);
+		assertArrayLooseEqual(tmp.toArray(), ArrayUtil.concat(aryList1.toArray(), sortedList2.toArray()));
+
+		tmp = aryList1.copy();
+		tmp.addAll(aryList2);
+		assertArrayLooseEqual(tmp.toArray(), ArrayUtil.concat(aryList1.toArray(), aryList2.toArray()));
+
+		tmp = sortedList2.copy();
+		tmp.addAll(sortedList1);
+		assertArrayLooseEqual(tmp.toArray(), ArrayUtil.concat(sortedList2.toArray(), sortedList1.toArray()));
+
+		tmp = sortedList1.copy();
+		tmp.addAll(aryList2);
+		assertArrayLooseEqual(tmp.toArray(), ArrayUtil.concat(sortedList1.toArray(), aryList2.toArray()));
+	}
+
+
 	public void testIntListDefault(IntArrayList list) {
 		int[] items = new int[] {5, 9, 12, 8, 4, 3, 2, 1, 6};
 
@@ -313,6 +343,13 @@ public class PrimitiveCollectionTest {
 		list.add(items[7]);
 		list.add(items[8]);
 		Assert.assertTrue(list.removeValue(1) == true);
+	}
+
+
+	private void assertArrayLooseEqual(int[] ary1, int[] ary2) {
+		Arrays.sort(ary1);
+		Arrays.sort(ary2);
+		Assert.assertArrayEquals(ary1, ary2);
 	}
 
 }

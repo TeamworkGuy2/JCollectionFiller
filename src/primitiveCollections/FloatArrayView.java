@@ -8,12 +8,12 @@ import java.util.List;
 import java.util.ListIterator;
 
 /** An {@link List} backed by an array.<br>
- * All modify methods, such as {@link #add(Object) add()} and {@link #remove(Object) remove()}
- * throw {@link UnsupportedOperationException} except for {@link #set(int, Object) set()}
+ * All modify methods, such as {@link #add(float) add()} and {@link #remove(int) remove()}
+ * throw {@link UnsupportedOperationException} except for {@link #set(int, float) set()}
  * which maybe be enabled or disabled when an instance of this class is created.<br>
- * {@link ArrayViewHandle} provides a way to manage an {@code ArrayView} and replace the backing
+ * {@link FloatArrayViewHandle} provides a way to manage an {@code ArrayView} and replace the backing
  * array without creating a new {@code ArrayView}.
- * @see ArrayViewHandle
+ * @see FloatArrayViewHandle
  * @author TeamworkGuy2
  * @since 2014-11-29
  */
@@ -33,7 +33,7 @@ public final class FloatArrayView implements FloatList, java.util.RandomAccess, 
 
 
 	/** Create an empty array view
-	 * @param allowSet true to allow {@link #set(int, Object) set()} to be called,
+	 * @param allowSet true to allow {@link #set(int, float) set()} to be called,
 	 * false to throw an {@link UnsupportedOperationException} when {@code set} is called
 	 */
 	public FloatArrayView(boolean allowSet) {
@@ -51,7 +51,7 @@ public final class FloatArrayView implements FloatList, java.util.RandomAccess, 
 
 	/** Create an array view of an entire array
 	 * @param objs the array to create a view of
-	 * @param allowSet true to allow {@link #set(int, Object) set()} to be called,
+	 * @param allowSet true to allow {@link #set(int, float) set()} to be called,
 	 * false to throw an {@link UnsupportedOperationException} when {@code set} is called
 	 */
 	public FloatArrayView(float[] objs, boolean allowSet) {
@@ -73,7 +73,7 @@ public final class FloatArrayView implements FloatList, java.util.RandomAccess, 
 	 * @param objs the array to create a view of
 	 * @param offset the offset into {@code objs} of the array view's {@code 0th} index
 	 * @param length the number of values starting at {@code offset} to include in this view
-	 * @param allowSet true to allow {@link #set(int, Object) set()} to be called,
+	 * @param allowSet true to allow {@link #set(int, float) set()} to be called,
 	 * false to throw an {@link UnsupportedOperationException} when {@code set} is called
 	 */
 	public FloatArrayView(float[] objs, int offset, int length, boolean allowSet) {
@@ -251,6 +251,12 @@ public final class FloatArrayView implements FloatList, java.util.RandomAccess, 
 
 	@Override
 	public void addAll(float[] items, int off, int len) {
+		throw new UnsupportedOperationException("cannot modify immutable view");
+	}
+
+
+	@Override
+	public void addAll(FloatList coll) {
 		throw new UnsupportedOperationException("cannot modify immutable view");
 	}
 

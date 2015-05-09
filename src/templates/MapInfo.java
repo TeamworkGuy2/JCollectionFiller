@@ -20,7 +20,7 @@ public class MapInfo extends ClassTemplate {
 
 
 		/**
-		 * @param typeName the name of the data type, for example {@code int} or
+		 * @param keyType the Map's key data type class, for example {@code Integer.TYPE} or
 		 * {@code String}
 		 * @param genericSignature a generic signature string like {@code <T>} or
 		 * {@code <E extends CharSequence>}
