@@ -21,7 +21,7 @@ import java.util.function.BiConsumer;
  * @since 2015-1-18
  */
 @javax.annotation.Generated("StringTemplate")
-public class FloatMapSorted<T> implements RandomAccess {
+public class FloatMapSorted<T> implements FloatMapReadOnly<T>, RandomAccess {
 	protected volatile int mod;
 	protected float[] keys;
 	protected Object[] values;
@@ -51,6 +51,7 @@ public class FloatMapSorted<T> implements RandomAccess {
 	}
 
 
+	@Override
 	public FloatMapSorted<T> copy() {
 		FloatMapSorted<T> newMap = new FloatMapSorted<>(size);
 		newMap.size = size;
@@ -60,6 +61,7 @@ public class FloatMapSorted<T> implements RandomAccess {
 	}
 
 
+	@Override
 	public T get(float key) {
 		int index = Arrays.binarySearch(keys, 0, size, key);
 		if(index > -1 && index < size) {
@@ -76,6 +78,7 @@ public class FloatMapSorted<T> implements RandomAccess {
 	 * @return the key found at the specified index
 	 * @throws ArrayIndexOutOfBoundsException if the index is outside the range [0, {@link #size()}-1]
 	 */
+	@Override
 	public float getKey(int index) {
 		if(index < 0 || index >= size) { throw new ArrayIndexOutOfBoundsException(index); }
 		return keys[index];
@@ -87,6 +90,7 @@ public class FloatMapSorted<T> implements RandomAccess {
 	 * @return the integer found at the specified index
 	 * @throws ArrayIndexOutOfBoundsException if the index is outside the range [0, {@link #size()}-1]
 	 */
+	@Override
 	public T getValue(int index) {
 		if(index < 0 || index >= size) { throw new ArrayIndexOutOfBoundsException(index); }
 		@SuppressWarnings("unchecked")
@@ -99,6 +103,7 @@ public class FloatMapSorted<T> implements RandomAccess {
 	 * @param key the key to search for in this list
 	 * @return the index of the key if it is contained in this list, else return -1
 	 */
+	@Override
 	public int indexOf(float key) {
 		int index = Arrays.binarySearch(keys, 0, size, key);
 		return index > -1 ? index : -1;
@@ -109,6 +114,7 @@ public class FloatMapSorted<T> implements RandomAccess {
 	 * @param value the value to search for in this map
 	 * @return the index of the key if it is contained in this list, else return -1
 	 */
+	@Override
 	public int indexOfValue(T value) {
 		if(value != null) {
 			for(int i = 0; i < size; i++) {
@@ -132,6 +138,7 @@ public class FloatMapSorted<T> implements RandomAccess {
 	 * @param key the key to check for in this list
 	 * @return true if the key was found in the list, false otherwise
 	 */
+	@Override
 	public boolean contains(float key) {
 		int index = Arrays.binarySearch(keys, 0, size, key);
 		return (index > -1 && index < size);
@@ -142,6 +149,7 @@ public class FloatMapSorted<T> implements RandomAccess {
 	 * @param value the value to check for in this list
 	 * @return true if the key was found in the list, false otherwise
 	 */
+	@Override
 	public boolean containsValue(T value) {
 		return indexOfValue(value) > -1;
 	}
@@ -335,6 +343,7 @@ public class FloatMapSorted<T> implements RandomAccess {
 	/** Get the current size of this group of elements
 	 * @return the size of this group of elements
 	 */
+	@Override
 	public int size() {
 		return size;
 	}
@@ -343,11 +352,13 @@ public class FloatMapSorted<T> implements RandomAccess {
 	/** Is this group of elements empty
 	 * @return true if this group of elements is empty, false otherwise
 	 */
+	@Override
 	public boolean isEmpty() {
 		return size == 0;
 	}
 
 
+	@Override
 	public void forEach(BiConsumer<? super Float, ? super T> action) {
 		int cachedMod = this.mod;
 		for(int i = 0; i < this.size; i++) {

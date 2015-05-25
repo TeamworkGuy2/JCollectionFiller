@@ -110,6 +110,37 @@ public final class ArrayUtil {
 	}
 
 
+
+	/** Create a string of values from a sub-array
+	 * @param ary the array
+	 * @param off the offset into {@code ary} at which to converting elements to strings
+	 * @param len the number of elements from {@code ary} to convert to strings
+	 * @return a string representation of a sub-array
+	 */
+	public static final String toString(boolean[] ary, int off, int len) {
+		if(ary == null) {
+			return "null";
+		}
+
+		int maxI = len - 1;
+
+		if(maxI < 0) {
+			return "[]";
+		}
+
+		StringBuilder strB = new StringBuilder();
+		strB.append('[');
+		for(int i = 0; i < maxI; i++) {
+			strB.append(ary[off + i]);
+			strB.append(',');
+			strB.append(' ');
+		}
+		strB.append(ary[off + maxI]);
+		strB.append(']');
+		return strB.toString();		
+	}
+
+
 	/** Compare two sub-arrays for equality to one another
 	 * @param a the first array to compare
 	 * @param offA the offset into {@code a} at which to start comparing
@@ -249,6 +280,37 @@ public final class ArrayUtil {
 		System.arraycopy(a, 0, dst, dstOff, a.length);
 		System.arraycopy(b, 0, dst, dstOff + a.length, b.length);
 		return dst;
+	}
+
+
+
+	/** Create a string of values from a sub-array
+	 * @param ary the array
+	 * @param off the offset into {@code ary} at which to converting elements to strings
+	 * @param len the number of elements from {@code ary} to convert to strings
+	 * @return a string representation of a sub-array
+	 */
+	public static final String toString(byte[] ary, int off, int len) {
+		if(ary == null) {
+			return "null";
+		}
+
+		int maxI = len - 1;
+
+		if(maxI < 0) {
+			return "[]";
+		}
+
+		StringBuilder strB = new StringBuilder();
+		strB.append('[');
+		for(int i = 0; i < maxI; i++) {
+			strB.append(ary[off + i]);
+			strB.append(',');
+			strB.append(' ');
+		}
+		strB.append(ary[off + maxI]);
+		strB.append(']');
+		return strB.toString();		
 	}
 
 
@@ -495,6 +557,37 @@ public final class ArrayUtil {
 	}
 
 
+
+	/** Create a string of values from a sub-array
+	 * @param ary the array
+	 * @param off the offset into {@code ary} at which to converting elements to strings
+	 * @param len the number of elements from {@code ary} to convert to strings
+	 * @return a string representation of a sub-array
+	 */
+	public static final String toString(short[] ary, int off, int len) {
+		if(ary == null) {
+			return "null";
+		}
+
+		int maxI = len - 1;
+
+		if(maxI < 0) {
+			return "[]";
+		}
+
+		StringBuilder strB = new StringBuilder();
+		strB.append('[');
+		for(int i = 0; i < maxI; i++) {
+			strB.append(ary[off + i]);
+			strB.append(',');
+			strB.append(' ');
+		}
+		strB.append(ary[off + maxI]);
+		strB.append(']');
+		return strB.toString();		
+	}
+
+
 	/** Compare two sub-arrays for equality to one another
 	 * @param a the first array to compare
 	 * @param offA the offset into {@code a} at which to start comparing
@@ -735,6 +828,37 @@ public final class ArrayUtil {
 		System.arraycopy(a, 0, dst, dstOff, a.length);
 		System.arraycopy(b, 0, dst, dstOff + a.length, b.length);
 		return dst;
+	}
+
+
+
+	/** Create a string of values from a sub-array
+	 * @param ary the array
+	 * @param off the offset into {@code ary} at which to converting elements to strings
+	 * @param len the number of elements from {@code ary} to convert to strings
+	 * @return a string representation of a sub-array
+	 */
+	public static final String toString(char[] ary, int off, int len) {
+		if(ary == null) {
+			return "null";
+		}
+
+		int maxI = len - 1;
+
+		if(maxI < 0) {
+			return "[]";
+		}
+
+		StringBuilder strB = new StringBuilder();
+		strB.append('[');
+		for(int i = 0; i < maxI; i++) {
+			strB.append(ary[off + i]);
+			strB.append(',');
+			strB.append(' ');
+		}
+		strB.append(ary[off + maxI]);
+		strB.append(']');
+		return strB.toString();		
 	}
 
 
@@ -981,6 +1105,37 @@ public final class ArrayUtil {
 	}
 
 
+
+	/** Create a string of values from a sub-array
+	 * @param ary the array
+	 * @param off the offset into {@code ary} at which to converting elements to strings
+	 * @param len the number of elements from {@code ary} to convert to strings
+	 * @return a string representation of a sub-array
+	 */
+	public static final String toString(int[] ary, int off, int len) {
+		if(ary == null) {
+			return "null";
+		}
+
+		int maxI = len - 1;
+
+		if(maxI < 0) {
+			return "[]";
+		}
+
+		StringBuilder strB = new StringBuilder();
+		strB.append('[');
+		for(int i = 0; i < maxI; i++) {
+			strB.append(ary[off + i]);
+			strB.append(',');
+			strB.append(' ');
+		}
+		strB.append(ary[off + maxI]);
+		strB.append(']');
+		return strB.toString();		
+	}
+
+
 	/** Compare two sub-arrays for equality to one another
 	 * @param a the first array to compare
 	 * @param offA the offset into {@code a} at which to start comparing
@@ -1221,6 +1376,37 @@ public final class ArrayUtil {
 		System.arraycopy(a, 0, dst, dstOff, a.length);
 		System.arraycopy(b, 0, dst, dstOff + a.length, b.length);
 		return dst;
+	}
+
+
+
+	/** Create a string of values from a sub-array
+	 * @param ary the array
+	 * @param off the offset into {@code ary} at which to converting elements to strings
+	 * @param len the number of elements from {@code ary} to convert to strings
+	 * @return a string representation of a sub-array
+	 */
+	public static final String toString(long[] ary, int off, int len) {
+		if(ary == null) {
+			return "null";
+		}
+
+		int maxI = len - 1;
+
+		if(maxI < 0) {
+			return "[]";
+		}
+
+		StringBuilder strB = new StringBuilder();
+		strB.append('[');
+		for(int i = 0; i < maxI; i++) {
+			strB.append(ary[off + i]);
+			strB.append(',');
+			strB.append(' ');
+		}
+		strB.append(ary[off + maxI]);
+		strB.append(']');
+		return strB.toString();		
 	}
 
 
@@ -1467,6 +1653,37 @@ public final class ArrayUtil {
 	}
 
 
+
+	/** Create a string of values from a sub-array
+	 * @param ary the array
+	 * @param off the offset into {@code ary} at which to converting elements to strings
+	 * @param len the number of elements from {@code ary} to convert to strings
+	 * @return a string representation of a sub-array
+	 */
+	public static final String toString(float[] ary, int off, int len) {
+		if(ary == null) {
+			return "null";
+		}
+
+		int maxI = len - 1;
+
+		if(maxI < 0) {
+			return "[]";
+		}
+
+		StringBuilder strB = new StringBuilder();
+		strB.append('[');
+		for(int i = 0; i < maxI; i++) {
+			strB.append(ary[off + i]);
+			strB.append(',');
+			strB.append(' ');
+		}
+		strB.append(ary[off + maxI]);
+		strB.append(']');
+		return strB.toString();		
+	}
+
+
 	/** Compare two sub-arrays for equality to one another
 	 * @param a the first array to compare
 	 * @param offA the offset into {@code a} at which to start comparing
@@ -1707,6 +1924,37 @@ public final class ArrayUtil {
 		System.arraycopy(a, 0, dst, dstOff, a.length);
 		System.arraycopy(b, 0, dst, dstOff + a.length, b.length);
 		return dst;
+	}
+
+
+
+	/** Create a string of values from a sub-array
+	 * @param ary the array
+	 * @param off the offset into {@code ary} at which to converting elements to strings
+	 * @param len the number of elements from {@code ary} to convert to strings
+	 * @return a string representation of a sub-array
+	 */
+	public static final String toString(double[] ary, int off, int len) {
+		if(ary == null) {
+			return "null";
+		}
+
+		int maxI = len - 1;
+
+		if(maxI < 0) {
+			return "[]";
+		}
+
+		StringBuilder strB = new StringBuilder();
+		strB.append('[');
+		for(int i = 0; i < maxI; i++) {
+			strB.append(ary[off + i]);
+			strB.append(',');
+			strB.append(' ');
+		}
+		strB.append(ary[off + maxI]);
+		strB.append(']');
+		return strB.toString();		
 	}
 
 
@@ -1951,6 +2199,37 @@ public final class ArrayUtil {
 		System.arraycopy(a, 0, dst, dstOff, a.length);
 		System.arraycopy(b, 0, dst, dstOff + a.length, b.length);
 		return dst;
+	}
+
+
+
+	/** Create a string of values from a sub-array
+	 * @param ary the array
+	 * @param off the offset into {@code ary} at which to converting elements to strings
+	 * @param len the number of elements from {@code ary} to convert to strings
+	 * @return a string representation of a sub-array
+	 */
+	public static final <T> String toString(T[] ary, int off, int len) {
+		if(ary == null) {
+			return "null";
+		}
+
+		int maxI = len - 1;
+
+		if(maxI < 0) {
+			return "[]";
+		}
+
+		StringBuilder strB = new StringBuilder();
+		strB.append('[');
+		for(int i = 0; i < maxI; i++) {
+			strB.append(ary[off + i]);
+			strB.append(',');
+			strB.append(' ');
+		}
+		strB.append(ary[off + maxI]);
+		strB.append(']');
+		return strB.toString();		
 	}
 
 

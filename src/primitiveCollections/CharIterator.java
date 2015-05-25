@@ -5,26 +5,7 @@ package primitiveCollections;
  * @since 2015-1-17
  */
 @javax.annotation.Generated("StringTemplate")
-public interface CharIterator {
-
-
-	public boolean hasNext();
-
-
-	public char next();
-
-
-	public boolean hasPrevious();
-
-
-	public char previous();
-
-
-	public int nextIndex();
-
-
-	public int previousIndex();
-
+public interface CharIterator extends CharIteratorReadOnly {
 
 	public void remove();
 

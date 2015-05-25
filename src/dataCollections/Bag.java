@@ -161,16 +161,43 @@ public class Bag<T> implements ModifiableCollection<T>, Iterable<T> {
 	}
 
 
-	/** Add the specified item to this group of elements
-	 * @param item the item to add to this group of elements
+	/** Add the specified bag of items to this group of elements
+	 * @param items the items to add to this group of elements
 	 */
-	public void addAll(Collection<? extends T> items) {
+	public void addAll(Bag<? extends T> items) {
 		if(items == null) {
 			return;
 		}
 
-		if(size + items.size() > data.length) {
-			expandArray(size + items.size());
+		int itemCount = items.size();
+		if(size + itemCount > data.length) {
+			expandArray(size + itemCount);
+		}
+		action++;
+		System.arraycopy(items.data, 0, this.data, this.size, itemCount);
+		size += itemCount;
+	}
+
+
+	/** Add the specified item to this group of elements
+	 * @param items the items to add to this group of elements
+	 */
+	public void addAll(Collection<? extends T> items) {
+		addAll(items, items.size());
+	}
+
+
+	/** Utility method for adding know size iterable group of elements to this group of elements (e.g. a collection)
+	 * @param items an iterator of items to add to this group of elements
+	 * @param iteratorSize the number of items in the iterator
+	 */
+	public void addAll(Iterable<? extends T> items, int iteratorSize) {
+		if(items == null) {
+			return;
+		}
+
+		if(size + iteratorSize > data.length) {
+			expandArray(size + iteratorSize);
 		}
 		action++;
 		for(T item : items) {

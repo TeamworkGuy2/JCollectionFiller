@@ -5,26 +5,7 @@ package primitiveCollections;
  * @since 2015-1-17
  */
 @javax.annotation.Generated("StringTemplate")
-public interface LongIterator {
-
-
-	public boolean hasNext();
-
-
-	public long next();
-
-
-	public boolean hasPrevious();
-
-
-	public long previous();
-
-
-	public int nextIndex();
-
-
-	public int previousIndex();
-
+public interface LongIterator extends LongIteratorReadOnly {
 
 	public void remove();
 

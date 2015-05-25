@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -108,6 +110,32 @@ public class PropertyMap {
 	 */
 	public void setFile(String name, File value) {
 		setString(name, value.getPath());
+	}
+
+
+	/** Get the specified path property value. If the property is empty,
+	 * set it to the specified default value using {@link Path#toString()}.
+	 * @param name the name of the property
+	 * @param defaultValue the default value to store in the property and return if the property is empty
+	 * @return the value of the property with the specified name
+	 */
+	public Path accessPath(String name, Path defaultValue) {
+		String str = getString(name);
+		if(str == null) {
+			setString(name, defaultValue.toString());
+			return defaultValue;
+		}
+		return Paths.get(str);
+	}
+
+
+	/** Set the specified file path property using {@link Path#toString()}. If the property already
+	 * exists it is overwritten.
+	 * @param name the name of the property to set
+	 * @param value the value to assign to the property
+	 */
+	public void setPath(String name, Path value) {
+		setString(name, value.toString());
 	}
 
 

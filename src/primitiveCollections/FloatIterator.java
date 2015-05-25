@@ -5,26 +5,7 @@ package primitiveCollections;
  * @since 2015-1-17
  */
 @javax.annotation.Generated("StringTemplate")
-public interface FloatIterator {
-
-
-	public boolean hasNext();
-
-
-	public float next();
-
-
-	public boolean hasPrevious();
-
-
-	public float previous();
-
-
-	public int nextIndex();
-
-
-	public int previousIndex();
-
+public interface FloatIterator extends FloatIteratorReadOnly {
 
 	public void remove();
 

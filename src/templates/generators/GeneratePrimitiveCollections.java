@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
 
 import templates.MapInfo;
 import templates.PrimitiveListInfo;
@@ -18,17 +19,33 @@ import codeTemplate.TemplateUtil;
  * @since 2014-12-20
  */
 public class GeneratePrimitiveCollections {
+	private static Class<?>[] types = { Character.TYPE, Integer.TYPE, Float.TYPE, Long.TYPE, Double.TYPE };
+
+	private static <T extends PrimitiveClassTemplate> PrimitiveClassTemplate[] genTmpls(Function<Class<?>, T> supplier) {
+		List<PrimitiveClassTemplate> tmplList = new ArrayList<>();
+		for(Class<?> type : types) {
+			tmplList.add(PrimitiveTemplates.inferPropertyNames(supplier.apply(type)));
+		}
+		PrimitiveClassTemplate[] tmpls = tmplList.toArray(new PrimitiveClassTemplate[tmplList.size()]);
+		return tmpls;
+	}
+
+
+	public static final void generatePrimitiveListReadOnly() throws IOException {
+		String pkgName = "primitiveCollections";
+
+		TemplateUtil.renderTemplates("src/templates/PrimitiveListReadOnly.stg", "PrimitiveListReadOnly", genTmpls((type) -> {
+			return PrimitiveTemplates.newPrimitiveTemplate(type, "$Type$ListReadOnly", pkgName);
+		}));
+	}
+
 
 	public static final void generatePrimitiveList() throws IOException {
 		String pkgName = "primitiveCollections";
 
-		PrimitiveClassTemplate charT = PrimitiveTemplates.newCharTemplate(new PrimitiveClassTemplate(), "CharList", pkgName);
-		PrimitiveClassTemplate intT = PrimitiveTemplates.newIntTemplate(new PrimitiveClassTemplate(), "IntList", pkgName);
-		PrimitiveClassTemplate floatT = PrimitiveTemplates.newFloatTemplate(new PrimitiveClassTemplate(), "FloatList", pkgName);
-		PrimitiveClassTemplate longT = PrimitiveTemplates.newLongTemplate(new PrimitiveClassTemplate(), "LongList", pkgName);
-		PrimitiveClassTemplate doubleT = PrimitiveTemplates.newDoubleTemplate(new PrimitiveClassTemplate(), "DoubleList", pkgName);
-
-		TemplateUtil.renderTemplates("src/templates/PrimitiveList.stg", "PrimitiveList", charT, intT, floatT, longT, doubleT);
+		TemplateUtil.renderTemplates("src/templates/PrimitiveList.stg", "PrimitiveList", genTmpls((type) -> {
+			return PrimitiveTemplates.newPrimitiveTemplateBuilder(type, new PrimitiveClassTemplate(), "$Type$List", pkgName).implement("$Type$ListReadOnly").getTemplate();
+		}));
 	}
 
 
@@ -37,13 +54,9 @@ public class GeneratePrimitiveCollections {
 		String iterWrapper = "$type$IteratorWrapper";
 		String arrayListIter = "$type$ArrayListIterator";
 
-		PrimitiveListInfo charT = PrimitiveTemplates.newCharTemplate(PrimitiveListInfo.iteratorTypes(Character.TYPE, iterWrapper, arrayListIter), "CharArrayList", pkgName);
-		PrimitiveListInfo intT = PrimitiveTemplates.newIntTemplate(PrimitiveListInfo.iteratorTypes(Integer.TYPE, iterWrapper, arrayListIter), "IntArrayList", pkgName);
-		PrimitiveListInfo floatT = PrimitiveTemplates.newFloatTemplate(PrimitiveListInfo.iteratorTypes(Float.TYPE, iterWrapper, arrayListIter), "FloatArrayList", pkgName);
-		PrimitiveListInfo longT = PrimitiveTemplates.newLongTemplate(PrimitiveListInfo.iteratorTypes(Long.TYPE, iterWrapper, arrayListIter), "LongArrayList", pkgName);
-		PrimitiveListInfo doubleT = PrimitiveTemplates.newDoubleTemplate(PrimitiveListInfo.iteratorTypes(Double.TYPE, iterWrapper, arrayListIter), "DoubleArrayList", pkgName);
-
-		TemplateUtil.renderTemplates("src/templates/PrimitiveArrayList.stg", "PrimitiveArrayList", charT, intT, floatT, longT, doubleT);
+		TemplateUtil.renderTemplates("src/templates/PrimitiveArrayList.stg", "PrimitiveArrayList", genTmpls((type) -> {
+			return PrimitiveTemplates.newPrimitiveTemplate(type, PrimitiveListInfo.iteratorTypes(type, iterWrapper, arrayListIter), "$Type$ArrayList", pkgName);
+		}));
 	}
 
 
@@ -52,52 +65,45 @@ public class GeneratePrimitiveCollections {
 		String iterWrapper = "$type$IteratorWrapper";
 		String listSortedIter = "$type$ListSortedIterator";
 
-		PrimitiveListInfo charT = PrimitiveTemplates.newCharTemplate(PrimitiveListInfo.iteratorTypes(Character.TYPE, iterWrapper, listSortedIter), "CharListSorted", pkgName);
-		PrimitiveListInfo intT = PrimitiveTemplates.newIntTemplate(PrimitiveListInfo.iteratorTypes(Integer.TYPE, iterWrapper, listSortedIter), "IntListSorted", pkgName);
-		PrimitiveListInfo floatT = PrimitiveTemplates.newFloatTemplate(PrimitiveListInfo.iteratorTypes(Float.TYPE, iterWrapper, listSortedIter), "FloatListSorted", pkgName);
-		PrimitiveListInfo longT = PrimitiveTemplates.newLongTemplate(PrimitiveListInfo.iteratorTypes(Long.TYPE, iterWrapper, listSortedIter), "LongListSorted", pkgName);
-		PrimitiveListInfo doubleT = PrimitiveTemplates.newDoubleTemplate(PrimitiveListInfo.iteratorTypes(Double.TYPE, iterWrapper, listSortedIter), "DoubleListSorted", pkgName);
-
-		TemplateUtil.renderTemplates("src/templates/PrimitiveSortedList.stg", "PrimitiveSortedList", charT, intT, floatT, longT, doubleT);
+		TemplateUtil.renderTemplates("src/templates/PrimitiveSortedList.stg", "PrimitiveSortedList", genTmpls((type) -> {
+			return PrimitiveTemplates.newPrimitiveTemplate(type, PrimitiveListInfo.iteratorTypes(type, iterWrapper, listSortedIter), "$Type$ListSorted", pkgName);
+		}));
 	}
 
 
 	public static final void generatePrimitiveBag() throws IOException {
 		String pkgName = "primitiveCollections";
 
-		PrimitiveListInfo charT = PrimitiveTemplates.newCharTemplate(new PrimitiveListInfo(Character.TYPE), "CharBag", pkgName);
-		PrimitiveListInfo intT = PrimitiveTemplates.newIntTemplate(new PrimitiveListInfo(Integer.TYPE), "IntBag", pkgName);
-		PrimitiveListInfo floatT = PrimitiveTemplates.newFloatTemplate(new PrimitiveListInfo(Float.TYPE), "FloatBag", pkgName);
-		PrimitiveListInfo longT = PrimitiveTemplates.newLongTemplate(new PrimitiveListInfo(Long.TYPE), "LongBag", pkgName);
-		PrimitiveListInfo doubleT = PrimitiveTemplates.newDoubleTemplate(new PrimitiveListInfo(Double.TYPE), "DoubleBag", pkgName);
-
-		TemplateUtil.renderTemplates("src/templates/PrimitiveBag.stg", "PrimitiveBag", charT, intT, floatT, longT, doubleT);
+		TemplateUtil.renderTemplates("src/templates/PrimitiveBag.stg", "PrimitiveBag", genTmpls((type) -> {
+			return PrimitiveTemplates.newPrimitiveTemplate(type, new PrimitiveListInfo(type), "$Type$Bag", pkgName);
+		}));
 	}
 
 
 	public static final void generatePrimitiveViews() throws IOException {
 		String pkgName = "primitiveCollections";
 
-		ArrayViewInfo charT = PrimitiveTemplates.newCharTemplate(new ArrayViewInfo(Character.TYPE, "o == objs[i]", true), "CharArrayView", pkgName);
-		ArrayViewInfo intT = PrimitiveTemplates.newIntTemplate(new ArrayViewInfo(Integer.TYPE, "o == objs[i]", true), "IntArrayView", pkgName);
-		ArrayViewInfo floatT = PrimitiveTemplates.newFloatTemplate(new ArrayViewInfo(Float.TYPE, "o == objs[i]", true), "FloatArrayView", pkgName);
-		ArrayViewInfo longT = PrimitiveTemplates.newLongTemplate(new ArrayViewInfo(Long.TYPE, "o == objs[i]", true), "LongArrayView", pkgName);
-		ArrayViewInfo doubleT = PrimitiveTemplates.newDoubleTemplate(new ArrayViewInfo(Double.TYPE, "o == objs[i]", true), "DoubleArrayView", pkgName);
+		TemplateUtil.renderTemplates("src/templates/PrimitiveArrayView.stg", "PrimitiveArrayView", genTmpls((type) -> {
+			return PrimitiveTemplates.newPrimitiveTemplate(type, new ArrayViewInfo(type, "o == objs[i]", true), "$Type$ArrayView", pkgName);
+		}));
+	}
 
-		TemplateUtil.renderTemplates("src/templates/PrimitiveArrayView.stg", "PrimitiveArrayView", charT, intT, floatT, longT, doubleT);
+
+	public static final void generatePrimitiveMapsReadOnly() throws IOException {
+		String pkgName = "primitiveCollections";
+
+		TemplateUtil.renderTemplates("src/templates/PrimitiveMapReadOnly.stg", "PrimitiveMapReadOnly", genTmpls((type) -> {
+			return PrimitiveTemplates.newPrimitiveTemplate(type, new MapInfo.MapType(type, "T", "T", ".equals", "null"), "$Type$MapReadOnly", pkgName);
+		}));
 	}
 
 
 	public static final void generatePrimitiveMaps() throws IOException {
 		String pkgName = "primitiveCollections";
 
-		MapInfo.MapType charT = PrimitiveTemplates.newCharTemplate(new MapInfo.MapType(Character.TYPE, "T", "T", ".equals", "null"), "CharMapSorted", pkgName);
-		MapInfo.MapType intT = PrimitiveTemplates.newIntTemplate(new MapInfo.MapType(Integer.TYPE, "T", "T", ".equals", "null"), "IntMapSorted", pkgName);
-		MapInfo.MapType floatT = PrimitiveTemplates.newFloatTemplate(new MapInfo.MapType(Float.TYPE, "T", "T", ".equals", "null"), "FloatMapSorted", pkgName);
-		MapInfo.MapType longT = PrimitiveTemplates.newLongTemplate(new MapInfo.MapType(Long.TYPE, "T", "T", ".equals", "null"), "LongMapSorted", pkgName);
-		MapInfo.MapType doubleT = PrimitiveTemplates.newDoubleTemplate(new MapInfo.MapType(Double.TYPE, "T", "T", ".equals", "null"), "DoubleMapSorted", pkgName);
-
-		TemplateUtil.renderTemplates("src/templates/PrimitiveSortedMap.stg", "PrimitiveSortedMap", charT, intT, floatT, longT, doubleT);
+		TemplateUtil.renderTemplates("src/templates/PrimitiveSortedMap.stg", "PrimitiveSortedMap", genTmpls((type) -> {
+			return PrimitiveTemplates.newPrimitiveTemplateBuilder(type, new MapInfo.MapType(type, "T", "T", ".equals", "null"), "$Type$MapSorted", pkgName).implement("$Type$MapReadOnly<T>").getTemplate();
+		}));
 	}
 
 
@@ -114,16 +120,21 @@ public class GeneratePrimitiveCollections {
 	}
 
 
+	public static final void generatePrimitiveIteratorsReadOnly() throws IOException {
+		String pkgName = "primitiveCollections";
+
+		TemplateUtil.renderTemplates("src/templates/PrimitiveIteratorReadOnly.stg", "PrimitiveIteratorReadOnly", genTmpls((type) -> {
+			return PrimitiveTemplates.newPrimitiveTemplate(type, new PrimitiveClassTemplate(type), "$Type$IteratorReadOnly", pkgName);
+		}));
+	}
+
+
 	public static final void generatePrimitiveIterators() throws IOException {
 		String pkgName = "primitiveCollections";
 
-		PrimitiveListInfo charT = PrimitiveTemplates.newCharTemplate(new PrimitiveListInfo(Character.TYPE), "CharIterator", pkgName);
-		PrimitiveListInfo intT = PrimitiveTemplates.newIntTemplate(new PrimitiveListInfo(Integer.TYPE), "IntIterator", pkgName);
-		PrimitiveListInfo floatT = PrimitiveTemplates.newFloatTemplate(new PrimitiveListInfo(Float.TYPE), "FloatIterator", pkgName);
-		PrimitiveListInfo longT = PrimitiveTemplates.newLongTemplate(new PrimitiveListInfo(Long.TYPE), "LongIterator", pkgName);
-		PrimitiveListInfo doubleT = PrimitiveTemplates.newDoubleTemplate(new PrimitiveListInfo(Double.TYPE), "DoubleIterator", pkgName);
-
-		TemplateUtil.renderTemplates("src/templates/PrimitiveIterator.stg", "PrimitiveIterator", charT, intT, floatT, longT, doubleT);
+		TemplateUtil.renderTemplates("src/templates/PrimitiveIterator.stg", "PrimitiveIterator", genTmpls((type) -> {
+			return PrimitiveTemplates.newPrimitiveTemplateBuilder(type, new PrimitiveClassTemplate(type), "$Type$Iterator", pkgName).implement("$Type$IteratorReadOnly").getTemplate();
+		}));
 	}
 
 
@@ -179,13 +190,16 @@ public class GeneratePrimitiveCollections {
 
 
 	public static final void generatePrimitiveCollections() throws IOException {
+		generatePrimitiveListReadOnly();
 		generatePrimitiveList();
 		generatePrimitiveArrayList();
 		generatePrimitiveSortedList();
 		generatePrimitiveBag();
 		generatePrimitiveViews();
+		generatePrimitiveMapsReadOnly();
 		generatePrimitiveMaps();
 		generatePrimitiveViewHandles();
+		generatePrimitiveIteratorsReadOnly();
 		generatePrimitiveIterators();
 		generatePrimitiveIteratorImpls();
 		generatePrimitiveIteratorWrappers();
@@ -207,6 +221,7 @@ public class GeneratePrimitiveCollections {
 
 
 	public static class IteratorInfos extends ClassTemplate {
+		@SuppressWarnings("hiding")
 		public List<PrimitiveIteratorInfo> types;
 	}
 

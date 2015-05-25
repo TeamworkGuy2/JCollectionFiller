@@ -6,26 +6,7 @@ package $var.packageName$;
  * @since 2015-1-17
  */
 @javax.annotation.Generated("StringTemplate")
-public interface $var.className$ {
-
-
-	public boolean hasNext();
-
-
-	public $var.type$ next();
-
-
-	public boolean hasPrevious();
-
-
-	public $var.type$ previous();
-
-
-	public int nextIndex();
-
-
-	public int previousIndex();
-
+public interface $var.className$ extends $var.implementClassNames:{x | $x$}; separator=", "$ {
 
 	public void remove();
 

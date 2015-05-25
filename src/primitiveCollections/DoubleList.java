@@ -6,34 +6,10 @@ package primitiveCollections;
  * @since 2013-1-20
  */
 @javax.annotation.Generated("StringTemplate")
-public interface DoubleList extends java.util.RandomAccess {
+public interface DoubleList extends java.util.RandomAccess, DoubleListReadOnly {
 
-	/** Create a copy of this double list
-	 * @return a copy of this double list
-	 */
+	@Override
 	public DoubleList copy();
-
-
-	/** Get the double at the specified index
-	 * @param index the index within the range {@code [0, }{@link #size()}{@code -1]} inclusive to retrieve
-	 * @return the double found at the specified index
-	 */
-	public double get(int index);
-
-
-	/** Check if the specified values is contained in this list of doubles
-	 * @param value the value to check for in this list
-	 * @return true if the value was found in the list, false otherwise
-	 */
-	public boolean contains(double value);
-
-
-	/** Find the first occurring index of the specified double in this list
-	 * @param value the value to search for in this list
-	 * @return an index between {@code [0, }{@link #size()}{@code -1]} if the value
-	 * is found, or -1 if the value cannot be found
-	 */
-	public int indexOf(double value);
 
 
 	/** Remove the double at the specified index
@@ -80,27 +56,5 @@ public interface DoubleList extends java.util.RandomAccess {
 	/** Clear the list of elements
 	 */
 	public void clear();
-
-
-	/** Get the current size of this collection
-	 * @return the size of this collection
-	 */
-	public int size();
-
-
-	/** Check if this collection is empty
-	 * @return true if this has zero elements, false otherwise
-	 */
-	public boolean isEmpty();
-
-
-	public double[] toArray();
-
-
-	public double[] toArray(double[] dst, int dstOffset);
-
-
-	@Override
-	public String toString();
 
 }

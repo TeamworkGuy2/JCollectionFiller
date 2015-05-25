@@ -1,6 +1,7 @@
 package templates;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 import codeTemplate.PrimitiveClassTemplate;
 
@@ -18,7 +19,8 @@ public class PrimitiveListInfo extends PrimitiveClassTemplate {
 	public PrimitiveListInfo(Class<?> primitiveType) {
 		super(primitiveType);
 		this.extendClassName = this.typeShortUpperCase + "ArrayList";
-		this.implementClassNames = Arrays.asList(this.typeShortUpperCase + "List");
+		this.implementClassNames = new ArrayList<>();
+		this.implementClassNames.add(this.typeShortUpperCase + "List");
 	}
 
 
@@ -27,6 +29,12 @@ public class PrimitiveListInfo extends PrimitiveClassTemplate {
 		info.iteratorName = iterator.replace("$type$", info.typeShortUpperCase);
 		info.iteratorPrimitiveName = iteratorPrimitive.replace("$type$", info.typeShortUpperCase);
 		return info;
+	}
+
+
+	public static final <T extends PrimitiveClassTemplate> T implementClasses(T classInfo, List<String> implementsClasses) {
+		classInfo.implementClassNames = new ArrayList<>(implementsClasses);
+		return classInfo;
 	}
 
 }

@@ -112,6 +112,37 @@ $endif$	public static final $if(ary.isGeneric)$$ary.genericSignature$ $endif$$ar
 	\}
 
 
+
+	/** Create a string of values from a sub-array
+	 * @param ary the array
+	 * @param off the offset into {@code ary\} at which to converting elements to strings
+	 * @param len the number of elements from {@code ary\} to convert to strings
+	 * @return a string representation of a sub-array
+	 */
+	public static final $if(ary.isGeneric)$$ary.genericSignature$ $endif$String toString($ary.type$[] ary, int off, int len) {
+		if(ary == null) {
+			return "null";
+		\}
+
+		int maxI = len - 1;
+
+		if(maxI < 0) {
+			return "[]";
+		\}
+
+		StringBuilder strB = new StringBuilder();
+		strB.append('[');
+		for(int i = 0; i < maxI; i++) {
+			strB.append(ary[off + i]);
+			strB.append(',');
+			strB.append(' ');
+		\}
+		strB.append(ary[off + maxI]);
+		strB.append(']');
+		return strB.toString();		
+	\}
+
+
 	/** Compare two sub-arrays for equality to one another
 	 * @param a the first array to compare
 	 * @param offA the offset into {@code a\} at which to start comparing

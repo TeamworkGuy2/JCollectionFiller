@@ -1,0 +1,63 @@
+PrimitiveListReadOnly(var) ::= <<
+package $var.packageName$;
+
+/** An interface for class that wrap $var.type$ arrays.  This interface provides
+ * methods for getting values from the $var.objectType$ array.
+ * @author TeamworkGuy2
+ * @since 2015-5-24
+ */
+@javax.annotation.Generated("StringTemplate")
+public interface $var.className$ extends $var.implementClassNames:{x | $x$}; separator=", "$java.util.RandomAccess {
+
+	/** Create a copy of this $var.type$ list
+	 * @return a copy of this $var.type$ list
+	 */
+	public $var.className$ copy();
+
+
+	/** Get the $var.type$ at the specified index
+	 * @param index the index within the range {@code [0, }{@link #size()}{@code -1]} inclusive to retrieve
+	 * @return the $var.type$ found at the specified index
+	 */
+	public $var.type$ get(int index);
+
+
+	/** Check if the specified values is contained in this list of $var.type$s
+	 * @param value the value to check for in this list
+	 * @return true if the value was found in the list, false otherwise
+	 */
+	public boolean contains($var.type$ value);
+
+
+	/** Find the first occurring index of the specified $var.type$ in this list
+	 * @param value the value to search for in this list
+	 * @return an index between {@code [0, }{@link #size()}{@code -1]} if the value
+	 * is found, or -1 if the value cannot be found
+	 */
+	public int indexOf($var.type$ value);
+
+
+	/** Get the current size of this collection
+	 * @return the size of this collection
+	 */
+	public int size();
+
+
+	/** Check if this collection is empty
+	 * @return true if this has zero elements, false otherwise
+	 */
+	public boolean isEmpty();
+
+
+	public $var.type$[] toArray();
+
+
+	public $var.type$[] toArray($var.type$[] dst, int dstOffset);
+
+
+	@Override
+	public String toString();
+
+}
+
+>>
