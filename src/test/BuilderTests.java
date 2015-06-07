@@ -12,7 +12,7 @@ import java.util.Map;
 import org.junit.Assert;
 import org.junit.Test;
 
-import checks.Check;
+import checks.CheckTask;
 import collectionUtils.AddCondition;
 import collectionUtils.ListAdd;
 import collectionUtils.ListUtil;
@@ -35,12 +35,12 @@ public final class BuilderTests {
 		Assert.assertEquals("invalid number of strings", strs.size(), 3);
 
 		// add a subset of an array, also throw errors if null
-		Check.assertException(() -> {
+		CheckTask.assertException(() -> {
 			ListAdd.addArrayToList(new String[] { "b", null, "c" }, 1, 1, strs, true, false, false, true);
 		});
 
 		// add items with a duplicate at the end and throw errors if contains, and catch error
-		Check.assertException(() -> {
+		CheckTask.assertException(() -> {
 			ListAdd.addListToList(Arrays.asList("c", "d", "e", "a"), strs, AddCondition.ERROR_CONTAINS);
 		});
 		Assert.assertTrue("lists not equal", Arrays.asList("a", "ab", "abc", "c", "d", "e").equals(strs));

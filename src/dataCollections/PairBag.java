@@ -313,7 +313,6 @@ public class PairBag<K, V> implements PairCollection<K, V>, IndexedMap<K, V>, It
 	/** Add the specified key value pair to this group of elements
 	 * @param key the key to add to this group of elements
 	 * @param value the value to associate with the key being added
-	 * @return true if the key value pair was added successfully, false otherwise
 	 */
 	@Override
 	public void add(K key, V value) {

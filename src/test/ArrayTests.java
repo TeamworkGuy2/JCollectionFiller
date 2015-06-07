@@ -3,7 +3,7 @@ package test;
 import org.junit.Test;
 
 import arrayUtils.ArrayUtil;
-import checks.Check;
+import checks.CheckTask;
 
 /**
  * @author TeamworkGuy2
@@ -19,8 +19,8 @@ public final class ArrayTests {
 		Float[] fSumExpect = new Float[] { 10.9f, 1.5f, 0f, 0f };
 		Integer[] iSumExpect = new Integer[] { 11, 30, 0, 0 };
 
-		Check.assertTests(fVals1, fSumExpect, "", "", (fAry) -> ArrayUtil.sum(fAry));
-		Check.assertTests(iVals1, iSumExpect, "", "", (iAry) -> ArrayUtil.sum(iAry));
+		CheckTask.assertTests(fVals1, fSumExpect, "", "", (fAry) -> ArrayUtil.sum(fAry));
+		CheckTask.assertTests(iVals1, iSumExpect, "", "", (iAry) -> ArrayUtil.sum(iAry));
 	}
 
 
@@ -29,8 +29,8 @@ public final class ArrayTests {
 		Float[] fSumExpect = new Float[] { 3.6333333f, 0.5f, 0f, Float.NaN };
 		Float[] iSumExpect = new Float[] { 3.6666667f, 10f, 0f, Float.NaN };
 
-		Check.assertTests(fVals1, fSumExpect, "", "", (fAry) -> ArrayUtil.avg(fAry));
-		Check.assertTests(iVals1, iSumExpect, "", "", (iAry) -> ArrayUtil.avg(iAry));
+		CheckTask.assertTests(fVals1, fSumExpect, "", "", (fAry) -> ArrayUtil.avg(fAry));
+		CheckTask.assertTests(iVals1, iSumExpect, "", "", (iAry) -> ArrayUtil.avg(iAry));
 	}
 
 }

@@ -213,7 +213,7 @@ public class Bag<T> implements ModifiableCollection<T>, Iterable<T> {
 
 
 	/** Add an array of items to this collection
-	 * @param item the array of items to add to this group of elements
+	 * @param items the array of items to add to this group of elements
 	 * @param off the {@code items} offset
 	 * @param len the number of {@code items} to copy into this collection starting at {@code off}
 	 */
@@ -228,6 +228,73 @@ public class Bag<T> implements ModifiableCollection<T>, Iterable<T> {
 		action++;
 		System.arraycopy(items, off, this.data, size, len);
 		size += len;
+	}
+
+
+
+	/** Check if the specified values is contained in this list of $var.objectType$s
+	 * @param value the value to check for in this list
+	 * @return true if the value was found in the list, false otherwise
+	 */
+	public boolean contains(T value) {
+		return indexOf(value) > -1;
+	}
+
+
+	/** Find the first occurring index of the specified value in this list
+	 * @param value the value to search for in this list
+	 * @return an index between {@code [0, }{@link #size()}{@code -1]} if the value is
+	 * found, or -1 if the value cannot be found
+	 */
+	public int indexOf(T value) {
+		// Search for the item to remove
+		for(int i = 0; i < size; i++) {
+			// If the item is found, return true
+			if((value == null && data[i] == null) || value.equals(data[i])) {
+				return i;
+			}
+		}
+		// Else if the item is not found, return false
+		return -1;
+	}
+
+
+	/** Find the first occurring index of the specified value in this list,
+	 * starting at the specified offset
+	 * @param value the value to search for in this list
+	 * @param fromIndex an index within the range {@code [0, }{@link #size()}{@code -1]}
+	 * at which to start searching for the {@code value}, inclusive
+	 * @return an index between {@code [0, }{@link #size()}{@code -1]} if the value is
+	 * found, or -1 if the value cannot be found
+	 */
+	public int indexOf(T value, int fromIndex) {
+		// Search for the item to remove
+		for(int i = fromIndex; i < size; i++) {
+			// If the item is found, return true
+			if((value == null && data[i] == null) || value.equals(data[i])) {
+				return i;
+			}
+		}
+		// Else if the item is not found, return false
+		return -1;
+	}
+
+
+	/** Find the last occurring index of the specified value in this list
+	 * @param value the value to search for in this list
+	 * @return an index between {@code [0, }{@link #size()}{@code -1]} if the value is
+	 * found, or -1 if the value cannot be found
+	 */
+	public int lastIndexOf(T value) {
+		// Search for the item to remove
+		for(int i = size - 1; i > -1; i--) {
+			// If the item is found, return true
+			if((value == null && data[i] == null) || value.equals(data[i])) {
+				return i;
+			}
+		}
+		// Else if the item is not found, return false
+		return -1;
 	}
 
 

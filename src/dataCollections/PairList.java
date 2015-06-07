@@ -25,8 +25,7 @@ public class PairList<K, V> implements RandomAccessCollection<K>, PairCollection
 
 	/** Create a pair list from a {@link Map} of keys and values.
 	 * Note: changes to the map are not reflected in this pair list
-	 * @param keys the keys to put in this pair list
-	 * @param values the values to put in this pair list
+	 * @param keyValues the map of keys and values to put in this pair list
 	 */
 	public PairList(Map<? extends K, ? extends V> keyValues) {
 		this();
@@ -280,13 +279,19 @@ public class PairList<K, V> implements RandomAccessCollection<K>, PairCollection
 	 */
 	@Override
 	public V remove(Object key) {
-		if(keys.indexOf(key) > -1) {
-			V removedValue = values.get( keys.indexOf(key) ); // Temp value we are about to remove, used as return value
-			values.remove( keys.indexOf(key) );
-			keys.remove( keys.indexOf(key) );
+		int index = keys.indexOf(key);
+		if(index > -1) {
+			V removedValue = values.get(index); // Temp value we are about to remove, used as return value
+			removeIndex(index);
 			return removedValue;
 		}
 		return null;
+	}
+
+
+	public void removeIndex(int index) {
+		values.remove(index);
+		keys.remove(index);
 	}
 
 

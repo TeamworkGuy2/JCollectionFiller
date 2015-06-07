@@ -10,9 +10,6 @@ import java.util.ListIterator;
 import java.util.Map;
 
 /** An {@link Map} backed by key and values arrays.<br>
- * All modify methods, such as {@link #put(Object, Object) put()} and {@link #remove(Object) remove()}
- * throw {@link UnsupportedOperationException} except for {@link #put(int, Object) put()} for existing keys,
- * the ability to put values can be enabled or disabled when an instance of this class is created.<br>
  * {@link ArrayMapViewHandle} provides a way to manage an {@code ArrayMapView} and replace the backing
  * array without creating a new {@code ArrayMapView}.
  * @param <K> type of keys in this array map view
@@ -41,7 +38,7 @@ public final class ArrayMapView<K, V> implements PairCollectionImmutable<K, V>, 
 
 
 	/** Create an empty array view
-	 * @param allowSet true to allow {@link #set(int, Object) set()} to be called,
+	 * @param allowSet true to allow {@link #set(int, java.util.Map.Entry) set()} to be called,
 	 * false to throw an {@link UnsupportedOperationException} when {@code set} is called
 	 */
 	public ArrayMapView(boolean allowSet) {
@@ -50,7 +47,8 @@ public final class ArrayMapView<K, V> implements PairCollectionImmutable<K, V>, 
 
 
 	/** Create an array view of an entire array
-	 * @param objs the array to create a view of
+	 * @param keys the array of keys to create a view of
+	 * @param values the array of values to create a view of
 	 */
 	public ArrayMapView(K[] keys, V[] values) {
 		this(keys, 0, values, 0, keys.length, false);
@@ -58,9 +56,7 @@ public final class ArrayMapView<K, V> implements PairCollectionImmutable<K, V>, 
 
 
 	/** Create an array view of an entire array
-	 * @param objs the array to create a view of
-	 * @param allowSet true to allow {@link #set(int, Object) set()} to be called,
-	 * false to throw an {@link UnsupportedOperationException} when {@code set} is called
+	 * @see #ArrayMapView(Object[], int, Object[], int, int, boolean)
 	 */
 	public ArrayMapView(K[] keys, V[] values, boolean allowSet) {
 		this(keys, 0, values, 0, keys.length, allowSet);
@@ -68,9 +64,7 @@ public final class ArrayMapView<K, V> implements PairCollectionImmutable<K, V>, 
 
 
 	/** Create an array view of a sub-portion of an array
-	 * @param objs the array to create a view of
-	 * @param offset the offset into {@code objs} of the array view's {@code 0th} index
-	 * @param length the number of values starting at {@code offset} to include in this view
+	 * @see #ArrayMapView(Object[], int, Object[], int, int, boolean)
 	 */
 	public ArrayMapView(K[] keys, int keysOffset, V[] values, int valuesOffset, int length) {
 		this(keys, keysOffset, values, valuesOffset, length, false);
@@ -78,10 +72,12 @@ public final class ArrayMapView<K, V> implements PairCollectionImmutable<K, V>, 
 
 
 	/** Create an array view of a sub-portion of an array
-	 * @param objs the array to create a view of
-	 * @param offset the offset into {@code objs} of the array view's {@code 0th} index
+	 * @param keys the array of keys to create a view of
+	 * @param keysOffset the offset into {@code keys} of the array view's {@code 0th} key index
+	 * @param values the array of values to create a view of
+	 * @param valuesOffset the offset into {@code values} of the array view's {@code 0th} value index
 	 * @param length the number of values starting at {@code offset} to include in this view
-	 * @param allowSet true to allow {@link #set(int, Object) set()} to be called,
+	 * @param allowSet true to allow {@link #set(int, java.util.Map.Entry) set()} to be called,
 	 * false to throw an {@link UnsupportedOperationException} when {@code set} is called
 	 */
 	public ArrayMapView(K[] keys, int keysOffset, V[] values, int valuesOffset, int length, boolean allowSet) {

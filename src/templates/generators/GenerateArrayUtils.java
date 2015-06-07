@@ -5,7 +5,7 @@ import java.util.Arrays;
 
 import templates.ArrayInfo;
 import codeTemplate.PrimitiveTemplates;
-import codeTemplate.TemplateUtil;
+import codeTemplate.TemplateRender;
 
 /**
  * @author TeamworkGuy2
@@ -34,7 +34,7 @@ public class GenerateArrayUtils {
 				genericType
 		);
 
-		TemplateUtil.renderTemplate("src/templates/TArrayUtil.stg", "TArrayUtil", info);
+		TemplateRender.renderClassTemplate("src/templates/TArrayUtil.stg", "TArrayUtil", info);
 	}
 
 
