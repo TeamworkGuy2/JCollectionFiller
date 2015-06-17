@@ -196,6 +196,40 @@ $endif$	public static final $if(ary.isGeneric)$$ary.genericSignature$ $endif$$ar
 			ary[index] = temp;
 		\}
 	\}
+
+
+	/** Check array not null and bounds.<br>
+	 * @param ary the array to check
+	 * @param off the offset being checked
+	 * @param len the length being checked
+	 * @return true if the bounds are valid, false if not
+	 */
+	public static final $if(ary.isGeneric)$$ary.genericSignature$ $endif$boolean checkBounds($ary.type$[] ary, int off, int len) {
+		return ary != null && off > -1 && len > -1 && off + len <= ary.length;
+	\}
+
+
+	/** Check array not null and bounds.<br>
+	 * @param ary the array to check
+	 * @param off the offset being checked
+	 * @param len the length being checked
+	 * @throws ArrayIndexOutOfBoundsException if the index is out of bounds
+	 * @throws NullPointerException if ary is null
+	 */
+	public static final $if(ary.isGeneric)$$ary.genericSignature$ $endif$void checkBoundsThrows($ary.type$[] ary, int off, int len) {
+		if(ary == null) {
+			throw new NullPointerException("array cannot be null");
+		\}
+		if(off < 0) {
+			throw new ArrayIndexOutOfBoundsException("offset must be great than -1: " + off);
+		\}
+		if(len < 0) {
+			throw new ArrayIndexOutOfBoundsException("length must be great than -1: " + len);
+		\}
+		if(off + len > ary.length) {
+			throw new ArrayIndexOutOfBoundsException("array size=" + ary.length + ", off=" + off + ", len=" + len);
+		\}
+	\}
 $if(ary.isAggregatable)$
 
 

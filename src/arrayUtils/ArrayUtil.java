@@ -194,6 +194,40 @@ public final class ArrayUtil {
 			ary[index] = temp;
 		}
 	}
+
+
+	/** Check array not null and bounds.<br>
+	 * @param ary the array to check
+	 * @param off the offset being checked
+	 * @param len the length being checked
+	 * @return true if the bounds are valid, false if not
+	 */
+	public static final boolean checkBounds(boolean[] ary, int off, int len) {
+		return ary != null && off > -1 && len > -1 && off + len <= ary.length;
+	}
+
+
+	/** Check array not null and bounds.<br>
+	 * @param ary the array to check
+	 * @param off the offset being checked
+	 * @param len the length being checked
+	 * @throws ArrayIndexOutOfBoundsException if the index is out of bounds
+	 * @throws NullPointerException if ary is null
+	 */
+	public static final void checkBoundsThrows(boolean[] ary, int off, int len) {
+		if(ary == null) {
+			throw new NullPointerException("array cannot be null");
+		}
+		if(off < 0) {
+			throw new ArrayIndexOutOfBoundsException("offset must be great than -1: " + off);
+		}
+		if(len < 0) {
+			throw new ArrayIndexOutOfBoundsException("length must be great than -1: " + len);
+		}
+		if(off + len > ary.length) {
+			throw new ArrayIndexOutOfBoundsException("array size=" + ary.length + ", off=" + off + ", len=" + len);
+		}
+	}
 	// end boolean array methods
 
 
@@ -365,6 +399,40 @@ public final class ArrayUtil {
 			int index = length - i - 1;
 			ary[i] = ary[index];
 			ary[index] = temp;
+		}
+	}
+
+
+	/** Check array not null and bounds.<br>
+	 * @param ary the array to check
+	 * @param off the offset being checked
+	 * @param len the length being checked
+	 * @return true if the bounds are valid, false if not
+	 */
+	public static final boolean checkBounds(byte[] ary, int off, int len) {
+		return ary != null && off > -1 && len > -1 && off + len <= ary.length;
+	}
+
+
+	/** Check array not null and bounds.<br>
+	 * @param ary the array to check
+	 * @param off the offset being checked
+	 * @param len the length being checked
+	 * @throws ArrayIndexOutOfBoundsException if the index is out of bounds
+	 * @throws NullPointerException if ary is null
+	 */
+	public static final void checkBoundsThrows(byte[] ary, int off, int len) {
+		if(ary == null) {
+			throw new NullPointerException("array cannot be null");
+		}
+		if(off < 0) {
+			throw new ArrayIndexOutOfBoundsException("offset must be great than -1: " + off);
+		}
+		if(len < 0) {
+			throw new ArrayIndexOutOfBoundsException("length must be great than -1: " + len);
+		}
+		if(off + len > ary.length) {
+			throw new ArrayIndexOutOfBoundsException("array size=" + ary.length + ", off=" + off + ", len=" + len);
 		}
 	}
 
@@ -643,6 +711,40 @@ public final class ArrayUtil {
 	}
 
 
+	/** Check array not null and bounds.<br>
+	 * @param ary the array to check
+	 * @param off the offset being checked
+	 * @param len the length being checked
+	 * @return true if the bounds are valid, false if not
+	 */
+	public static final boolean checkBounds(short[] ary, int off, int len) {
+		return ary != null && off > -1 && len > -1 && off + len <= ary.length;
+	}
+
+
+	/** Check array not null and bounds.<br>
+	 * @param ary the array to check
+	 * @param off the offset being checked
+	 * @param len the length being checked
+	 * @throws ArrayIndexOutOfBoundsException if the index is out of bounds
+	 * @throws NullPointerException if ary is null
+	 */
+	public static final void checkBoundsThrows(short[] ary, int off, int len) {
+		if(ary == null) {
+			throw new NullPointerException("array cannot be null");
+		}
+		if(off < 0) {
+			throw new ArrayIndexOutOfBoundsException("offset must be great than -1: " + off);
+		}
+		if(len < 0) {
+			throw new ArrayIndexOutOfBoundsException("length must be great than -1: " + len);
+		}
+		if(off + len > ary.length) {
+			throw new ArrayIndexOutOfBoundsException("array size=" + ary.length + ", off=" + off + ", len=" + len);
+		}
+	}
+
+
 	/** Sum of an array
 	 * @param ary the array of integers to sum
 	 * @return the sum of all of the elements in the specified array
@@ -913,6 +1015,40 @@ public final class ArrayUtil {
 			int index = length - i - 1;
 			ary[i] = ary[index];
 			ary[index] = temp;
+		}
+	}
+
+
+	/** Check array not null and bounds.<br>
+	 * @param ary the array to check
+	 * @param off the offset being checked
+	 * @param len the length being checked
+	 * @return true if the bounds are valid, false if not
+	 */
+	public static final boolean checkBounds(char[] ary, int off, int len) {
+		return ary != null && off > -1 && len > -1 && off + len <= ary.length;
+	}
+
+
+	/** Check array not null and bounds.<br>
+	 * @param ary the array to check
+	 * @param off the offset being checked
+	 * @param len the length being checked
+	 * @throws ArrayIndexOutOfBoundsException if the index is out of bounds
+	 * @throws NullPointerException if ary is null
+	 */
+	public static final void checkBoundsThrows(char[] ary, int off, int len) {
+		if(ary == null) {
+			throw new NullPointerException("array cannot be null");
+		}
+		if(off < 0) {
+			throw new ArrayIndexOutOfBoundsException("offset must be great than -1: " + off);
+		}
+		if(len < 0) {
+			throw new ArrayIndexOutOfBoundsException("length must be great than -1: " + len);
+		}
+		if(off + len > ary.length) {
+			throw new ArrayIndexOutOfBoundsException("array size=" + ary.length + ", off=" + off + ", len=" + len);
 		}
 	}
 
@@ -1191,6 +1327,40 @@ public final class ArrayUtil {
 	}
 
 
+	/** Check array not null and bounds.<br>
+	 * @param ary the array to check
+	 * @param off the offset being checked
+	 * @param len the length being checked
+	 * @return true if the bounds are valid, false if not
+	 */
+	public static final boolean checkBounds(int[] ary, int off, int len) {
+		return ary != null && off > -1 && len > -1 && off + len <= ary.length;
+	}
+
+
+	/** Check array not null and bounds.<br>
+	 * @param ary the array to check
+	 * @param off the offset being checked
+	 * @param len the length being checked
+	 * @throws ArrayIndexOutOfBoundsException if the index is out of bounds
+	 * @throws NullPointerException if ary is null
+	 */
+	public static final void checkBoundsThrows(int[] ary, int off, int len) {
+		if(ary == null) {
+			throw new NullPointerException("array cannot be null");
+		}
+		if(off < 0) {
+			throw new ArrayIndexOutOfBoundsException("offset must be great than -1: " + off);
+		}
+		if(len < 0) {
+			throw new ArrayIndexOutOfBoundsException("length must be great than -1: " + len);
+		}
+		if(off + len > ary.length) {
+			throw new ArrayIndexOutOfBoundsException("array size=" + ary.length + ", off=" + off + ", len=" + len);
+		}
+	}
+
+
 	/** Sum of an array
 	 * @param ary the array of integers to sum
 	 * @return the sum of all of the elements in the specified array
@@ -1461,6 +1631,40 @@ public final class ArrayUtil {
 			int index = length - i - 1;
 			ary[i] = ary[index];
 			ary[index] = temp;
+		}
+	}
+
+
+	/** Check array not null and bounds.<br>
+	 * @param ary the array to check
+	 * @param off the offset being checked
+	 * @param len the length being checked
+	 * @return true if the bounds are valid, false if not
+	 */
+	public static final boolean checkBounds(long[] ary, int off, int len) {
+		return ary != null && off > -1 && len > -1 && off + len <= ary.length;
+	}
+
+
+	/** Check array not null and bounds.<br>
+	 * @param ary the array to check
+	 * @param off the offset being checked
+	 * @param len the length being checked
+	 * @throws ArrayIndexOutOfBoundsException if the index is out of bounds
+	 * @throws NullPointerException if ary is null
+	 */
+	public static final void checkBoundsThrows(long[] ary, int off, int len) {
+		if(ary == null) {
+			throw new NullPointerException("array cannot be null");
+		}
+		if(off < 0) {
+			throw new ArrayIndexOutOfBoundsException("offset must be great than -1: " + off);
+		}
+		if(len < 0) {
+			throw new ArrayIndexOutOfBoundsException("length must be great than -1: " + len);
+		}
+		if(off + len > ary.length) {
+			throw new ArrayIndexOutOfBoundsException("array size=" + ary.length + ", off=" + off + ", len=" + len);
 		}
 	}
 
@@ -1739,6 +1943,40 @@ public final class ArrayUtil {
 	}
 
 
+	/** Check array not null and bounds.<br>
+	 * @param ary the array to check
+	 * @param off the offset being checked
+	 * @param len the length being checked
+	 * @return true if the bounds are valid, false if not
+	 */
+	public static final boolean checkBounds(float[] ary, int off, int len) {
+		return ary != null && off > -1 && len > -1 && off + len <= ary.length;
+	}
+
+
+	/** Check array not null and bounds.<br>
+	 * @param ary the array to check
+	 * @param off the offset being checked
+	 * @param len the length being checked
+	 * @throws ArrayIndexOutOfBoundsException if the index is out of bounds
+	 * @throws NullPointerException if ary is null
+	 */
+	public static final void checkBoundsThrows(float[] ary, int off, int len) {
+		if(ary == null) {
+			throw new NullPointerException("array cannot be null");
+		}
+		if(off < 0) {
+			throw new ArrayIndexOutOfBoundsException("offset must be great than -1: " + off);
+		}
+		if(len < 0) {
+			throw new ArrayIndexOutOfBoundsException("length must be great than -1: " + len);
+		}
+		if(off + len > ary.length) {
+			throw new ArrayIndexOutOfBoundsException("array size=" + ary.length + ", off=" + off + ", len=" + len);
+		}
+	}
+
+
 	/** Sum of an array
 	 * @param ary the array of integers to sum
 	 * @return the sum of all of the elements in the specified array
@@ -2009,6 +2247,40 @@ public final class ArrayUtil {
 			int index = length - i - 1;
 			ary[i] = ary[index];
 			ary[index] = temp;
+		}
+	}
+
+
+	/** Check array not null and bounds.<br>
+	 * @param ary the array to check
+	 * @param off the offset being checked
+	 * @param len the length being checked
+	 * @return true if the bounds are valid, false if not
+	 */
+	public static final boolean checkBounds(double[] ary, int off, int len) {
+		return ary != null && off > -1 && len > -1 && off + len <= ary.length;
+	}
+
+
+	/** Check array not null and bounds.<br>
+	 * @param ary the array to check
+	 * @param off the offset being checked
+	 * @param len the length being checked
+	 * @throws ArrayIndexOutOfBoundsException if the index is out of bounds
+	 * @throws NullPointerException if ary is null
+	 */
+	public static final void checkBoundsThrows(double[] ary, int off, int len) {
+		if(ary == null) {
+			throw new NullPointerException("array cannot be null");
+		}
+		if(off < 0) {
+			throw new ArrayIndexOutOfBoundsException("offset must be great than -1: " + off);
+		}
+		if(len < 0) {
+			throw new ArrayIndexOutOfBoundsException("length must be great than -1: " + len);
+		}
+		if(off + len > ary.length) {
+			throw new ArrayIndexOutOfBoundsException("array size=" + ary.length + ", off=" + off + ", len=" + len);
 		}
 	}
 
@@ -2284,6 +2556,40 @@ public final class ArrayUtil {
 			int index = length - i - 1;
 			ary[i] = ary[index];
 			ary[index] = temp;
+		}
+	}
+
+
+	/** Check array not null and bounds.<br>
+	 * @param ary the array to check
+	 * @param off the offset being checked
+	 * @param len the length being checked
+	 * @return true if the bounds are valid, false if not
+	 */
+	public static final <T> boolean checkBounds(T[] ary, int off, int len) {
+		return ary != null && off > -1 && len > -1 && off + len <= ary.length;
+	}
+
+
+	/** Check array not null and bounds.<br>
+	 * @param ary the array to check
+	 * @param off the offset being checked
+	 * @param len the length being checked
+	 * @throws ArrayIndexOutOfBoundsException if the index is out of bounds
+	 * @throws NullPointerException if ary is null
+	 */
+	public static final <T> void checkBoundsThrows(T[] ary, int off, int len) {
+		if(ary == null) {
+			throw new NullPointerException("array cannot be null");
+		}
+		if(off < 0) {
+			throw new ArrayIndexOutOfBoundsException("offset must be great than -1: " + off);
+		}
+		if(len < 0) {
+			throw new ArrayIndexOutOfBoundsException("length must be great than -1: " + len);
+		}
+		if(off + len > ary.length) {
+			throw new ArrayIndexOutOfBoundsException("array size=" + ary.length + ", off=" + off + ", len=" + len);
 		}
 	}
 	// end T array methods
