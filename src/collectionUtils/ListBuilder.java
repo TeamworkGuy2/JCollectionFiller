@@ -1,6 +1,7 @@
 package collectionUtils;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -70,6 +71,29 @@ public class ListBuilder {
 			list.add(elem);
 		}
 		return list;
+	}
+
+
+	public static <T> List<T> copyDeep(Collection<T> lists) {
+		List<T> dst = new ArrayList<>();
+
+		copyDeepTo(lists, dst);
+
+		return dst;
+	}
+
+
+	public static <T> void copyDeepTo(Collection<T> lists, Collection<T> dst) {
+		for(T elem : lists) {
+			if(elem instanceof Collection) {
+				@SuppressWarnings({ "unchecked", "rawtypes" })
+				T subList = (T)copyDeep((List)elem);
+				dst.add(subList);
+			}
+			else {
+				dst.add(elem);
+			}
+		}
 	}
 
 }

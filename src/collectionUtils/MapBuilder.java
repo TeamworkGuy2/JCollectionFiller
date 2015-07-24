@@ -6,7 +6,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.RandomAccess;
+import java.util.function.Function;
 
 /** A utility class for building {@link Map Maps}
  * @author TeamworkGuy2
@@ -155,6 +157,35 @@ public final class MapBuilder {
 	}
 
 
+	/** @see #newMutableEnumNames(Class, Function)
+	 */
+	public static final <E extends Enum<E>, R> Map<String, E> ofEnumNames(Class<E> enumClass, Function<E, R> enumToKey) {
+		return newImmutableEnumNames(enumClass);
+	}
+
+
+	/** @see #newMutableEnumNames(Class, Function)
+	 */
+	public static final <E extends Enum<E>, R> Map<String, E> newImmutableEnumNames(Class<E> enumClass, Function<E, R> enumToKey) {
+		return Collections.unmodifiableMap(newMutableEnumNames(enumClass));
+	}
+
+
+	/** Creates a mutable mapping of a mapped value for each enum name to the enum's constants
+	 * @param enumClass an {@link Enum} class
+	 * @param enumToKey function that converts an enum value to another value which is stored as the key for the enum value in the returned map
+	 * @return a map of the enum constant names to enums constants from the specified enum
+	 */
+	public static final <E extends Enum<E>, R> Map<R, E> newMutableEnumNames(Class<E> enumClass, Function<E, R> enumToKey) {
+		E[] enums = enumClass.getEnumConstants();
+		Map<R, E> entryMap = new HashMap<>();
+		for(E enumI : enums) {
+			entryMap.put(enumToKey.apply(enumI), enumI);
+		}
+		return entryMap;
+	}
+
+
 	/** Combine a list of maps into one map according to the {@link Map#putAll(Map)} contract.<br>
 	 * Duplicate keys are overwritten. Keys from the last map of {@code maps} taking
 	 * precedence over keys from the second to last map and keys from the second to last
@@ -169,6 +200,27 @@ public final class MapBuilder {
 			combinedMap.putAll(map);
 		}
 		return combinedMap;
+	}
+
+
+	public static final <K, V> Map<V, K> invert(Map<K, V> source) {
+		Map<V, K> dst = new HashMap<>();
+		boolean res = tryInvert(source, dst);
+		if(!res) {
+			throw new IllegalArgumentException("map values are not unique, cannot invert map");
+		}
+		return dst;
+	}
+
+
+	public static final <K, V> boolean tryInvert(Map<K, V> source, Map<V, K> dst) {
+		for(Entry<? extends K, ? extends V> entry : source.entrySet()) {
+			if(dst.containsKey(entry.getValue())) {
+				return false;
+			}
+			dst.put(entry.getValue(), entry.getKey());
+		}
+		return true;
 	}
 
 }

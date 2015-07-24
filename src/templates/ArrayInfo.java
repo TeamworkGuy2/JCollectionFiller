@@ -3,7 +3,7 @@ package templates;
 import java.util.List;
 
 import codeTemplate.ClassTemplate;
-import codeTemplate.PrimitiveClassTemplate;
+import codeTemplate.PrimitiveClassTemplateDeprecated;
 
 /**
  * @author TeamworkGuy2
@@ -19,7 +19,7 @@ public class ArrayInfo extends ClassTemplate {
 	 * @author TeamworkGuy2
 	 * @since 2014-12-28
 	 */
-	public static class ArrayType extends PrimitiveClassTemplate {
+	public static class ArrayType extends PrimitiveClassTemplateDeprecated {
 		public boolean isGeneric;
 		public String genericSignature;
 		public String checkEquality;

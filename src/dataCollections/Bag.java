@@ -83,6 +83,14 @@ public class Bag<T> implements ModifiableCollection<T>, Iterable<T> {
 	}
 
 
+	@Override
+	public T getLast() {
+		@SuppressWarnings("unchecked")
+		T item = (T)data[size - 1];
+		return item;
+	}
+
+
 	/** Remove the element at the specified index from this group of elements
 	 * @param index the index between zero and {@link #size()}-1 inclusive to remove
 	 * @return the element found at the specified index

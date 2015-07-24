@@ -25,4 +25,9 @@ public interface RandomAccessCollection<T> extends RandomAccess {
 	 */
 	public T get(int index);
 
+
+	public default T getLast() {
+		return this.get(this.size() - 1);
+	}
+
 }

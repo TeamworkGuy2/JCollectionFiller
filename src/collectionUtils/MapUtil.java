@@ -144,9 +144,9 @@ public class MapUtil {
 
 
 	/**
-	 * @see #map(Collection, Function, Map)
+	 * @see #map(Iterable, Function, Map)
 	 */
-	public static final <E, K, V> Map<K, V> map(Collection<E> values, Function<E, Map.Entry<K, V>> transformer) {
+	public static final <E, K, V> Map<K, V> map(Iterable<E> values, Function<E, Map.Entry<K, V>> transformer) {
 		return map(values, transformer, new HashMap<>()); 
 	}
 
@@ -158,7 +158,7 @@ public class MapUtil {
 	 * function to each of the {@code values}
 	 * @return the {@code dst} map
 	 */
-	public static final <E, K, V> Map<K, V> map(Collection<E> values, Function<E, Map.Entry<K, V>> transformer, Map<K, V> dst) {
+	public static final <E, K, V> Map<K, V> map(Iterable<E> values, Function<E, Map.Entry<K, V>> transformer, Map<K, V> dst) {
 		if(values instanceof RandomAccess && values instanceof List) {
 			List<E> valuesList = (List<E>)values;
 			for(int i = 0, size = valuesList.size(); i < size; i++) {

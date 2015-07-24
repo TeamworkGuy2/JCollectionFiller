@@ -64,9 +64,9 @@ public final class ListUtil {
 	 * @return true if the sub-list of values form a unique set, false otherwise
 	 */
 	public static final <E> boolean isUnique(List<E> list, int off, int len) {
-		for(int i = off, size = off+len; i < size; i++) {
+		for(int i = off, size = off + len; i < size; i++) {
 			E itemI = list.get(i);
-			for(int ii = off, size2 = off+len; ii < size2; ii++) {
+			for(int ii = off, size2 = off + len; ii < size2; ii++) {
 				if(i != ii && itemI != null ? itemI.equals(list.get(ii)) : list.get(ii) == null) {
 					return false;
 				}
@@ -173,9 +173,9 @@ public final class ListUtil {
 
 
 	/** Transforms a list of values into a new {@link ArrayList}
-	 * @see #map(Collection, Function, Collection)
+	 * @see #map(Iterable, Function, Collection)
 	 */
-	public static final <E, R> List<R> map(Collection<? extends E> list, Function<E, R> transformer) {
+	public static final <E, R> List<R> map(Iterable<? extends E> list, Function<E, R> transformer) {
 		return map(list, transformer, new ArrayList<>());
 	}
 
@@ -187,7 +187,7 @@ public final class ListUtil {
 	 * @param dst the destination list to store the transformed values in
 	 * @return the input {@code dst} list filled with the transformed values
 	 */
-	public static final <E, R, S extends Collection<R>> S map(Collection<? extends E> coll, Function<E, R> transformer, S dst) {
+	public static final <E, R, S extends Collection<R>> S map(Iterable<? extends E> coll, Function<E, R> transformer, S dst) {
 		if(coll instanceof List && coll instanceof RandomAccess) {
 			@SuppressWarnings("unchecked")
 			List<E> collList = (List<E>)coll;
