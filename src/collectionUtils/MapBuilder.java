@@ -205,6 +205,11 @@ public final class MapBuilder {
 
 	public static final <K, V> Map<V, K> invert(Map<K, V> source) {
 		Map<V, K> dst = new HashMap<>();
+		return invert(source, dst);
+	}
+
+
+	public static final <K, V> Map<V, K> invert(Map<K, V> source, Map<V, K> dst) {
 		boolean res = tryInvert(source, dst);
 		if(!res) {
 			throw new IllegalArgumentException("map values are not unique, cannot invert map");

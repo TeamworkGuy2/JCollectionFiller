@@ -4,6 +4,7 @@ import java.util.AbstractMap;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Map;
+import java.util.function.Function;
 
 /** A utility for working with {@link java.util.Map.Entry Map.Entry}
  * @author TeamworkGuy2
@@ -90,6 +91,16 @@ public final class Entries {
 	 */
 	public static final <V> Map.Entry<V, String> toStringValue(V value) {
 		return new AbstractMap.SimpleImmutableEntry<>(value, value.toString());
+	}
+
+
+	public static final <K, V> Function<K, Map.Entry<K, V>> createKeyMapper(Function<K, V> keyToValue) {
+		return (k) -> Entries.of(k, keyToValue.apply(k));
+	}
+
+
+	public static final <K, V> Function<V, Map.Entry<K, V>> createValueMapper(Function<V, K> valueToKey) {
+		return (v) -> Entries.of(valueToKey.apply(v), v);
 	}
 
 
