@@ -1,0 +1,25 @@
+TTuples(var) ::= <<
+package $var.packageName$;
+
+/** Tuples utility methods.
+ * @author TeamworkGuy2
+ * @since 2014-8-6
+ */
+@javax.annotation.Generated("StringTemplate")
+public final class $var.className$ {
+
+	private $var.className$() { throw new AssertionError("cannot instantiate static class $var.className$"); \}
+
+
+$var.types:{typeItems |
+	/** Convert a set of values to a tuple
+	 * @return the newly created tuple
+	 */
+	public static final <$typeItems:{type | A$i0$}; separator=", "$> Tuple$length(typeItems)$<$typeItems:{type | A$i0$}; separator=", "$> of($typeItems:{type | A$type$ arg$i0$}; separator=", "$) {
+		return new Tuple$length(typeItems)$<>($typeItems:{type | arg$i0$}; separator=", "$);
+	\}
+
+
+}$\}
+
+>>
