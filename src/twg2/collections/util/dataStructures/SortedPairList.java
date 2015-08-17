@@ -3,6 +3,8 @@ package twg2.collections.util.dataStructures;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -15,22 +17,22 @@ import java.util.Set;
  * be self explanatory.
  * This is basically a {@code List<Map.Entry<K, V>>} with the ability to store duplicate key-value pairs.
  */
-public class PairList<K, V> implements RandomAccessCollection<K>, PairCollection<K, V> {
+public class SortedPairList<K, V> implements RandomAccessCollection<K>, PairCollection<K, V> {
 	private List<K> keys; // List of Map keys
 	private List<V> values; // List of Map values
 	private List<K> keysIm; // Immutable copy of the keys
 	private List<V> valuesIm; // Immutable copy of the values
+	private Comparator<K> comparator;
 
 
 	/** Create a pair list from a {@link Map} of keys and values.
 	 * Note: changes to the map are not reflected in this pair list
 	 * @param keyValues the map of keys and values to put in this pair list
 	 */
-	public PairList(Map<? extends K, ? extends V> keyValues) {
-		this();
+	public SortedPairList(Map<? extends K, ? extends V> keyValues, Comparator<K> comparator) {
+		this(comparator);
 		for(Map.Entry<? extends K, ? extends V> entry : keyValues.entrySet()) {
-			this.keys.add(entry.getKey());
-			this.values.add(entry.getValue());
+			addPair(entry.getKey(), entry.getValue());
 		}
 	}
 
@@ -41,24 +43,27 @@ public class PairList<K, V> implements RandomAccessCollection<K>, PairCollection
 	 * @param keys the keys to put in this pair list
 	 * @param values the values to put in this pair list
 	 */
-	public PairList(Collection<? extends K> keys, Collection<? extends V> values) {
-		this();
+	public SortedPairList(Collection<? extends K> keys, Collection<? extends V> values, Comparator<K> comparator) {
+		this(comparator);
 		if(keys == null || values == null || keys.size() != values.size()) {
 			throw new IllegalArgumentException("the number of keys (" + (keys != null ? keys.size() : "null") + ") " +
 					"does not equal the number of values (" + (values != null ? values.size() : "null"));
 		}
-		for(K key : keys) {
-			this.keys.add(key);
-		}
-		for(V val : values) {
-			this.values.add(val);
+
+		Iterator<? extends K> keyIter = keys.iterator();
+		Iterator<? extends V> valIter = values.iterator();
+		while(keyIter.hasNext() && valIter.hasNext()) {
+			K key = keyIter.next();
+			V value = valIter.next();
+			addPair(key, value);
 		}
 	}
 
 
 	/** Create a PairList with a default size of 10.
 	 */
-	public PairList() {
+	public SortedPairList(Comparator<K> comparator) {
+		this.comparator = comparator;
 		this.keys = new ArrayList<K>(); // Initialize key List
 		this.values = new ArrayList<V>(); // Initialize values List
 		this.keysIm = Collections.unmodifiableList(this.keys);
@@ -107,11 +112,13 @@ public class PairList<K, V> implements RandomAccessCollection<K>, PairCollection
 	 */
 	@Override
 	public V get(K key) {
-		if(keys.indexOf(key) < 0) {
+		int keyIndex = keys.indexOf(key);
+
+		if(keyIndex < 0) {
 			return null;
 		}
 		else {
-			return values.get( keys.indexOf(key) );
+			return values.get(keyIndex);
 		}
 	}
 
@@ -122,6 +129,7 @@ public class PairList<K, V> implements RandomAccessCollection<K>, PairCollection
 	 */
 	public int indexOf(K key) {
 		int index = keys.indexOf(key);
+
 		if(index > 0) {
 			return index;
 		}
@@ -146,6 +154,7 @@ public class PairList<K, V> implements RandomAccessCollection<K>, PairCollection
 	 * @param index the index of the key to be returned
 	 * @return the key found at the specified index
 	 */
+	@Override
 	public K getKey(int index) {
 		if(index < 0 || index > this.size()-1) {
 			throw new IndexOutOfBoundsException(Integer.toString(index));
@@ -160,6 +169,7 @@ public class PairList<K, V> implements RandomAccessCollection<K>, PairCollection
 	 * @param index the index of the value to be returned
 	 * @return the value found at the specified index
 	 */
+	@Override
 	public V getValue(int index) {
 		if(index < 0 || index > this.size()-1) {
 			throw new IndexOutOfBoundsException(Integer.toString(index));
@@ -175,10 +185,8 @@ public class PairList<K, V> implements RandomAccessCollection<K>, PairCollection
 	 */
 	@Override
 	public boolean isEmpty() {
-		if(keys.size() == 0) {
-			return true;
-		}
-		return false;
+		boolean res = keys.size() == 0;
+		return res;
 	}
 
 
@@ -224,8 +232,7 @@ public class PairList<K, V> implements RandomAccessCollection<K>, PairCollection
 
 	@Override
 	public void add(K key, V value) {
-		keys.add(key);
-		values.add(value);
+		addPair(key, value);
 	}
 
 
@@ -249,14 +256,9 @@ public class PairList<K, V> implements RandomAccessCollection<K>, PairCollection
 	 */
 	@Override
 	public void putAll(Map<? extends K, ? extends V> mapPairs) {
-		Set<? extends K> keySet = mapPairs.keySet();
-		for(K key : keySet) {
-			keys.add(key);
-		}
-
-		Collection<? extends V> valueCollection = mapPairs.values();
-		for(V value : valueCollection) {
-			values.add(value);
+		Set<? extends Map.Entry<? extends K, ? extends V>> entrySet = mapPairs.entrySet();
+		for(Map.Entry<? extends K, ? extends V> entry : entrySet) {
+			addPair(entry.getKey(), entry.getValue());
 		}
 	}
 
@@ -267,8 +269,9 @@ public class PairList<K, V> implements RandomAccessCollection<K>, PairCollection
 	 */
 	@Override
 	public void putAll(PairCollection<? extends K, ? extends V> listPairs) {
-		keys.addAll(listPairs.keyList());
-		values.addAll(listPairs.values());
+		for(int i = 0, size = listPairs.size(); i < size; i++) {
+			addPair(listPairs.get(i), listPairs.getValue(i));
+		}
 	}
 
 
@@ -331,6 +334,31 @@ public class PairList<K, V> implements RandomAccessCollection<K>, PairCollection
 		builder.append(']');
 
 		return builder.toString();
+	}
+
+
+	private void addPair(K key, V value) {
+		int index = calcInsertIndex(key);
+		if(index >= this.keys.size()) {
+			this.keys.add(key);
+			this.values.add(value);
+		}
+		else {
+			this.keys.add(index, key);
+			this.values.add(index, value);
+		}
+	}
+
+
+	private int calcInsertIndex(K key) {
+		int insertIndex = Collections.binarySearch(this.keys, key, this.comparator);
+		if(insertIndex > -1) {
+			insertIndex++;
+		}
+		else {
+			insertIndex = -insertIndex - 1;
+		}
+		return insertIndex;
 	}
 
 }

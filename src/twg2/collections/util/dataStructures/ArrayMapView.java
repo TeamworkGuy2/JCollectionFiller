@@ -265,6 +265,28 @@ public final class ArrayMapView<K, V> implements PairCollectionImmutable<K, V>, 
 	@Override
 	public V get(Object key) {
 		int index = indexOf(key);
+		if(index < 0) {
+			return null;
+		}
+
+		@SuppressWarnings("unchecked")
+		V val = (V)values[valuesOff + index];
+		return val;
+	}
+
+
+	@Override
+	public K getKey(int index) {
+		checkIndex(index);
+		@SuppressWarnings("unchecked")
+		K key = (K)keys[keysOff + index];
+		return key;
+	}
+
+
+	@Override
+	public V getValue(int index) {
+		checkIndex(index);
 		@SuppressWarnings("unchecked")
 		V val = (V)values[valuesOff + index];
 		return val;
@@ -279,6 +301,7 @@ public final class ArrayMapView<K, V> implements PairCollectionImmutable<K, V>, 
 
 	@Override
 	public K get(int index) {
+		checkIndex(index);
 		@SuppressWarnings("unchecked")
 		K key = (K)keys[keysOff + index];
 		return key;
@@ -298,16 +321,10 @@ public final class ArrayMapView<K, V> implements PairCollectionImmutable<K, V>, 
 
 
 	public Map.Entry<K, V> getEntry(int index) {
+		checkIndex(index);
 		@SuppressWarnings("unchecked")
 		Map.Entry<K, V> entry = new AbstractMap.SimpleImmutableEntry<>((K)keys[keysOff + index], (V)values[valuesOff + index]);
 		return entry;
-	}
-
-
-	public V getValue(int index) {
-		@SuppressWarnings("unchecked")
-		V val = (V)values[valuesOff + index];
-		return val;
 	}
 
 
@@ -315,9 +332,8 @@ public final class ArrayMapView<K, V> implements PairCollectionImmutable<K, V>, 
 		if(!allowSet) {
 			throw new UnsupportedOperationException("cannot modified immutable view");
 		}
-		if(index < 0 || index >= len) {
-			throw new IndexOutOfBoundsException(index + " of view size " + len);
-		}
+		checkIndex(index);
+
 		keys[keysOff + index] = element.getKey();
 		values[valuesOff + index] = element.getValue();
 		mod++;
@@ -440,6 +456,13 @@ public final class ArrayMapView<K, V> implements PairCollectionImmutable<K, V>, 
 			a[len] = null;
 		}
 		return a;
+	}
+
+
+	private void checkIndex(int index) {
+		if(index < 0 || index >= len) {
+			throw new IndexOutOfBoundsException(index + " of view size " + len);
+		}
 	}
 
 }

@@ -112,7 +112,6 @@ $endif$	public static final $if(ary.isGeneric)$$ary.genericSignature$ $endif$$ar
 	\}
 
 
-
 	/** Create a string of values from a sub-array
 	 * @param ary the array
 	 * @param off the offset into {@code ary\} at which to converting elements to strings
@@ -161,8 +160,8 @@ $endif$	public static final $if(ary.isGeneric)$$ary.genericSignature$ $endif$$ar
 		\}
 
 		for(int i = 0; i < len; i++) {
-			$ary.type$ objA = a[i];
-			$ary.type$ objB = b[i];
+			$ary.type$ objA = a[offA + i];
+			$ary.type$ objB = b[offB + i];
 			if($if(ary.isGeneric)$!(objA == $ary.defaultValue$ ? objB == $ary.defaultValue$ : objA$ary.checkEquality$(objB))$else$objA != objB$endif$) {
 				return false;
 			\}
@@ -230,6 +229,54 @@ $endif$	public static final $if(ary.isGeneric)$$ary.genericSignature$ $endif$$ar
 			throw new ArrayIndexOutOfBoundsException("array size=" + ary.length + ", off=" + off + ", len=" + len);
 		\}
 	\}
+$if(!ary.isGeneric)$
+
+
+	/** Alias for {@link #primitiveToWrapper($ary.type$[], int, int, $ary.objectType$[], int)\}
+	 */
+	public static final $if(ary.isGeneric)$$ary.genericSignature$ $endif$$ary.objectType$[] primitiveToWrapper($ary.type$[] srcAry) {
+		return primitiveToWrapper(srcAry, 0, srcAry.length, new $ary.objectType$[srcAry.length], 0);
+	\}
+
+
+	/**
+	 * @param srcAry the source primitive type array
+	 * @param srcOff the source index offset at which to start copying elements
+	 * @param srcLen the number of source elements to copy
+	 * @param dst the destination primitive wrapper type array to store the elements in
+	 * @param dstOff the offset into the destination array at which to start storing the copied elements
+	 * @return the {@code dst\} array
+	 */
+	public static final $if(ary.isGeneric)$$ary.genericSignature$ $endif$$ary.objectType$[] primitiveToWrapper($ary.type$[] srcAry, int srcOff, int srcLen, $ary.objectType$[] dst, int dstOff) {
+		for(int i = 0; i < srcLen; i++) {
+			dst[dstOff + i] = srcAry[srcOff + i];
+		\}
+		return dst;
+	\}
+
+
+	/** Alias for {@link #wrapperToPrimitive($ary.objectType$[], int, int, $ary.type$[], int)\}
+	 */
+	public static final $if(ary.isGeneric)$$ary.genericSignature$ $endif$$ary.type$[] wrapperToPrimitive($ary.objectType$[] srcAry) {
+		return wrapperToPrimitive(srcAry, 0, srcAry.length, new $ary.type$[srcAry.length], 0);
+	\}
+
+
+	/**
+	 * @param srcAry the source primitive wrapper type array
+	 * @param srcOff the source index offset at which to start copying elements
+	 * @param srcLen the number of source elements to copy
+	 * @param dst the destination primitive type array to store the elements in
+	 * @param dstOff the offset into the destination array at which to start storing the copied elements
+	 * @return the {@code dst\} array
+	 */
+	public static final $if(ary.isGeneric)$$ary.genericSignature$ $endif$$ary.type$[] wrapperToPrimitive($ary.objectType$[] srcAry, int srcOff, int srcLen, $ary.type$[] dst, int dstOff) {
+		for(int i = 0; i < srcLen; i++) {
+			dst[dstOff + i] = srcAry[srcOff + i];
+		\}
+		return dst;
+	\}
+$endif$
 $if(ary.isAggregatable)$
 
 
@@ -452,6 +499,82 @@ $endif$
 		}
 	}
 	// end XOR
+
+
+
+
+	public static final class Generic {
+
+		/** Convert a primitive or object array to a string based on the array's component type
+		 * @param ary the array to {@code toString()\}, null returns {@code "null"\}
+		 * @return the string representation of {@code ary\}
+		 * @see Arrays#toString
+		 */
+		public static final String toString(Object ary) {
+			Class<?> aryClazz = null;
+			if(ary != null && (aryClazz = ary.getClass()).isArray()) {
+				Class<?> componentType = aryClazz.getComponentType();
+				if(componentType == Boolean.TYPE) { return Arrays.toString((boolean[])ary); \}
+				else if(componentType == Character.TYPE) { return Arrays.toString((char[])ary); \}
+				else if(componentType == Byte.TYPE) { return Arrays.toString((byte[])ary); \}
+				else if(componentType == Short.TYPE) { return Arrays.toString((short[])ary); \}
+				else if(componentType == Integer.TYPE) { return Arrays.toString((int[])ary); \}
+				else if(componentType == Long.TYPE) { return Arrays.toString((long[])ary); \}
+				else if(componentType == Float.TYPE) { return Arrays.toString((float[])ary); \}
+				else if(componentType == Double.TYPE) { return Arrays.toString((double[])ary); \}
+				return Arrays.toString((Object[])ary);
+			\}
+			return ary != null ? ary.toString() : "null";
+		\}
+
+
+		/** Check if two arrays are equal based on the each array's component type.
+		 * Note: only equal component types are compared, i.e. an array of ints and an array of bytes always return false even thought they could contain equivalent data
+		 * @param ary1 the first array to compare, nullable
+		 * @param ary2 the second array to compare, nullable
+		 * @return the true if the arrays are equal, false if not
+		 * @see $var.className$#equals
+		 */
+		public static final boolean equals(Object ary1, int off1, Object ary2, int off2, int length) {
+			if(ary1 == null || ary2 == null) { return false; \}
+			Class<?> cls1 = ary1.getClass();
+			Class<?> cls2 = ary2.getClass();
+			if(!cls1.isArray() || !cls2.isArray()) { return false; \}
+
+			Class<?> componentType = cls1.getComponentType();
+			// we don't try to compare arrays that don't have the same element type
+			if(componentType != cls2.getComponentType()) { return false; \}
+
+			if(componentType == Boolean.TYPE) {
+				return $var.className$.equals((boolean[])ary1, off1, (boolean[])ary2, off2, length);
+			\}
+			else if(componentType == Character.TYPE) {
+				return $var.className$.equals((char[])ary1, off1, (char[])ary2, off2, length);
+			\}
+			else if(componentType == Byte.TYPE) {
+				return $var.className$.equals((byte[])ary1, off1, (byte[])ary2, off2, length);
+			\}
+			else if(componentType == Short.TYPE) {
+				return $var.className$.equals((short[])ary1, off1, (short[])ary2, off2, length);
+			\}
+			else if(componentType == Integer.TYPE) {
+				return $var.className$.equals((int[])ary1, off1, (int[])ary2, off2, length);
+			\}
+			else if(componentType == Long.TYPE) {
+				return $var.className$.equals((long[])ary1, off1, (long[])ary2, off2, length);
+			\}
+			else if(componentType == Float.TYPE) {
+				return $var.className$.equals((float[])ary1, off1, (float[])ary2, off2, length);
+			\}
+			else if(componentType == Double.TYPE) {
+				return $var.className$.equals((double[])ary1, off1, (double[])ary2, off2, length);
+			\}
+			else {
+				return $var.className$.equals((Object[])ary1, off1, (Object[])ary2, off2, length);
+			\}
+		\}
+
+	\}
 
 }
 

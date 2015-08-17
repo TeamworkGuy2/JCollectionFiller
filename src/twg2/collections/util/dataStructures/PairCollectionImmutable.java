@@ -37,6 +37,20 @@ public interface PairCollectionImmutable<K, V> extends RandomAccessCollection<K>
 	public V get(K key);
 
 
+	/**
+	 * @param index the index of the key to retrieve, range [0, {@link #size()} - 1]
+	 * @return the key at the given index in this pair collection
+	 */
+	public K getKey(int index);
+
+
+	/**
+	 * @param index the index of the value to retrieve, range [0, {@link #size()} - 1]
+	 * @return the value at the given index in this pair collection
+	 */
+	public V getValue(int index);
+
+
 	/** isEmpty
 	 * @return true if this PairList instance has no key-value associates, returns false otherwise
 	 */

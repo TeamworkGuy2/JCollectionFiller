@@ -17,7 +17,7 @@ public class GenerateArrayUtils {
 	public static final void generateArrayUtil() throws IOException {
 		ArrayInfo info = new ArrayInfo();
 		info.className = "ArrayUtil";
-		info.packageName = "arrayUtils";
+		info.packageName = "twg2.collections.util.arrayUtils";
 
 		ArrayInfo.ArrayType genericType = new ArrayInfo.ArrayType(true, "<T>", ".equals", false, "null");
 		genericType.type = "T";

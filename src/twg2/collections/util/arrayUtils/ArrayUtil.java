@@ -110,7 +110,6 @@ public final class ArrayUtil {
 	}
 
 
-
 	/** Create a string of values from a sub-array
 	 * @param ary the array
 	 * @param off the offset into {@code ary} at which to converting elements to strings
@@ -159,8 +158,8 @@ public final class ArrayUtil {
 		}
 
 		for(int i = 0; i < len; i++) {
-			boolean objA = a[i];
-			boolean objB = b[i];
+			boolean objA = a[offA + i];
+			boolean objB = b[offB + i];
 			if(objA != objB) {
 				return false;
 			}
@@ -227,6 +226,52 @@ public final class ArrayUtil {
 		if(off + len > ary.length) {
 			throw new ArrayIndexOutOfBoundsException("array size=" + ary.length + ", off=" + off + ", len=" + len);
 		}
+	}
+
+
+	/** Alias for {@link #primitiveToWrapper(boolean[], int, int, Boolean[], int)}
+	 */
+	public static final Boolean[] primitiveToWrapper(boolean[] srcAry) {
+		return primitiveToWrapper(srcAry, 0, srcAry.length, new Boolean[srcAry.length], 0);
+	}
+
+
+	/**
+	 * @param srcAry the source primitive type array
+	 * @param srcOff the source index offset at which to start copying elements
+	 * @param srcLen the number of source elements to copy
+	 * @param dst the destination primitive wrapper type array to store the elements in
+	 * @param dstOff the offset into the destination array at which to start storing the copied elements
+	 * @return the {@code dst} array
+	 */
+	public static final Boolean[] primitiveToWrapper(boolean[] srcAry, int srcOff, int srcLen, Boolean[] dst, int dstOff) {
+		for(int i = 0; i < srcLen; i++) {
+			dst[dstOff + i] = srcAry[srcOff + i];
+		}
+		return dst;
+	}
+
+
+	/** Alias for {@link #wrapperToPrimitive(Boolean[], int, int, boolean[], int)}
+	 */
+	public static final boolean[] wrapperToPrimitive(Boolean[] srcAry) {
+		return wrapperToPrimitive(srcAry, 0, srcAry.length, new boolean[srcAry.length], 0);
+	}
+
+
+	/**
+	 * @param srcAry the source primitive wrapper type array
+	 * @param srcOff the source index offset at which to start copying elements
+	 * @param srcLen the number of source elements to copy
+	 * @param dst the destination primitive type array to store the elements in
+	 * @param dstOff the offset into the destination array at which to start storing the copied elements
+	 * @return the {@code dst} array
+	 */
+	public static final boolean[] wrapperToPrimitive(Boolean[] srcAry, int srcOff, int srcLen, boolean[] dst, int dstOff) {
+		for(int i = 0; i < srcLen; i++) {
+			dst[dstOff + i] = srcAry[srcOff + i];
+		}
+		return dst;
 	}
 	// end boolean array methods
 
@@ -317,7 +362,6 @@ public final class ArrayUtil {
 	}
 
 
-
 	/** Create a string of values from a sub-array
 	 * @param ary the array
 	 * @param off the offset into {@code ary} at which to converting elements to strings
@@ -366,8 +410,8 @@ public final class ArrayUtil {
 		}
 
 		for(int i = 0; i < len; i++) {
-			byte objA = a[i];
-			byte objB = b[i];
+			byte objA = a[offA + i];
+			byte objB = b[offB + i];
 			if(objA != objB) {
 				return false;
 			}
@@ -434,6 +478,52 @@ public final class ArrayUtil {
 		if(off + len > ary.length) {
 			throw new ArrayIndexOutOfBoundsException("array size=" + ary.length + ", off=" + off + ", len=" + len);
 		}
+	}
+
+
+	/** Alias for {@link #primitiveToWrapper(byte[], int, int, Byte[], int)}
+	 */
+	public static final Byte[] primitiveToWrapper(byte[] srcAry) {
+		return primitiveToWrapper(srcAry, 0, srcAry.length, new Byte[srcAry.length], 0);
+	}
+
+
+	/**
+	 * @param srcAry the source primitive type array
+	 * @param srcOff the source index offset at which to start copying elements
+	 * @param srcLen the number of source elements to copy
+	 * @param dst the destination primitive wrapper type array to store the elements in
+	 * @param dstOff the offset into the destination array at which to start storing the copied elements
+	 * @return the {@code dst} array
+	 */
+	public static final Byte[] primitiveToWrapper(byte[] srcAry, int srcOff, int srcLen, Byte[] dst, int dstOff) {
+		for(int i = 0; i < srcLen; i++) {
+			dst[dstOff + i] = srcAry[srcOff + i];
+		}
+		return dst;
+	}
+
+
+	/** Alias for {@link #wrapperToPrimitive(Byte[], int, int, byte[], int)}
+	 */
+	public static final byte[] wrapperToPrimitive(Byte[] srcAry) {
+		return wrapperToPrimitive(srcAry, 0, srcAry.length, new byte[srcAry.length], 0);
+	}
+
+
+	/**
+	 * @param srcAry the source primitive wrapper type array
+	 * @param srcOff the source index offset at which to start copying elements
+	 * @param srcLen the number of source elements to copy
+	 * @param dst the destination primitive type array to store the elements in
+	 * @param dstOff the offset into the destination array at which to start storing the copied elements
+	 * @return the {@code dst} array
+	 */
+	public static final byte[] wrapperToPrimitive(Byte[] srcAry, int srcOff, int srcLen, byte[] dst, int dstOff) {
+		for(int i = 0; i < srcLen; i++) {
+			dst[dstOff + i] = srcAry[srcOff + i];
+		}
+		return dst;
 	}
 
 
@@ -625,7 +715,6 @@ public final class ArrayUtil {
 	}
 
 
-
 	/** Create a string of values from a sub-array
 	 * @param ary the array
 	 * @param off the offset into {@code ary} at which to converting elements to strings
@@ -674,8 +763,8 @@ public final class ArrayUtil {
 		}
 
 		for(int i = 0; i < len; i++) {
-			short objA = a[i];
-			short objB = b[i];
+			short objA = a[offA + i];
+			short objB = b[offB + i];
 			if(objA != objB) {
 				return false;
 			}
@@ -742,6 +831,52 @@ public final class ArrayUtil {
 		if(off + len > ary.length) {
 			throw new ArrayIndexOutOfBoundsException("array size=" + ary.length + ", off=" + off + ", len=" + len);
 		}
+	}
+
+
+	/** Alias for {@link #primitiveToWrapper(short[], int, int, Short[], int)}
+	 */
+	public static final Short[] primitiveToWrapper(short[] srcAry) {
+		return primitiveToWrapper(srcAry, 0, srcAry.length, new Short[srcAry.length], 0);
+	}
+
+
+	/**
+	 * @param srcAry the source primitive type array
+	 * @param srcOff the source index offset at which to start copying elements
+	 * @param srcLen the number of source elements to copy
+	 * @param dst the destination primitive wrapper type array to store the elements in
+	 * @param dstOff the offset into the destination array at which to start storing the copied elements
+	 * @return the {@code dst} array
+	 */
+	public static final Short[] primitiveToWrapper(short[] srcAry, int srcOff, int srcLen, Short[] dst, int dstOff) {
+		for(int i = 0; i < srcLen; i++) {
+			dst[dstOff + i] = srcAry[srcOff + i];
+		}
+		return dst;
+	}
+
+
+	/** Alias for {@link #wrapperToPrimitive(Short[], int, int, short[], int)}
+	 */
+	public static final short[] wrapperToPrimitive(Short[] srcAry) {
+		return wrapperToPrimitive(srcAry, 0, srcAry.length, new short[srcAry.length], 0);
+	}
+
+
+	/**
+	 * @param srcAry the source primitive wrapper type array
+	 * @param srcOff the source index offset at which to start copying elements
+	 * @param srcLen the number of source elements to copy
+	 * @param dst the destination primitive type array to store the elements in
+	 * @param dstOff the offset into the destination array at which to start storing the copied elements
+	 * @return the {@code dst} array
+	 */
+	public static final short[] wrapperToPrimitive(Short[] srcAry, int srcOff, int srcLen, short[] dst, int dstOff) {
+		for(int i = 0; i < srcLen; i++) {
+			dst[dstOff + i] = srcAry[srcOff + i];
+		}
+		return dst;
 	}
 
 
@@ -933,7 +1068,6 @@ public final class ArrayUtil {
 	}
 
 
-
 	/** Create a string of values from a sub-array
 	 * @param ary the array
 	 * @param off the offset into {@code ary} at which to converting elements to strings
@@ -982,8 +1116,8 @@ public final class ArrayUtil {
 		}
 
 		for(int i = 0; i < len; i++) {
-			char objA = a[i];
-			char objB = b[i];
+			char objA = a[offA + i];
+			char objB = b[offB + i];
 			if(objA != objB) {
 				return false;
 			}
@@ -1050,6 +1184,52 @@ public final class ArrayUtil {
 		if(off + len > ary.length) {
 			throw new ArrayIndexOutOfBoundsException("array size=" + ary.length + ", off=" + off + ", len=" + len);
 		}
+	}
+
+
+	/** Alias for {@link #primitiveToWrapper(char[], int, int, Character[], int)}
+	 */
+	public static final Character[] primitiveToWrapper(char[] srcAry) {
+		return primitiveToWrapper(srcAry, 0, srcAry.length, new Character[srcAry.length], 0);
+	}
+
+
+	/**
+	 * @param srcAry the source primitive type array
+	 * @param srcOff the source index offset at which to start copying elements
+	 * @param srcLen the number of source elements to copy
+	 * @param dst the destination primitive wrapper type array to store the elements in
+	 * @param dstOff the offset into the destination array at which to start storing the copied elements
+	 * @return the {@code dst} array
+	 */
+	public static final Character[] primitiveToWrapper(char[] srcAry, int srcOff, int srcLen, Character[] dst, int dstOff) {
+		for(int i = 0; i < srcLen; i++) {
+			dst[dstOff + i] = srcAry[srcOff + i];
+		}
+		return dst;
+	}
+
+
+	/** Alias for {@link #wrapperToPrimitive(Character[], int, int, char[], int)}
+	 */
+	public static final char[] wrapperToPrimitive(Character[] srcAry) {
+		return wrapperToPrimitive(srcAry, 0, srcAry.length, new char[srcAry.length], 0);
+	}
+
+
+	/**
+	 * @param srcAry the source primitive wrapper type array
+	 * @param srcOff the source index offset at which to start copying elements
+	 * @param srcLen the number of source elements to copy
+	 * @param dst the destination primitive type array to store the elements in
+	 * @param dstOff the offset into the destination array at which to start storing the copied elements
+	 * @return the {@code dst} array
+	 */
+	public static final char[] wrapperToPrimitive(Character[] srcAry, int srcOff, int srcLen, char[] dst, int dstOff) {
+		for(int i = 0; i < srcLen; i++) {
+			dst[dstOff + i] = srcAry[srcOff + i];
+		}
+		return dst;
 	}
 
 
@@ -1241,7 +1421,6 @@ public final class ArrayUtil {
 	}
 
 
-
 	/** Create a string of values from a sub-array
 	 * @param ary the array
 	 * @param off the offset into {@code ary} at which to converting elements to strings
@@ -1290,8 +1469,8 @@ public final class ArrayUtil {
 		}
 
 		for(int i = 0; i < len; i++) {
-			int objA = a[i];
-			int objB = b[i];
+			int objA = a[offA + i];
+			int objB = b[offB + i];
 			if(objA != objB) {
 				return false;
 			}
@@ -1358,6 +1537,52 @@ public final class ArrayUtil {
 		if(off + len > ary.length) {
 			throw new ArrayIndexOutOfBoundsException("array size=" + ary.length + ", off=" + off + ", len=" + len);
 		}
+	}
+
+
+	/** Alias for {@link #primitiveToWrapper(int[], int, int, Integer[], int)}
+	 */
+	public static final Integer[] primitiveToWrapper(int[] srcAry) {
+		return primitiveToWrapper(srcAry, 0, srcAry.length, new Integer[srcAry.length], 0);
+	}
+
+
+	/**
+	 * @param srcAry the source primitive type array
+	 * @param srcOff the source index offset at which to start copying elements
+	 * @param srcLen the number of source elements to copy
+	 * @param dst the destination primitive wrapper type array to store the elements in
+	 * @param dstOff the offset into the destination array at which to start storing the copied elements
+	 * @return the {@code dst} array
+	 */
+	public static final Integer[] primitiveToWrapper(int[] srcAry, int srcOff, int srcLen, Integer[] dst, int dstOff) {
+		for(int i = 0; i < srcLen; i++) {
+			dst[dstOff + i] = srcAry[srcOff + i];
+		}
+		return dst;
+	}
+
+
+	/** Alias for {@link #wrapperToPrimitive(Integer[], int, int, int[], int)}
+	 */
+	public static final int[] wrapperToPrimitive(Integer[] srcAry) {
+		return wrapperToPrimitive(srcAry, 0, srcAry.length, new int[srcAry.length], 0);
+	}
+
+
+	/**
+	 * @param srcAry the source primitive wrapper type array
+	 * @param srcOff the source index offset at which to start copying elements
+	 * @param srcLen the number of source elements to copy
+	 * @param dst the destination primitive type array to store the elements in
+	 * @param dstOff the offset into the destination array at which to start storing the copied elements
+	 * @return the {@code dst} array
+	 */
+	public static final int[] wrapperToPrimitive(Integer[] srcAry, int srcOff, int srcLen, int[] dst, int dstOff) {
+		for(int i = 0; i < srcLen; i++) {
+			dst[dstOff + i] = srcAry[srcOff + i];
+		}
+		return dst;
 	}
 
 
@@ -1549,7 +1774,6 @@ public final class ArrayUtil {
 	}
 
 
-
 	/** Create a string of values from a sub-array
 	 * @param ary the array
 	 * @param off the offset into {@code ary} at which to converting elements to strings
@@ -1598,8 +1822,8 @@ public final class ArrayUtil {
 		}
 
 		for(int i = 0; i < len; i++) {
-			long objA = a[i];
-			long objB = b[i];
+			long objA = a[offA + i];
+			long objB = b[offB + i];
 			if(objA != objB) {
 				return false;
 			}
@@ -1666,6 +1890,52 @@ public final class ArrayUtil {
 		if(off + len > ary.length) {
 			throw new ArrayIndexOutOfBoundsException("array size=" + ary.length + ", off=" + off + ", len=" + len);
 		}
+	}
+
+
+	/** Alias for {@link #primitiveToWrapper(long[], int, int, Long[], int)}
+	 */
+	public static final Long[] primitiveToWrapper(long[] srcAry) {
+		return primitiveToWrapper(srcAry, 0, srcAry.length, new Long[srcAry.length], 0);
+	}
+
+
+	/**
+	 * @param srcAry the source primitive type array
+	 * @param srcOff the source index offset at which to start copying elements
+	 * @param srcLen the number of source elements to copy
+	 * @param dst the destination primitive wrapper type array to store the elements in
+	 * @param dstOff the offset into the destination array at which to start storing the copied elements
+	 * @return the {@code dst} array
+	 */
+	public static final Long[] primitiveToWrapper(long[] srcAry, int srcOff, int srcLen, Long[] dst, int dstOff) {
+		for(int i = 0; i < srcLen; i++) {
+			dst[dstOff + i] = srcAry[srcOff + i];
+		}
+		return dst;
+	}
+
+
+	/** Alias for {@link #wrapperToPrimitive(Long[], int, int, long[], int)}
+	 */
+	public static final long[] wrapperToPrimitive(Long[] srcAry) {
+		return wrapperToPrimitive(srcAry, 0, srcAry.length, new long[srcAry.length], 0);
+	}
+
+
+	/**
+	 * @param srcAry the source primitive wrapper type array
+	 * @param srcOff the source index offset at which to start copying elements
+	 * @param srcLen the number of source elements to copy
+	 * @param dst the destination primitive type array to store the elements in
+	 * @param dstOff the offset into the destination array at which to start storing the copied elements
+	 * @return the {@code dst} array
+	 */
+	public static final long[] wrapperToPrimitive(Long[] srcAry, int srcOff, int srcLen, long[] dst, int dstOff) {
+		for(int i = 0; i < srcLen; i++) {
+			dst[dstOff + i] = srcAry[srcOff + i];
+		}
+		return dst;
 	}
 
 
@@ -1857,7 +2127,6 @@ public final class ArrayUtil {
 	}
 
 
-
 	/** Create a string of values from a sub-array
 	 * @param ary the array
 	 * @param off the offset into {@code ary} at which to converting elements to strings
@@ -1906,8 +2175,8 @@ public final class ArrayUtil {
 		}
 
 		for(int i = 0; i < len; i++) {
-			float objA = a[i];
-			float objB = b[i];
+			float objA = a[offA + i];
+			float objB = b[offB + i];
 			if(objA != objB) {
 				return false;
 			}
@@ -1974,6 +2243,52 @@ public final class ArrayUtil {
 		if(off + len > ary.length) {
 			throw new ArrayIndexOutOfBoundsException("array size=" + ary.length + ", off=" + off + ", len=" + len);
 		}
+	}
+
+
+	/** Alias for {@link #primitiveToWrapper(float[], int, int, Float[], int)}
+	 */
+	public static final Float[] primitiveToWrapper(float[] srcAry) {
+		return primitiveToWrapper(srcAry, 0, srcAry.length, new Float[srcAry.length], 0);
+	}
+
+
+	/**
+	 * @param srcAry the source primitive type array
+	 * @param srcOff the source index offset at which to start copying elements
+	 * @param srcLen the number of source elements to copy
+	 * @param dst the destination primitive wrapper type array to store the elements in
+	 * @param dstOff the offset into the destination array at which to start storing the copied elements
+	 * @return the {@code dst} array
+	 */
+	public static final Float[] primitiveToWrapper(float[] srcAry, int srcOff, int srcLen, Float[] dst, int dstOff) {
+		for(int i = 0; i < srcLen; i++) {
+			dst[dstOff + i] = srcAry[srcOff + i];
+		}
+		return dst;
+	}
+
+
+	/** Alias for {@link #wrapperToPrimitive(Float[], int, int, float[], int)}
+	 */
+	public static final float[] wrapperToPrimitive(Float[] srcAry) {
+		return wrapperToPrimitive(srcAry, 0, srcAry.length, new float[srcAry.length], 0);
+	}
+
+
+	/**
+	 * @param srcAry the source primitive wrapper type array
+	 * @param srcOff the source index offset at which to start copying elements
+	 * @param srcLen the number of source elements to copy
+	 * @param dst the destination primitive type array to store the elements in
+	 * @param dstOff the offset into the destination array at which to start storing the copied elements
+	 * @return the {@code dst} array
+	 */
+	public static final float[] wrapperToPrimitive(Float[] srcAry, int srcOff, int srcLen, float[] dst, int dstOff) {
+		for(int i = 0; i < srcLen; i++) {
+			dst[dstOff + i] = srcAry[srcOff + i];
+		}
+		return dst;
 	}
 
 
@@ -2165,7 +2480,6 @@ public final class ArrayUtil {
 	}
 
 
-
 	/** Create a string of values from a sub-array
 	 * @param ary the array
 	 * @param off the offset into {@code ary} at which to converting elements to strings
@@ -2214,8 +2528,8 @@ public final class ArrayUtil {
 		}
 
 		for(int i = 0; i < len; i++) {
-			double objA = a[i];
-			double objB = b[i];
+			double objA = a[offA + i];
+			double objB = b[offB + i];
 			if(objA != objB) {
 				return false;
 			}
@@ -2282,6 +2596,52 @@ public final class ArrayUtil {
 		if(off + len > ary.length) {
 			throw new ArrayIndexOutOfBoundsException("array size=" + ary.length + ", off=" + off + ", len=" + len);
 		}
+	}
+
+
+	/** Alias for {@link #primitiveToWrapper(double[], int, int, Double[], int)}
+	 */
+	public static final Double[] primitiveToWrapper(double[] srcAry) {
+		return primitiveToWrapper(srcAry, 0, srcAry.length, new Double[srcAry.length], 0);
+	}
+
+
+	/**
+	 * @param srcAry the source primitive type array
+	 * @param srcOff the source index offset at which to start copying elements
+	 * @param srcLen the number of source elements to copy
+	 * @param dst the destination primitive wrapper type array to store the elements in
+	 * @param dstOff the offset into the destination array at which to start storing the copied elements
+	 * @return the {@code dst} array
+	 */
+	public static final Double[] primitiveToWrapper(double[] srcAry, int srcOff, int srcLen, Double[] dst, int dstOff) {
+		for(int i = 0; i < srcLen; i++) {
+			dst[dstOff + i] = srcAry[srcOff + i];
+		}
+		return dst;
+	}
+
+
+	/** Alias for {@link #wrapperToPrimitive(Double[], int, int, double[], int)}
+	 */
+	public static final double[] wrapperToPrimitive(Double[] srcAry) {
+		return wrapperToPrimitive(srcAry, 0, srcAry.length, new double[srcAry.length], 0);
+	}
+
+
+	/**
+	 * @param srcAry the source primitive wrapper type array
+	 * @param srcOff the source index offset at which to start copying elements
+	 * @param srcLen the number of source elements to copy
+	 * @param dst the destination primitive type array to store the elements in
+	 * @param dstOff the offset into the destination array at which to start storing the copied elements
+	 * @return the {@code dst} array
+	 */
+	public static final double[] wrapperToPrimitive(Double[] srcAry, int srcOff, int srcLen, double[] dst, int dstOff) {
+		for(int i = 0; i < srcLen; i++) {
+			dst[dstOff + i] = srcAry[srcOff + i];
+		}
+		return dst;
 	}
 
 
@@ -2474,7 +2834,6 @@ public final class ArrayUtil {
 	}
 
 
-
 	/** Create a string of values from a sub-array
 	 * @param ary the array
 	 * @param off the offset into {@code ary} at which to converting elements to strings
@@ -2523,8 +2882,8 @@ public final class ArrayUtil {
 		}
 
 		for(int i = 0; i < len; i++) {
-			T objA = a[i];
-			T objB = b[i];
+			T objA = a[offA + i];
+			T objB = b[offB + i];
 			if(!(objA == null ? objB == null : objA.equals(objB))) {
 				return false;
 			}
@@ -2708,5 +3067,81 @@ public final class ArrayUtil {
 		}
 	}
 	// end XOR
+
+
+
+
+	public static final class Generic {
+
+		/** Convert a primitive or object array to a string based on the array's component type
+		 * @param ary the array to {@code toString()}, null returns {@code "null"}
+		 * @return the string representation of {@code ary}
+		 * @see Arrays#toString
+		 */
+		public static final String toString(Object ary) {
+			Class<?> aryClazz = null;
+			if(ary != null && (aryClazz = ary.getClass()).isArray()) {
+				Class<?> componentType = aryClazz.getComponentType();
+				if(componentType == Boolean.TYPE) { return Arrays.toString((boolean[])ary); }
+				else if(componentType == Character.TYPE) { return Arrays.toString((char[])ary); }
+				else if(componentType == Byte.TYPE) { return Arrays.toString((byte[])ary); }
+				else if(componentType == Short.TYPE) { return Arrays.toString((short[])ary); }
+				else if(componentType == Integer.TYPE) { return Arrays.toString((int[])ary); }
+				else if(componentType == Long.TYPE) { return Arrays.toString((long[])ary); }
+				else if(componentType == Float.TYPE) { return Arrays.toString((float[])ary); }
+				else if(componentType == Double.TYPE) { return Arrays.toString((double[])ary); }
+				return Arrays.toString((Object[])ary);
+			}
+			return ary != null ? ary.toString() : "null";
+		}
+
+
+		/** Check if two arrays are equal based on the each array's component type.
+		 * Note: only equal component types are compared, i.e. an array of ints and an array of bytes always return false even thought they could contain equivalent data
+		 * @param ary1 the first array to compare, nullable
+		 * @param ary2 the second array to compare, nullable
+		 * @return the true if the arrays are equal, false if not
+		 * @see ArrayUtil#equals
+		 */
+		public static final boolean equals(Object ary1, int off1, Object ary2, int off2, int length) {
+			if(ary1 == null || ary2 == null) { return false; }
+			Class<?> cls1 = ary1.getClass();
+			Class<?> cls2 = ary2.getClass();
+			if(!cls1.isArray() || !cls2.isArray()) { return false; }
+
+			Class<?> componentType = cls1.getComponentType();
+			// we don't try to compare arrays that don't have the same element type
+			if(componentType != cls2.getComponentType()) { return false; }
+
+			if(componentType == Boolean.TYPE) {
+				return ArrayUtil.equals((boolean[])ary1, off1, (boolean[])ary2, off2, length);
+			}
+			else if(componentType == Character.TYPE) {
+				return ArrayUtil.equals((char[])ary1, off1, (char[])ary2, off2, length);
+			}
+			else if(componentType == Byte.TYPE) {
+				return ArrayUtil.equals((byte[])ary1, off1, (byte[])ary2, off2, length);
+			}
+			else if(componentType == Short.TYPE) {
+				return ArrayUtil.equals((short[])ary1, off1, (short[])ary2, off2, length);
+			}
+			else if(componentType == Integer.TYPE) {
+				return ArrayUtil.equals((int[])ary1, off1, (int[])ary2, off2, length);
+			}
+			else if(componentType == Long.TYPE) {
+				return ArrayUtil.equals((long[])ary1, off1, (long[])ary2, off2, length);
+			}
+			else if(componentType == Float.TYPE) {
+				return ArrayUtil.equals((float[])ary1, off1, (float[])ary2, off2, length);
+			}
+			else if(componentType == Double.TYPE) {
+				return ArrayUtil.equals((double[])ary1, off1, (double[])ary2, off2, length);
+			}
+			else {
+				return ArrayUtil.equals((Object[])ary1, off1, (Object[])ary2, off2, length);
+			}
+		}
+
+	}
 
 }
