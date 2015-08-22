@@ -3,6 +3,7 @@ package twg2.collections.util.dataStructures;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -22,13 +23,65 @@ public class PairList<K, V> implements RandomAccessCollection<K>, PairCollection
 	private List<V> valuesIm; // Immutable copy of the values
 
 
+	/** Create a PairList with a default size of 10.
+	 */
+	public PairList() {
+		this.keys = new ArrayList<K>(); // Initialize key List
+		this.values = new ArrayList<V>(); // Initialize values List
+		this.keysIm = Collections.unmodifiableList(this.keys);
+		this.valuesIm = Collections.unmodifiableList(this.values);
+	}
+
+
+	/** Create a PairList with the given size
+	 * @param initialSize the initial size of this PairList
+	 */
+	public PairList(int initialSize) {
+		this.keys = new ArrayList<K>(initialSize); // Initialize key List
+		this.values = new ArrayList<V>(initialSize); // Initialize values List
+		this.keysIm = Collections.unmodifiableList(this.keys);
+		this.valuesIm = Collections.unmodifiableList(this.values);
+	}
+
+
 	/** Create a pair list from a {@link Map} of keys and values.
 	 * Note: changes to the map are not reflected in this pair list
 	 * @param keyValues the map of keys and values to put in this pair list
 	 */
 	public PairList(Map<? extends K, ? extends V> keyValues) {
+		this(keyValues.entrySet());
+	}
+
+
+	/** Create a pair list from a {@link Map} of keys and values.
+	 * Note: changes to the map are not reflected in this pair list
+	 * @param keyValues the map of keys and values to put in this pair list
+	 */
+	public PairList(Collection<? extends Map.Entry<? extends K, ? extends V>> keyValues) {
+		this(keyValues.size());
+		for(Map.Entry<? extends K, ? extends V> entry : keyValues) {
+			this.keys.add(entry.getKey());
+			this.values.add(entry.getValue());
+		}
+	}
+
+
+	@SafeVarargs
+	public PairList(Map.Entry<? extends K, ? extends V>... entries) {
+		for(Map.Entry<? extends K, ? extends V> entry : entries) {
+			this.keys.add(entry.getKey());
+			this.values.add(entry.getValue());
+		}
+	}
+
+
+	/** Create a pair list from a {@link Map} of keys and values.
+	 * Note: changes to the map are not reflected in this pair list
+	 * @param keyValues the map of keys and values to put in this pair list
+	 */
+	public PairList(Iterable<? extends Map.Entry<? extends K, ? extends V>> keyValues) {
 		this();
-		for(Map.Entry<? extends K, ? extends V> entry : keyValues.entrySet()) {
+		for(Map.Entry<? extends K, ? extends V> entry : keyValues) {
 			this.keys.add(entry.getKey());
 			this.values.add(entry.getValue());
 		}
@@ -47,31 +100,84 @@ public class PairList<K, V> implements RandomAccessCollection<K>, PairCollection
 			throw new IllegalArgumentException("the number of keys (" + (keys != null ? keys.size() : "null") + ") " +
 					"does not equal the number of values (" + (values != null ? values.size() : "null"));
 		}
-		for(K key : keys) {
-			this.keys.add(key);
-		}
-		for(V val : values) {
-			this.values.add(val);
+		Iterator<? extends K> keyIter = keys.iterator();
+		Iterator<? extends V> valIter = values.iterator();
+		while(keyIter.hasNext()) {
+			K key = keyIter.next();
+			V value = valIter.next();
+			add(key, value);
 		}
 	}
 
 
-	/** Create a PairList with a default size of 10.
-	 */
-	public PairList() {
-		this.keys = new ArrayList<K>(); // Initialize key List
-		this.values = new ArrayList<V>(); // Initialize values List
-		this.keysIm = Collections.unmodifiableList(this.keys);
-		this.valuesIm = Collections.unmodifiableList(this.values);
-	}
-
-
-	/** clear, removes all key-value pairs from this instance
+	/** get, returns the value matching the first occurrence of the specified key
+	 * @param key key who's corresponding value is to be returned
+	 * @return the value which matches the 'key' parameter, returns null if the key does not exist
 	 */
 	@Override
-	public void clear() {
-		keys.clear();
-		values.clear();
+	public V get(K key) {
+		if(keys.indexOf(key) < 0) {
+			return null;
+		}
+		else {
+			return values.get( keys.indexOf(key) );
+		}
+	}
+
+
+	/** returns the key corresponding to the index given,
+	 * same as {@link #getKey(int)} for compatibility with {@link RandomAccessCollection}.
+	 * @param index the index of the key to be returned
+	 * @return the key found at the specified index
+	 */
+	@Override
+	public K get(int index) {
+		return getKey(index);
+	}
+
+
+	/** getKey, returns the key corresponding to the index given
+	 * @param index the index of the key to be returned
+	 * @return the key found at the specified index
+	 */
+	@Override
+	public K getKey(int index) {
+		if(index < 0 || index > this.size()-1) {
+			throw new IndexOutOfBoundsException(Integer.toString(index));
+		}
+		else {
+			return keys.get(index);
+		}
+	}
+
+
+	/** getValue, returns the value corresponding to the index given
+	 * @param index the index of the value to be returned
+	 * @return the value found at the specified index
+	 */
+	@Override
+	public V getValue(int index) {
+		if(index < 0 || index > this.size()-1) {
+			throw new IndexOutOfBoundsException(Integer.toString(index));
+		}
+		else {
+			return values.get(index);
+		}
+	}
+
+
+	/** indexOf, returns the index of the specified key
+	 * @param key the key who's index is to be returned
+	 * @return the index where the specified key was found, or -1 if the key cannot be found
+	 */
+	public int indexOf(K key) {
+		int index = keys.indexOf(key);
+		if(index > 0) {
+			return index;
+		}
+		else {
+			return -1;
+		}
 	}
 
 
@@ -98,75 +204,6 @@ public class PairList<K, V> implements RandomAccessCollection<K>, PairCollection
 			return true;
 		}
 		return false;
-	}
-
-
-	/** get, returns the value matching the first occurrence of the specified key
-	 * @param key key who's corresponding value is to be returned
-	 * @return the value which matches the 'key' parameter, returns null if the key does not exist
-	 */
-	@Override
-	public V get(K key) {
-		if(keys.indexOf(key) < 0) {
-			return null;
-		}
-		else {
-			return values.get( keys.indexOf(key) );
-		}
-	}
-
-
-	/** indexOf, returns the index of the specified key
-	 * @param key the key who's index is to be returned
-	 * @return the index where the specified key was found, or -1 if the key cannot be found
-	 */
-	public int indexOf(K key) {
-		int index = keys.indexOf(key);
-		if(index > 0) {
-			return index;
-		}
-		else {
-			return -1;
-		}
-	}
-
-
-	/** returns the key corresponding to the index given,
-	 * same as {@link #getKey(int)} for compatibility with {@link RandomAccessCollection}.
-	 * @param index the index of the key to be returned
-	 * @return the key found at the specified index
-	 */
-	@Override
-	public K get(int index) {
-		return getKey(index);
-	}
-
-
-	/** getKey, returns the key corresponding to the index given
-	 * @param index the index of the key to be returned
-	 * @return the key found at the specified index
-	 */
-	public K getKey(int index) {
-		if(index < 0 || index > this.size()-1) {
-			throw new IndexOutOfBoundsException(Integer.toString(index));
-		}
-		else {
-			return keys.get(index);
-		}
-	}
-
-
-	/** getValue, returns the value corresponding to the index given
-	 * @param index the index of the value to be returned
-	 * @return the value found at the specified index
-	 */
-	public V getValue(int index) {
-		if(index < 0 || index > this.size()-1) {
-			throw new IndexOutOfBoundsException(Integer.toString(index));
-		}
-		else {
-			return values.get(index);
-		}
 	}
 
 
@@ -230,14 +267,14 @@ public class PairList<K, V> implements RandomAccessCollection<K>, PairCollection
 
 
 	@Override
-	public V put(Map.Entry<K, V> keyValue) {
+	public V put(Map.Entry<? extends K, ? extends V> keyValue) {
 		put(keyValue.getKey(), keyValue.getValue());
 		return null;
 	}
 
 
 	@Override
-	public void add(Map.Entry<K, V> keyValue) {
+	public void add(Map.Entry<? extends K, ? extends V> keyValue) {
 		add(keyValue.getKey(), keyValue.getValue());
 	}
 	
@@ -291,6 +328,15 @@ public class PairList<K, V> implements RandomAccessCollection<K>, PairCollection
 	public void removeIndex(int index) {
 		values.remove(index);
 		keys.remove(index);
+	}
+
+
+	/** clear, removes all key-value pairs from this instance
+	 */
+	@Override
+	public void clear() {
+		keys.clear();
+		values.clear();
 	}
 
 

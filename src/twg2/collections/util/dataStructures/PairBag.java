@@ -42,6 +42,76 @@ public class PairBag<K, V> implements PairCollection<K, V>, IndexedMap<K, V>, It
 	}
 
 
+	/** Create an unsorted group of items with the specified size as the starting size
+	 * @param capacity the initial size of the group of items
+	 */
+	public PairBag(int capacity) {
+		this.keys = new Object[capacity];
+		this.values = new Object[capacity];
+		this.size = 0;
+	}
+
+
+	/** Create a pair list from a {@link Map} of keys and values.
+	 * Note: changes to the map are not reflected in this pair list
+	 * @param keyValues the map of keys and values to put in this pair list
+	 */
+	public PairBag(Map<? extends K, ? extends V> keyValues) {
+		this(keyValues.entrySet());
+	}
+
+
+	public PairBag(Collection<? extends Map.Entry<? extends K, ? extends V>> keyValues) {
+		this(keyValues.size());
+		for(Map.Entry<? extends K, ? extends V> entry : keyValues) {
+			this.add(entry);
+		}
+	}
+
+
+	@SafeVarargs
+	public PairBag(Map.Entry<K, V>...entries) {
+		this(entries.length);
+		for(Map.Entry<K, V> entry : entries) {
+			this.add(entry);
+		}
+	}
+
+
+	/** Create a pair list from a {@link Map} of keys and values.
+	 * Note: changes to the map are not reflected in this pair list
+	 * @param keyValues the map of keys and values to put in this pair list
+	 */
+	public PairBag(Iterable<? extends Map.Entry<? extends K, ? extends V>> keyValues) {
+		this();
+		for(Map.Entry<? extends K, ? extends V> entry : keyValues) {
+			this.add(entry);
+		}
+	}
+
+
+	/** Create a pair list from two collections of keys and values.
+	 * Both collections must be the same size.
+	 * Note: changes to the collection are not reflected in this pair list
+	 * @param keys the keys to put in this pair list
+	 * @param values the values to put in this pair list
+	 */
+	public PairBag(Collection<? extends K> keys, Collection<? extends V> values) {
+		this();
+		if(keys == null || values == null || keys.size() != values.size()) {
+			throw new IllegalArgumentException("the number of keys (" + (keys != null ? keys.size() : "null") + ") " +
+					"does not equal the number of values (" + (values != null ? values.size() : "null"));
+		}
+		Iterator<? extends K> keyIter = keys.iterator();
+		Iterator<? extends V> valIter = values.iterator();
+		while(keyIter.hasNext()) {
+			K key = keyIter.next();
+			V value = valIter.next();
+			add(key, value);
+		}
+	}
+
+
 	/** Bad lock checking mechanism that allows someone to compare a past and
 	 * current action count.  If two count values returned by this method
 	 * differ than this object has been modified between the two calls
@@ -54,25 +124,15 @@ public class PairBag<K, V> implements PairCollection<K, V>, IndexedMap<K, V>, It
 	}
 
 
-	/** Create an unsorted group of items with the specified size as the starting size
-	 * @param capacity the initial size of the group of items
-	 */
-	public PairBag(int capacity) {
-		this.keys = new Object[capacity];
-		this.values = new Object[capacity];
-		this.size = 0;
+	@Override
+	public V get(K key) {
+		return getValue(getKeyIndex(key));
 	}
 
 
 	@Override
 	public K get(int index) {
 		return getKey(index);
-	}
-
-
-	@Override
-	public V get(K key) {
-		return getValue(getKeyIndex(key));
 	}
 
 
@@ -197,6 +257,86 @@ public class PairBag<K, V> implements PairCollection<K, V>, IndexedMap<K, V>, It
 	}
 
 
+	public void setKeyValue(int index, K key, V value) {
+		action++;
+		keys[index] = key;
+		values[index] = value;
+	}
+
+
+	@Override
+	public V put(K key, V value) {
+		int index = getKeyIndex(key);
+		if(index > -1) {
+			V v = getValue(index);
+			setKeyValue(index, key, value);
+			return v;
+		}
+		else {
+			add(key, value);
+			return null;
+		}
+	}
+
+
+	/** Add the specified key value pair to this group of elements
+	 * @param key the key to add to this group of elements
+	 * @param value the value to associate with the key being added
+	 */
+	@Override
+	public void add(K key, V value) {
+		action++;
+		// If the bag is to small, expand it
+		if(size >= keys.length) {
+			expandBag();
+		}
+		// Add the new item
+		keys[size] = key;
+		values[size] = value;
+		size++;
+	}
+
+
+	@Override
+	public V put(Map.Entry<? extends K, ? extends V> keyValue) {
+		put(keyValue.getKey(), keyValue.getValue());
+		return null;
+	}
+
+
+	@Override
+	public void add(Map.Entry<? extends K, ? extends V> keyValue) {
+		add(keyValue.getKey(), keyValue.getValue());
+	}
+
+
+	@Override
+	public void putAll(Map<? extends K, ? extends V> mapPairs) {
+		for(Map.Entry<? extends K, ? extends V> entry : mapPairs.entrySet()) {
+			add(entry.getKey(), entry.getValue());
+		}
+	}
+
+
+	@Override
+	public void putAll(PairCollection<? extends K, ? extends V> listPairs) {
+		List<? extends V> values = listPairs.valueList();
+		// avoid creating iterator if the list is random access
+		if(values instanceof RandomAccess) {
+			for(int i = 0, size = listPairs.size(); i < size; i++) {
+				add(listPairs.get(i), values.get(i));
+			}
+		}
+		else {
+			int i = 0;
+			for(V v : values) {
+				add(listPairs.get(i), v);
+				i++;
+			}
+		}
+	}
+
+
 	/** Remove the key value pair at the specified index from this group of elements
 	 * @param index the index between zero and {@link #size()}-1 inclusive to remove
 	 * @return the key removed from the specified index
@@ -285,86 +425,6 @@ public class PairBag<K, V> implements PairCollection<K, V>, IndexedMap<K, V>, It
 			}
 		}
 		return null;
-	}
-
-
-	public void setKeyValue(int index, K key, V value) {
-		action++;
-		keys[index] = key;
-		values[index] = value;
-	}
-
-
-	@Override
-	public V put(K key, V value) {
-		int index = getKeyIndex(key);
-		if(index > -1) {
-			V v = getValue(index);
-			setKeyValue(index, key, value);
-			return v;
-		}
-		else {
-			add(key, value);
-			return null;
-		}
-	}
-
-
-	/** Add the specified key value pair to this group of elements
-	 * @param key the key to add to this group of elements
-	 * @param value the value to associate with the key being added
-	 */
-	@Override
-	public void add(K key, V value) {
-		action++;
-		// If the bag is to small, expand it
-		if(size >= keys.length) {
-			expandBag();
-		}
-		// Add the new item
-		keys[size] = key;
-		values[size] = value;
-		size++;
-	}
-
-
-	@Override
-	public V put(Map.Entry<K, V> keyValue) {
-		put(keyValue.getKey(), keyValue.getValue());
-		return null;
-	}
-
-
-	@Override
-	public void add(Map.Entry<K, V> keyValue) {
-		add(keyValue.getKey(), keyValue.getValue());
-	}
-
-
-	@Override
-	public void putAll(Map<? extends K, ? extends V> mapPairs) {
-		for(Map.Entry<? extends K, ? extends V> entry : mapPairs.entrySet()) {
-			add(entry.getKey(), entry.getValue());
-		}
-	}
-
-
-	@Override
-	public void putAll(PairCollection<? extends K, ? extends V> listPairs) {
-		List<? extends V> values = listPairs.valueList();
-		// avoid creating iterator if the list is random access
-		if(values instanceof RandomAccess) {
-			for(int i = 0, size = listPairs.size(); i < size; i++) {
-				add(listPairs.get(i), values.get(i));
-			}
-		}
-		else {
-			int i = 0;
-			for(V v : values) {
-				add(listPairs.get(i), v);
-				i++;
-			}
-		}
 	}
 
 

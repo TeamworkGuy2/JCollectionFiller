@@ -237,14 +237,14 @@ public class SortedPairList<K, V> implements RandomAccessCollection<K>, PairColl
 
 
 	@Override
-	public V put(Map.Entry<K, V> keyValue) {
+	public V put(Map.Entry<? extends K, ? extends V> keyValue) {
 		put(keyValue.getKey(), keyValue.getValue());
 		return null;
 	}
 
 
 	@Override
-	public void add(Map.Entry<K, V> keyValue) {
+	public void add(Map.Entry<? extends K, ? extends V> keyValue) {
 		add(keyValue.getKey(), keyValue.getValue());
 	}
 	
@@ -359,6 +359,12 @@ public class SortedPairList<K, V> implements RandomAccessCollection<K>, PairColl
 			insertIndex = -insertIndex - 1;
 		}
 		return insertIndex;
+	}
+
+
+	public static final <V> SortedPairList<String, V> newStringPairList() {
+		SortedPairList<String, V> pairList = new SortedPairList<>((s1, s2) -> s1.compareTo(s2));
+		return pairList;
 	}
 
 }

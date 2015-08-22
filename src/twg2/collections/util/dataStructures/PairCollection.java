@@ -30,10 +30,10 @@ public interface PairCollection<K, V> extends RandomAccessCollection<K>, PairCol
 	public void add(K key, V value);
 
 
-	public V put(Map.Entry<K, V> keyValue);
+	public V put(Map.Entry<? extends K, ? extends V> keyValue);
 
 
-	public void add(Map.Entry<K, V> keyValue);
+	public void add(Map.Entry<? extends K, ? extends V> keyValue);
 
 
 	/** putAll
