@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import twg2.collections.util.templates.ArrayInfo;
-import codeTemplate.PrimitiveTemplates;
-import codeTemplate.TemplateRender;
+import codeTemplate.primitiveTemplate.PrimitiveTemplates;
+import codeTemplate.render.TemplateRenders;
 
 /**
  * @author TeamworkGuy2
@@ -34,7 +34,7 @@ public class GenerateArrayUtils {
 				genericType
 		);
 
-		TemplateRender.renderClassTemplate("src/twg2/collections/util/templates/TArrayUtil.stg", "TArrayUtil", info);
+		TemplateRenders.renderClassTemplate("src/twg2/collections/util/templates/TArrayUtil.stg", "TArrayUtil", info);
 	}
 
 

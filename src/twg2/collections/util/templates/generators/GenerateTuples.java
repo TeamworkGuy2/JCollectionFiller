@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 import codeTemplate.ClassTemplate;
-import codeTemplate.TemplateRender;
+import codeTemplate.render.TemplateRenders;
 
 /**
  * @author TeamworkGuy2
@@ -45,7 +45,7 @@ public class GenerateTuples {
 
 		info.types = Arrays.asList(IntStream.range(startIndex, startIndex + count).mapToObj((i) -> Arrays.asList(IntStream.range(0, i).boxed().toArray((s) -> new Integer[s]))).toArray((s) -> new List[s]));
 
-		TemplateRender.renderClassTemplate("src/twg2/collections/util/templates/TTuples.stg", "TTuples", info);
+		TemplateRenders.renderClassTemplate("src/twg2/collections/util/templates/TTuples.stg", "TTuples", info);
 	}
 
 
@@ -60,7 +60,7 @@ public class GenerateTuples {
 
 		info.types = Arrays.asList(IntStream.range(0, count).boxed().toArray((s) -> new Integer[s]));
 
-		TemplateRender.renderClassTemplate("src/twg2/collections/util/templates/TTuple.stg", "TTuple", info);
+		TemplateRenders.renderClassTemplate("src/twg2/collections/util/templates/TTuple.stg", "TTuple", info);
 	}
 
 
