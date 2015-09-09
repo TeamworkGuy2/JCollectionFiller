@@ -11,6 +11,10 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.RandomAccess;
 
+import twg2.collections.interfaces.IndexedMap;
+import twg2.collections.interfaces.PairCollection;
+import twg2.collections.interfaces.RandomAccessCollection;
+
 /** Bag, a collection similar to a cross between an {@link List} and a
  * {@link Map} that maps each key to a value but does not preserve the
  * insertion order of items. 
@@ -109,6 +113,21 @@ public class PairBag<K, V> implements PairCollection<K, V>, IndexedMap<K, V>, It
 			V value = valIter.next();
 			add(key, value);
 		}
+	}
+
+
+	public PairBag<K, V> copy() {
+		PairBag<K, V> copy = new PairBag<>();
+
+		copy.keys = new Object[this.keys.length];
+		System.arraycopy(this.keys, 0, copy.keys, 0, this.keys.length);
+
+		copy.values = new Object[this.values.length];
+		System.arraycopy(this.values, 0, copy.keys, 0, this.values.length);
+
+		copy.size = this.size;
+		//copy.action = this.action;
+		return copy;
 	}
 
 

@@ -7,6 +7,7 @@ import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.List;
 
+import twg2.collections.interfaces.ModifiableCollection;
 import twg2.collections.util.arrayUtils.ArrayUtil;
 
 /** Bag, a collection similar to an {@link ArrayList} that does not preserve the insertion order of items. 
@@ -55,6 +56,13 @@ public class Bag<T> implements ModifiableCollection<T>, Iterable<T> {
 	public Bag(T[] vals, int off, int len) {
 		this.data = new Object[len];
 		this.addAll(vals, off, len);
+	}
+
+
+	public Bag<T> copy() {
+		@SuppressWarnings("unchecked")
+		Bag<T> copy = new Bag<>((T[])this.data, 0, this.size);
+		return copy;
 	}
 
 
@@ -157,7 +165,7 @@ public class Bag<T> implements ModifiableCollection<T>, Iterable<T> {
 	 * @param item the item to add to this group of elements
 	 */
 	@Override
-	public void add(T item) {
+	public boolean add(T item) {
 		// If the bag is to small, expand it
 		if(size + 1 > data.length) {
 			expandArray();
@@ -166,6 +174,7 @@ public class Bag<T> implements ModifiableCollection<T>, Iterable<T> {
 		// Add the new item
 		data[size] = item;
 		size++;
+		return true;
 	}
 
 
@@ -380,6 +389,7 @@ public class Bag<T> implements ModifiableCollection<T>, Iterable<T> {
 	/** Is this group of elements empty
 	 * @return true if this group of elements is empty, false otherwise
 	 */
+	@Override
 	public boolean isEmpty() {
 		return size == 0;
 	}

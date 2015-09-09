@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 
+import twg2.collections.interfaces.PairCollectionImmutable;
+
 /** An {@link Map} backed by key and values arrays.<br>
  * {@link ArrayMapViewHandle} provides a way to manage an {@code ArrayMapView} and replace the backing
  * array without creating a new {@code ArrayMapView}.

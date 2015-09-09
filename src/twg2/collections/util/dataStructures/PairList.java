@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import twg2.collections.interfaces.PairCollection;
+import twg2.collections.interfaces.RandomAccessCollection;
+
 /** Map implementation which allows duplicate keys and values 
  * (HashMap and LinkedHashMap do not allow duplicate keys)
  * The insertion order is the iteration order.
@@ -107,6 +110,12 @@ public class PairList<K, V> implements RandomAccessCollection<K>, PairCollection
 			V value = valIter.next();
 			add(key, value);
 		}
+	}
+
+
+	public PairList<K, V> copy() {
+		PairList<K, V> copy = new PairList<>(this.keys, this.values);
+		return copy;
 	}
 
 

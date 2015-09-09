@@ -26,6 +26,10 @@ public class GenerateTuples {
 
 
 
+	private static String tmplDir = "src/twg2/collections/util/templates/";
+	private static String pkgName = "twg2.collections.tuple";
+
+
 	public static void generateTuples() {
 		int start = 2;
 		int count = 3;
@@ -41,18 +45,18 @@ public class GenerateTuples {
 	public static void generateTuplesUtil(int startIndex, int count, String name) {
 		TuplesInfo info = new TuplesInfo();
 		info.className = name;
-		info.packageName = "tuple";
+		info.packageName = pkgName;
 
 		info.types = Arrays.asList(IntStream.range(startIndex, startIndex + count).mapToObj((i) -> Arrays.asList(IntStream.range(0, i).boxed().toArray((s) -> new Integer[s]))).toArray((s) -> new List[s]));
 
-		TemplateRenders.renderClassTemplate("src/twg2/collections/util/templates/TTuples.stg", "TTuples", info);
+		TemplateRenders.renderClassTemplate(tmplDir + "TTuples.stg", "TTuples", info);
 	}
 
 
 	public static void generateTuple(int count, String name) {
 		TupleInfo info = new TupleInfo();
 		info.className = name;
-		info.packageName = "tuple";
+		info.packageName = pkgName;
 
 		if(count == 2) {
 			info.implementClassNames = Arrays.asList("java.util.Map.Entry<A0, A1>");
@@ -60,7 +64,7 @@ public class GenerateTuples {
 
 		info.types = Arrays.asList(IntStream.range(0, count).boxed().toArray((s) -> new Integer[s]));
 
-		TemplateRenders.renderClassTemplate("src/twg2/collections/util/templates/TTuple.stg", "TTuple", info);
+		TemplateRenders.renderClassTemplate(tmplDir + "TTuple.stg", "TTuple", info);
 	}
 
 

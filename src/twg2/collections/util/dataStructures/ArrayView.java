@@ -7,6 +7,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
+import twg2.collections.interfaces.RandomAccessCollection;
+
 /** An {@link List} backed by an array.<br>
  * All modify methods, such as {@link #add(Object) add()} and {@link #remove(Object) remove()}
  * throw {@link UnsupportedOperationException} except for {@link #set(int, Object) set()}
