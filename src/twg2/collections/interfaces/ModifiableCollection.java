@@ -6,7 +6,7 @@ package twg2.collections.interfaces;
  * @author TeamworkGuy2
  * @since 2014-4-12
  */
-public interface ModifiableCollection<T> extends RandomAccessCollection<T> {
+public interface ModifiableCollection<T> extends RandomAccessCollection<T>, CollectionAdd<T> {
 
 	/** Remove the item at the specified index. Subsequent items after the inserted item
 	 * are shifted one index lower (toward 0).
@@ -34,6 +34,7 @@ public interface ModifiableCollection<T> extends RandomAccessCollection<T> {
 	 * @param item the new item to add to this collection
 	 * @throws IndexOutOfBoundsException if the index is not within the specified range
 	 */
+	@Override
 	public boolean add(T item);
 
 

@@ -28,4 +28,8 @@ public interface RandomAccessCollection<T> extends Sized, RandomAccess {
 		return this.get(this.size() - 1);
 	}
 
+
+	@Override
+	public String toString();
+
 }

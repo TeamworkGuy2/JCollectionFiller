@@ -59,6 +59,7 @@ public final class ArrayUtil {
 	}
 
 
+
 	/** Search for the last matching boolean in an array of booleans
 	 * @param ary the array of values to search
 	 * @param value the value to search for
@@ -82,6 +83,7 @@ public final class ArrayUtil {
 		}
 		return -1;
 	}
+
 
 
 	/** Return an array containing a copy of array {@code a} and {@code b}
@@ -311,6 +313,7 @@ public final class ArrayUtil {
 	}
 
 
+
 	/** Search for the last matching byte in an array of bytes
 	 * @param ary the array of values to search
 	 * @param value the value to search for
@@ -334,6 +337,7 @@ public final class ArrayUtil {
 		}
 		return -1;
 	}
+
 
 
 	/** Return an array containing a copy of array {@code a} and {@code b}
@@ -664,6 +668,7 @@ public final class ArrayUtil {
 	}
 
 
+
 	/** Search for the last matching short in an array of shorts
 	 * @param ary the array of values to search
 	 * @param value the value to search for
@@ -687,6 +692,7 @@ public final class ArrayUtil {
 		}
 		return -1;
 	}
+
 
 
 	/** Return an array containing a copy of array {@code a} and {@code b}
@@ -1017,6 +1023,7 @@ public final class ArrayUtil {
 	}
 
 
+
 	/** Search for the last matching char in an array of chars
 	 * @param ary the array of values to search
 	 * @param value the value to search for
@@ -1040,6 +1047,7 @@ public final class ArrayUtil {
 		}
 		return -1;
 	}
+
 
 
 	/** Return an array containing a copy of array {@code a} and {@code b}
@@ -1370,6 +1378,7 @@ public final class ArrayUtil {
 	}
 
 
+
 	/** Search for the last matching int in an array of ints
 	 * @param ary the array of values to search
 	 * @param value the value to search for
@@ -1393,6 +1402,7 @@ public final class ArrayUtil {
 		}
 		return -1;
 	}
+
 
 
 	/** Return an array containing a copy of array {@code a} and {@code b}
@@ -1723,6 +1733,7 @@ public final class ArrayUtil {
 	}
 
 
+
 	/** Search for the last matching long in an array of longs
 	 * @param ary the array of values to search
 	 * @param value the value to search for
@@ -1746,6 +1757,7 @@ public final class ArrayUtil {
 		}
 		return -1;
 	}
+
 
 
 	/** Return an array containing a copy of array {@code a} and {@code b}
@@ -2076,6 +2088,7 @@ public final class ArrayUtil {
 	}
 
 
+
 	/** Search for the last matching float in an array of floats
 	 * @param ary the array of values to search
 	 * @param value the value to search for
@@ -2099,6 +2112,7 @@ public final class ArrayUtil {
 		}
 		return -1;
 	}
+
 
 
 	/** Return an array containing a copy of array {@code a} and {@code b}
@@ -2429,6 +2443,7 @@ public final class ArrayUtil {
 	}
 
 
+
 	/** Search for the last matching double in an array of doubles
 	 * @param ary the array of values to search
 	 * @param value the value to search for
@@ -2452,6 +2467,7 @@ public final class ArrayUtil {
 		}
 		return -1;
 	}
+
 
 
 	/** Return an array containing a copy of array {@code a} and {@code b}
@@ -2783,6 +2799,16 @@ public final class ArrayUtil {
 	}
 
 
+	/** @see #indexOf(Object[], int, int, Object)
+	 */
+	public static final <T> int indexOfRef(T[] ary, int off, int len, T value) {
+		for(int i = off, size = off + len; i < size; i++) {
+			if(ary[i] == value) { return i; }
+		}
+		return -1;
+	}
+
+
 	/** Search for the last matching T in an array of Ts
 	 * @param ary the array of values to search
 	 * @param value the value to search for
@@ -2803,6 +2829,16 @@ public final class ArrayUtil {
 	public static final <T> int lastIndexOf(T[] ary, int off, int len, T value) {
 		for(int i = off + len - 1; i >= off; i--) {
 			if(ary[i].equals(value)) { return i; }
+		}
+		return -1;
+	}
+
+
+	/** @see #lastIndexOf(Object[], int, int, Object)
+	 */
+	public static final <T> int lastIndexOfRef(T[] ary, int off, int len, T value) {
+		for(int i = off + len - 1; i >= off; i--) {
+			if(ary[i] == value) { return i; }
 		}
 		return -1;
 	}

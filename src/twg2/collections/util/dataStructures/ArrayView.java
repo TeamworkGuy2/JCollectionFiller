@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.ListIterator;
 
 import twg2.collections.interfaces.RandomAccessCollection;
+import twg2.collections.util.arrayUtils.ArrayUtil;
 
 /** An {@link List} backed by an array.<br>
  * All modify methods, such as {@link #add(Object) add()} and {@link #remove(Object) remove()}
@@ -337,22 +338,12 @@ public final class ArrayView<E> implements List<E>, RandomAccessCollection<E> {
 	@Override
 	public String toString() {
 		int modCached = mod;
-		StringBuilder strB = new StringBuilder();
-		strB.append('[');
-		if(len > 0) {
-			int count = off + len - 1;
-			for(int i = off; i < count; i++) {
-				strB.append(objs[i]);
-				strB.append(", ");
-			}
-			strB.append(objs[count]);
-		}
-		strB.append(']');
+		String str = ArrayUtil.toString(objs, off, len);
 
 		if(modCached != mod) {
 			throw new ConcurrentModificationException();
 		}
-		return strB.toString();
+		return str;
 	}
 
 

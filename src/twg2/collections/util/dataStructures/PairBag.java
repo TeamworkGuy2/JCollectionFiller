@@ -14,6 +14,7 @@ import java.util.RandomAccess;
 import twg2.collections.interfaces.IndexedMap;
 import twg2.collections.interfaces.PairCollection;
 import twg2.collections.interfaces.RandomAccessCollection;
+import twg2.collections.util.ToStringUtil;
 
 /** Bag, a collection similar to a cross between an {@link List} and a
  * {@link Map} that maps each key to a value but does not preserve the
@@ -555,22 +556,7 @@ public class PairBag<K, V> implements PairCollection<K, V>, IndexedMap<K, V>, It
 
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder(64);
-		builder.append("[");
-		if(size > 0) {
-			int sizeTemp = size - 1;
-			for(int i = 0; i < sizeTemp; i++) {
-				builder.append(keys[i]);
-				builder.append('=');
-				builder.append(values[i]);
-				builder.append(", ");
-			}
-			builder.append(keys[sizeTemp]);
-			builder.append('=');
-			builder.append(values[sizeTemp]);
-		}
-		builder.append(']');
-
+		StringBuilder builder = ToStringUtil.toStringKeyValuePairs(this.keys, this.values, this.size, null);
 		return builder.toString();
 	}
 

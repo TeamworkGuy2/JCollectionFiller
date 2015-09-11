@@ -7,7 +7,9 @@ import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.List;
 
+import twg2.collections.interfaces.CollectionRemove;
 import twg2.collections.interfaces.ModifiableCollection;
+import twg2.collections.util.arrayUtils.ArrayManaged;
 import twg2.collections.util.arrayUtils.ArrayUtil;
 
 /** Bag, a collection similar to an {@link ArrayList} that does not preserve the insertion order of items. 
@@ -21,7 +23,7 @@ import twg2.collections.util.arrayUtils.ArrayUtil;
  * @author TeamworkGuy2
  * @since 2013-1-20
  */
-public class Bag<T> implements ModifiableCollection<T>, Iterable<T> {
+public class Bag<T> implements ModifiableCollection<T>, CollectionRemove<T>, Iterable<T> {
 	private Object[] data;
 	/** The highest currently empty index to insert new items into,
 	 * also equivalent to the zero based size of this bag */
@@ -84,7 +86,7 @@ public class Bag<T> implements ModifiableCollection<T>, Iterable<T> {
 	 */
 	@Override
 	public T get(int index) {
-		if(index >= size) { throw new IndexOutOfBoundsException(); }
+		if(index >= size) { throw new IndexOutOfBoundsException(index + " of [0, " + size + "]"); }
 		@SuppressWarnings("unchecked")
 		T item = (T)data[index];
 		return item;
@@ -94,7 +96,7 @@ public class Bag<T> implements ModifiableCollection<T>, Iterable<T> {
 	@Override
 	public T getLast() {
 		@SuppressWarnings("unchecked")
-		T item = (T)data[size - 1];
+		T item = (T)data[size - 1]; // let java throw out of bounds exception if bag is empty and index is -1
 		return item;
 	}
 
@@ -105,7 +107,7 @@ public class Bag<T> implements ModifiableCollection<T>, Iterable<T> {
 	 */
 	@Override
 	public T remove(int index) {
-		if(index >= size) { throw new IndexOutOfBoundsException(); }
+		if(index >= size) { throw new IndexOutOfBoundsException(index + " of [0, " + size + "]"); }
 		action++;
 		// Get the item to remove
 		@SuppressWarnings("unchecked")
@@ -125,6 +127,7 @@ public class Bag<T> implements ModifiableCollection<T>, Iterable<T> {
 	 * is not null, or get(i)==null if item is null, where i is [0, size()-1]
 	 * @return true if the element was removed successfully, false otherwise
 	 */
+	@Override
 	public boolean remove(T item) {
 		// Search for the item to remove
 		if(item != null) {
@@ -151,8 +154,18 @@ public class Bag<T> implements ModifiableCollection<T>, Iterable<T> {
 
 
 	@Override
+	public boolean removeAll(Collection<? extends T> elems) {
+		boolean res = true;
+		for(T elem : elems) {
+			res &= remove(elem);
+		}
+		return res;
+	}
+
+
+	@Override
 	public T set(int i, T item) {
-		if(i >= size) { throw new IndexOutOfBoundsException(); }
+		if(i >= size) { throw new IndexOutOfBoundsException(i + " of [0, " + size + "]"); }
 		@SuppressWarnings("unchecked")
 		T oldItem = (T)data[i];
 		data[i] = item;
@@ -168,7 +181,7 @@ public class Bag<T> implements ModifiableCollection<T>, Iterable<T> {
 	public boolean add(T item) {
 		// If the bag is to small, expand it
 		if(size + 1 > data.length) {
-			expandArray();
+			this.data = ArrayManaged.expandArray(data);
 		}
 		action++;
 		// Add the new item
@@ -188,7 +201,7 @@ public class Bag<T> implements ModifiableCollection<T>, Iterable<T> {
 
 		int itemCount = items.size();
 		if(size + itemCount > data.length) {
-			expandArray(size + itemCount);
+			this.data = ArrayManaged.expandArray(data, size + itemCount);
 		}
 		action++;
 		System.arraycopy(items.data, 0, this.data, this.size, itemCount);
@@ -199,8 +212,10 @@ public class Bag<T> implements ModifiableCollection<T>, Iterable<T> {
 	/** Add the specified item to this group of elements
 	 * @param items the items to add to this group of elements
 	 */
-	public void addAll(Collection<? extends T> items) {
+	@Override
+	public boolean addAll(Collection<? extends T> items) {
 		addAll(items, items.size());
+		return true;
 	}
 
 
@@ -214,7 +229,7 @@ public class Bag<T> implements ModifiableCollection<T>, Iterable<T> {
 		}
 
 		if(size + iteratorSize > data.length) {
-			expandArray(size + iteratorSize);
+			this.data = ArrayManaged.expandArray(data, size + iteratorSize);
 		}
 		action++;
 		for(T item : items) {
@@ -240,7 +255,7 @@ public class Bag<T> implements ModifiableCollection<T>, Iterable<T> {
 		}
 
 		if(size + len > data.length) {
-			expandArray(size + len);
+			this.data = ArrayManaged.expandArray(data, size + len);
 		}
 		action++;
 		System.arraycopy(items, off, this.data, size, len);
@@ -254,64 +269,59 @@ public class Bag<T> implements ModifiableCollection<T>, Iterable<T> {
 	 * @return true if the value was found in the list, false otherwise
 	 */
 	public boolean contains(T value) {
-		return indexOf(value) > -1;
+		return indexOf(value, 0) > -1;
 	}
 
 
 	/** Find the first occurring index of the specified value in this list
 	 * @param value the value to search for in this list
-	 * @return an index between {@code [0, }{@link #size()}{@code -1]} if the value is
+	 * @return an index between {@code [0, }{@link #size()} {@code - 1]} if the value is
 	 * found, or -1 if the value cannot be found
 	 */
 	public int indexOf(T value) {
-		// Search for the item to remove
-		for(int i = 0; i < size; i++) {
-			// If the item is found, return true
-			if((value == null && data[i] == null) || value.equals(data[i])) {
-				return i;
-			}
-		}
-		// Else if the item is not found, return false
-		return -1;
+		return indexOf(value, 0);
 	}
 
 
 	/** Find the first occurring index of the specified value in this list,
 	 * starting at the specified offset
 	 * @param value the value to search for in this list
-	 * @param fromIndex an index within the range {@code [0, }{@link #size()}{@code -1]}
-	 * at which to start searching for the {@code value}, inclusive
-	 * @return an index between {@code [0, }{@link #size()}{@code -1]} if the value is
+	 * @param fromIndex shrinks the search range to {@code [fromIndex, }{@link #size()} {@code - 1]}
+	 * @return an index between {@code [fromIndex, }{@link #size()} {@code - 1]} if the value is
 	 * found, or -1 if the value cannot be found
 	 */
 	public int indexOf(T value, int fromIndex) {
 		// Search for the item to remove
-		for(int i = fromIndex; i < size; i++) {
-			// If the item is found, return true
-			if((value == null && data[i] == null) || value.equals(data[i])) {
-				return i;
-			}
+		if(value != null) {
+			return ArrayUtil.indexOf(this.data, fromIndex, size - fromIndex, value);
 		}
-		// Else if the item is not found, return false
-		return -1;
+		else {
+			return ArrayUtil.indexOfRef(this.data, fromIndex, size - fromIndex, value);
+		}
+	}
+
+
+	/** @see #lastIndexOf(Object, int)
+	 */
+	public int lastIndexOf(T value) {
+		return lastIndexOf(value, 0);
 	}
 
 
 	/** Find the last occurring index of the specified value in this list
 	 * @param value the value to search for in this list
-	 * @return an index between {@code [0, }{@link #size()}{@code -1]} if the value is
+	 * @param fromIndex shrinks the search range to {@code [0, }{@link #size()} {@code - fromIndex - 1]}
+	 * @return an index between {@code [0, }{@link #size()} {@code - fromIndex - 1]} if the value is
 	 * found, or -1 if the value cannot be found
 	 */
-	public int lastIndexOf(T value) {
+	public int lastIndexOf(T value, int fromIndex) {
 		// Search for the item to remove
-		for(int i = size - 1; i > -1; i--) {
-			// If the item is found, return true
-			if((value == null && data[i] == null) || value.equals(data[i])) {
-				return i;
-			}
+		if(value != null) {
+			return ArrayUtil.lastIndexOf(this.data, 0, size - fromIndex, value);
 		}
-		// Else if the item is not found, return false
-		return -1;
+		else {
+			return ArrayUtil.lastIndexOfRef(this.data, 0, size - fromIndex, value);
+		}
 	}
 
 
@@ -324,7 +334,7 @@ public class Bag<T> implements ModifiableCollection<T>, Iterable<T> {
 		for(int i = 0; i < size; i++) {
 			data[i] = null;
 		}
-		// Set the size back to the beginning of the array
+		// Set the size back to empty
 		size = 0;
 	}
 
@@ -347,7 +357,7 @@ public class Bag<T> implements ModifiableCollection<T>, Iterable<T> {
 		size = itemsCount;
 
 		if(itemsCount > data.length) {
-			expandArray(itemsCount);
+			this.data = ArrayManaged.expandArray(data, itemsCount);
 		}
 
 		for(int i = 0; i < itemsCount; i++) {
@@ -370,7 +380,7 @@ public class Bag<T> implements ModifiableCollection<T>, Iterable<T> {
 		for(int i = itemsCount; i < size; i++) {
 			data[i] = null;
 		}
-		// Set the size back to the beginning of the array
+		// Set the size back to empty
 		size = 0;
 
 		this.addAll(items, 0, itemsCount);
@@ -456,35 +466,7 @@ public class Bag<T> implements ModifiableCollection<T>, Iterable<T> {
 
 	@Override
 	public String toString() {
-		StringBuilder strB = new StringBuilder();
-		strB.append('[');
-		if(size > 0) {
-			int count = size - 1;
-			for(int i = 0; i < count; i++) {
-				strB.append(data[i]);
-				strB.append(", ");
-			}
-			strB.append(data[count]);
-		}
-		strB.append(']');
-		return strB.toString();
-	}
-
-
-	private final void expandArray() {
-		Object[] oldData = this.data;
-		// Expand array size 1.5x + 4, +4 instead of +1 to prevent small bags from constantly needed to resize
-		this.data = new Object[oldData.length + (oldData.length >>> 1) + 4];
-		System.arraycopy(oldData, 0, this.data, 0, oldData.length);
-	}
-
-
-	private final void expandArray(int totalSize) {
-		Object[] oldData = this.data;
-		// Expand array size 1.5x + 4, +4 instead of +1 to prevent small bags from constantly needed to resize
-		int newSize = Math.max(totalSize, oldData.length + (oldData.length >>> 1) + 4);
-		this.data = new Object[newSize];
-		System.arraycopy(oldData, 0, this.data, 0, oldData.length);
+		return ArrayUtil.toString(data, 0, size);
 	}
 
 

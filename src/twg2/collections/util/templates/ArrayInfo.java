@@ -23,13 +23,15 @@ public class ArrayInfo extends ClassTemplate {
 		public boolean isGeneric;
 		public String genericSignature;
 		public String checkEquality;
+		public String baseType;
 
 
 		public ArrayType(boolean isGeneric, String genericSignature, String checkEquality, boolean doAggregate) {
 			this.isGeneric = isGeneric;
 			this.genericSignature = genericSignature;
 			this.checkEquality = checkEquality;
-			this.isAggregatable = doAggregate;
+			this.baseType = genericSignature != null && genericSignature.length() > 0 ? "Object" : null;
+			super.isAggregatable = doAggregate;
 		}
 
 
@@ -46,8 +48,14 @@ public class ArrayInfo extends ClassTemplate {
 			this.isGeneric = isGeneric;
 			this.genericSignature = genericSignature;
 			this.checkEquality = checkEquality;
-			this.isAggregatable = doAggregate;
-			this.defaultValue = defaultValue;
+			this.baseType = genericSignature != null && genericSignature.length() > 0 ? "Object" : null;
+			super.isAggregatable = doAggregate;
+			super.defaultValue = defaultValue;
+		}
+
+
+		public String getBaseType() {
+			return this.baseType != null ? this.baseType : super.type;
 		}
 
 

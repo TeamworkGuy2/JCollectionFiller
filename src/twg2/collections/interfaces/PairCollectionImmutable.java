@@ -14,7 +14,7 @@ import java.util.List;
  * @param <K> the data type of keys, the first value, in each pair of keys/values
  * @param <V> the data type of values, the second value, in each pair of keys/values
  */
-public interface PairCollectionImmutable<K, V> extends RandomAccessCollection<K> {
+public interface PairCollectionImmutable<K, V> extends RandomAccessCollection<K>, Sized {
 
 	/** Check if this pair collection contains a specific key
 	 * @param key Object to check for in this instance's list of keys

@@ -11,6 +11,7 @@ import java.util.Set;
 
 import twg2.collections.interfaces.PairCollection;
 import twg2.collections.interfaces.RandomAccessCollection;
+import twg2.collections.util.ToStringUtil;
 
 /** Map implementation which allows duplicate keys and values 
  * (HashMap and LinkedHashMap do not allow duplicate keys)
@@ -71,6 +72,14 @@ public class SortedPairList<K, V> implements RandomAccessCollection<K>, PairColl
 		this.values = new ArrayList<V>(); // Initialize values List
 		this.keysIm = Collections.unmodifiableList(this.keys);
 		this.valuesIm = Collections.unmodifiableList(this.values);
+	}
+
+
+	public SortedPairList<K, V> copy() {
+		SortedPairList<K, V> copy = new SortedPairList<>(this.comparator);
+		copy.keys.addAll(this.keys);
+		copy.values.addAll(this.values);
+		return copy;
 	}
 
 
@@ -320,22 +329,7 @@ public class SortedPairList<K, V> implements RandomAccessCollection<K>, PairColl
 
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder(64);
-		builder.append('[');
-		if(keys.size() > 0) {
-			int sizeTemp = keys.size() - 1;
-			for(int i = 0; i < sizeTemp; i++) {
-				builder.append(keys.get(i));
-				builder.append('=');
-				builder.append(values.get(i));
-				builder.append(", ");
-			}
-			builder.append(keys.get(sizeTemp));
-			builder.append('=');
-			builder.append(values.get(sizeTemp));
-		}
-		builder.append(']');
-
+		StringBuilder builder = ToStringUtil.toStringKeyValuePairs(this.keys, this.values, this.keys.size(), null);
 		return builder.toString();
 	}
 

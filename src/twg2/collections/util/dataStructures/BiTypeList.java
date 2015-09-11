@@ -151,7 +151,6 @@ public class BiTypeList<E1, E2> {
 			return 1;
 		}
 		else {
-			
 			throw new IllegalStateException("cannot process two-type list object " + (obj != null ? ("of type " + obj.getClass()) : obj));
 		}
 	}

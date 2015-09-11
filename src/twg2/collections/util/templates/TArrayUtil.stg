@@ -61,6 +61,18 @@ $endif$	public static final $if(ary.isGeneric)$$ary.genericSignature$ $endif$$ar
 	\}
 
 
+$if(ary.isGeneric)$
+	/** @see #indexOf(Object[], int, int, Object)
+	 */
+	public static final $ary.genericSignature$ int indexOfRef($ary.type$[] ary, int off, int len, $ary.type$ value) {
+		for(int i = off, size = off + len; i < size; i++) {
+			if(ary[i] == value) { return i; \}
+		\}
+		return -1;
+	\}
+$endif$
+
+
 	/** Search for the last matching $ary.type$ in an array of $ary.type$s
 	 * @param ary the array of values to search
 	 * @param value the value to search for
@@ -84,6 +96,18 @@ $endif$	public static final $if(ary.isGeneric)$$ary.genericSignature$ $endif$$ar
 		\}
 		return -1;
 	\}
+
+
+$if(ary.isGeneric)$
+	/** @see #lastIndexOf(Object[], int, int, Object)
+	 */
+	public static final $ary.genericSignature$ int lastIndexOfRef($ary.type$[] ary, int off, int len, $ary.type$ value) {
+		for(int i = off + len - 1; i >= off; i--) {
+			if(ary[i] == value) { return i; \}
+		\}
+		return -1;
+	\}
+$endif$
 
 
 	/** Return an array containing a copy of array {@code a\} and {@code b\}

@@ -10,6 +10,7 @@ import java.util.ListIterator;
 import java.util.Map;
 
 import twg2.collections.interfaces.PairCollectionImmutable;
+import twg2.collections.util.ToStringUtil;
 
 /** An {@link Map} backed by key and values arrays.<br>
  * {@link ArrayMapViewHandle} provides a way to manage an {@code ArrayMapView} and replace the backing
@@ -224,24 +225,7 @@ public final class ArrayMapView<K, V> implements PairCollectionImmutable<K, V>, 
 	@Override
 	public String toString() {
 		int modCached = mod;
-		StringBuilder strB = new StringBuilder();
-		strB.append('[');
-		if(len > 0) {
-			int count = len - 1;
-			int keyOff = keysOff;
-			int valOff = valuesOff;
-			for(int i = 0; i < count; i++) {
-				strB.append(keys[keyOff + i]);
-				strB.append("=");
-				strB.append(values[valOff + i]);
-				strB.append(", ");
-			}
-			strB.append(keys[keyOff + count]);
-			strB.append("=");
-			strB.append(values[valOff + count]);
-		}
-		strB.append(']');
-
+		StringBuilder strB = ToStringUtil.toStringKeyValuePairs(this.keys, this.keysOff, this.values, this.valuesOff, this.len, null);
 		if(modCached != mod) {
 			throw new ConcurrentModificationException();
 		}
