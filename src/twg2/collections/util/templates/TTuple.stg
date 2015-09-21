@@ -55,6 +55,18 @@ $if(var.implementClassNames)$
 		throw new IllegalStateException("cannot modify immutable tuple");
 	}
 
+	@Override
+	public String toString() {
+		return this.value0 + "=" + this.value1;
+	\}
+
+$else$
+
+	@Override
+	public String toString() {
+		return "[" + $var.types:{type | this.value$i0$}; separator=" + \", \" + "$ + "]";
+	\}
+
 $endif$
 
 	/** Convert a set of values to a tuple

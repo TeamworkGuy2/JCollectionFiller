@@ -48,6 +48,13 @@ public final class Tuple3<A0, A1, A2> {
 		return 3;
 	}
 
+
+	@Override
+	public String toString() {
+		return "[" + this.value0 + ", " + this.value1 + ", " + this.value2 + "]";
+	}
+
+
 	/** Convert a set of values to a tuple
 	 * @return the newly created tuple
 	 */

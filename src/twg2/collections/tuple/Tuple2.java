@@ -58,6 +58,10 @@ public final class Tuple2<A0, A1> implements java.util.Map.Entry<A0, A1> {
 		throw new IllegalStateException("cannot modify immutable tuple");
 	}
 
+	@Override
+	public String toString() {
+		return this.value0 + "=" + this.value1;
+	}
 
 	/** Convert a set of values to a tuple
 	 * @return the newly created tuple

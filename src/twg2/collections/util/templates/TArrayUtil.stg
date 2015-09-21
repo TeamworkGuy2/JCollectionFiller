@@ -110,6 +110,31 @@ $if(ary.isGeneric)$
 $endif$
 
 
+	/** Return an array containing a copy of all of the input arrays
+	 * @param arys the input arrays, cannot be null, cannot contain null
+	 * @return a new array containing a shallow copy of all the input arrays
+	 */
+$if(ary.isGeneric)$	@SafeVarargs
+$endif$
+	public static final $if(ary.isGeneric)$$ary.genericSignature$ $endif$$ary.type$[] concat($ary.type$[]... arys) {
+		int totalSize = 0;
+		for($ary.type$[] ary : arys) {
+			totalSize += ary.length;
+		\}
+
+$if(ary.isGeneric)$		@SuppressWarnings("unchecked")
+$endif$		$ary.type$[] r = $if(ary.isGeneric)$($ary.type$[])$endif$new $if(ary.isGeneric)$Object$else$$ary.type$$endif$[totalSize];
+
+		int offset = 0;
+		for($ary.type$[] ary : arys) {
+			System.arraycopy(ary, 0, r, offset, ary.length);
+			offset += ary.length;
+		\}
+
+		return r;
+	\}
+
+
 	/** Return an array containing a copy of array {@code a\} and {@code b\}
 	 * @param a the first array
 	 * @param b the second array
@@ -122,6 +147,36 @@ $endif$
 	\}
 
 
+	/** @see #concat($if(ary.isGeneric)$Object$else$$ary.type$$endif$[], int, int, $if(ary.isGeneric)$Object$else$$ary.type$$endif$[], int, int, int, int)
+	 */
+	public static final $if(ary.isGeneric)$$ary.genericSignature$ $endif$$ary.type$[] concat($ary.type$[] a, $ary.type$[] b, int dstOff, int dstTotalLength) {
+		return concat(a, 0, a.length, b, 0, b.length, dstOff, dstTotalLength);
+	\}
+
+
+	/** Return a new array containing a copy of array {@code a\} and {@code b\}
+	 * @param a the first array
+	 * @param b the second array
+	 * @param dstOff the offset into {@code dst\} at which to append array {@code a\} and {@code b\}
+	 * @param dstTotalLength the total length of the new array to return
+	 * @return a new array containing a shallow copy of both arrays
+	 */
+$if(ary.isGeneric)$	@SuppressWarnings("unchecked")
+$endif$	public static final $if(ary.isGeneric)$$ary.genericSignature$ $endif$$ary.type$[] concat($ary.type$[] a, int offA, int lenA, $ary.type$[] b, int offB, int lenB, int dstOff, int dstTotalLength) {
+		$if(ary.isGeneric)$Object$else$$ary.type$$endif$[] dst = new $if(ary.isGeneric)$Object$else$$ary.type$$endif$[dstTotalLength];
+		System.arraycopy(a, offA, dst, dstOff, lenA);
+		System.arraycopy(b, offB, dst, dstOff + lenA, lenB);
+		return $if(ary.isGeneric)$($ary.type$[])$endif$dst;
+	\}
+
+
+	/** @see #concat($if(ary.isGeneric)$Object$else$$ary.type$$endif$[], int, int, $if(ary.isGeneric)$Object$else$$ary.type$$endif$[], int, int, $if(ary.isGeneric)$Object$else$$ary.type$$endif$[], int)
+	 */
+	public static final $if(ary.isGeneric)$$ary.genericSignature$ $endif$$ary.type$[] concat($ary.type$[] a, $ary.type$[] b, $ary.type$[] dst, int dstOff) {
+		return concat(a, 0, a.length, b, 0, b.length, dst, dstOff);
+	\}
+
+
 	/** Return an array containing a copy of array {@code a\} and {@code b\}
 	 * @param a the first array
 	 * @param b the second array
@@ -129,9 +184,9 @@ $endif$
 	 * @param dstOff the offset into {@code dst\} at which to append array {@code a\} and {@code b\}
 	 * @return a new array containing a shallow copy of both arrays
 	 */
-	public static final $if(ary.isGeneric)$$ary.genericSignature$ $endif$$ary.type$[] concat($ary.type$[] a, $ary.type$[] b, $ary.type$[] dst, int dstOff) {
-		System.arraycopy(a, 0, dst, dstOff, a.length);
-		System.arraycopy(b, 0, dst, dstOff + a.length, b.length);
+	public static final $if(ary.isGeneric)$$ary.genericSignature$ $endif$$ary.type$[] concat($ary.type$[] a, int offA, int lenA, $ary.type$[] b, int offB, int lenB, $ary.type$[] dst, int dstOff) {
+		System.arraycopy(a, offA, dst, dstOff, lenA);
+		System.arraycopy(b, offB, dst, dstOff + lenA, lenB);
 		return dst;
 	\}
 

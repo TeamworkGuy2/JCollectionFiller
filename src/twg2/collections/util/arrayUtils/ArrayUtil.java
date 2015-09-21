@@ -86,6 +86,28 @@ public final class ArrayUtil {
 
 
 
+	/** Return an array containing a copy of all of the input arrays
+	 * @param arys the input arrays, cannot be null, cannot contain null
+	 * @return a new array containing a shallow copy of all the input arrays
+	 */
+	public static final boolean[] concat(boolean[]... arys) {
+		int totalSize = 0;
+		for(boolean[] ary : arys) {
+			totalSize += ary.length;
+		}
+
+		boolean[] r = new boolean[totalSize];
+
+		int offset = 0;
+		for(boolean[] ary : arys) {
+			System.arraycopy(ary, 0, r, offset, ary.length);
+			offset += ary.length;
+		}
+
+		return r;
+	}
+
+
 	/** Return an array containing a copy of array {@code a} and {@code b}
 	 * @param a the first array
 	 * @param b the second array
@@ -98,6 +120,35 @@ public final class ArrayUtil {
 	}
 
 
+	/** @see #concat(boolean[], int, int, boolean[], int, int, int, int)
+	 */
+	public static final boolean[] concat(boolean[] a, boolean[] b, int dstOff, int dstTotalLength) {
+		return concat(a, 0, a.length, b, 0, b.length, dstOff, dstTotalLength);
+	}
+
+
+	/** Return a new array containing a copy of array {@code a} and {@code b}
+	 * @param a the first array
+	 * @param b the second array
+	 * @param dstOff the offset into {@code dst} at which to append array {@code a} and {@code b}
+	 * @param dstTotalLength the total length of the new array to return
+	 * @return a new array containing a shallow copy of both arrays
+	 */
+	public static final boolean[] concat(boolean[] a, int offA, int lenA, boolean[] b, int offB, int lenB, int dstOff, int dstTotalLength) {
+		boolean[] dst = new boolean[dstTotalLength];
+		System.arraycopy(a, offA, dst, dstOff, lenA);
+		System.arraycopy(b, offB, dst, dstOff + lenA, lenB);
+		return dst;
+	}
+
+
+	/** @see #concat(boolean[], int, int, boolean[], int, int, boolean[], int)
+	 */
+	public static final boolean[] concat(boolean[] a, boolean[] b, boolean[] dst, int dstOff) {
+		return concat(a, 0, a.length, b, 0, b.length, dst, dstOff);
+	}
+
+
 	/** Return an array containing a copy of array {@code a} and {@code b}
 	 * @param a the first array
 	 * @param b the second array
@@ -105,9 +156,9 @@ public final class ArrayUtil {
 	 * @param dstOff the offset into {@code dst} at which to append array {@code a} and {@code b}
 	 * @return a new array containing a shallow copy of both arrays
 	 */
-	public static final boolean[] concat(boolean[] a, boolean[] b, boolean[] dst, int dstOff) {
-		System.arraycopy(a, 0, dst, dstOff, a.length);
-		System.arraycopy(b, 0, dst, dstOff + a.length, b.length);
+	public static final boolean[] concat(boolean[] a, int offA, int lenA, boolean[] b, int offB, int lenB, boolean[] dst, int dstOff) {
+		System.arraycopy(a, offA, dst, dstOff, lenA);
+		System.arraycopy(b, offB, dst, dstOff + lenA, lenB);
 		return dst;
 	}
 
@@ -340,6 +391,28 @@ public final class ArrayUtil {
 
 
 
+	/** Return an array containing a copy of all of the input arrays
+	 * @param arys the input arrays, cannot be null, cannot contain null
+	 * @return a new array containing a shallow copy of all the input arrays
+	 */
+	public static final byte[] concat(byte[]... arys) {
+		int totalSize = 0;
+		for(byte[] ary : arys) {
+			totalSize += ary.length;
+		}
+
+		byte[] r = new byte[totalSize];
+
+		int offset = 0;
+		for(byte[] ary : arys) {
+			System.arraycopy(ary, 0, r, offset, ary.length);
+			offset += ary.length;
+		}
+
+		return r;
+	}
+
+
 	/** Return an array containing a copy of array {@code a} and {@code b}
 	 * @param a the first array
 	 * @param b the second array
@@ -352,6 +425,35 @@ public final class ArrayUtil {
 	}
 
 
+	/** @see #concat(byte[], int, int, byte[], int, int, int, int)
+	 */
+	public static final byte[] concat(byte[] a, byte[] b, int dstOff, int dstTotalLength) {
+		return concat(a, 0, a.length, b, 0, b.length, dstOff, dstTotalLength);
+	}
+
+
+	/** Return a new array containing a copy of array {@code a} and {@code b}
+	 * @param a the first array
+	 * @param b the second array
+	 * @param dstOff the offset into {@code dst} at which to append array {@code a} and {@code b}
+	 * @param dstTotalLength the total length of the new array to return
+	 * @return a new array containing a shallow copy of both arrays
+	 */
+	public static final byte[] concat(byte[] a, int offA, int lenA, byte[] b, int offB, int lenB, int dstOff, int dstTotalLength) {
+		byte[] dst = new byte[dstTotalLength];
+		System.arraycopy(a, offA, dst, dstOff, lenA);
+		System.arraycopy(b, offB, dst, dstOff + lenA, lenB);
+		return dst;
+	}
+
+
+	/** @see #concat(byte[], int, int, byte[], int, int, byte[], int)
+	 */
+	public static final byte[] concat(byte[] a, byte[] b, byte[] dst, int dstOff) {
+		return concat(a, 0, a.length, b, 0, b.length, dst, dstOff);
+	}
+
+
 	/** Return an array containing a copy of array {@code a} and {@code b}
 	 * @param a the first array
 	 * @param b the second array
@@ -359,9 +461,9 @@ public final class ArrayUtil {
 	 * @param dstOff the offset into {@code dst} at which to append array {@code a} and {@code b}
 	 * @return a new array containing a shallow copy of both arrays
 	 */
-	public static final byte[] concat(byte[] a, byte[] b, byte[] dst, int dstOff) {
-		System.arraycopy(a, 0, dst, dstOff, a.length);
-		System.arraycopy(b, 0, dst, dstOff + a.length, b.length);
+	public static final byte[] concat(byte[] a, int offA, int lenA, byte[] b, int offB, int lenB, byte[] dst, int dstOff) {
+		System.arraycopy(a, offA, dst, dstOff, lenA);
+		System.arraycopy(b, offB, dst, dstOff + lenA, lenB);
 		return dst;
 	}
 
@@ -695,6 +797,28 @@ public final class ArrayUtil {
 
 
 
+	/** Return an array containing a copy of all of the input arrays
+	 * @param arys the input arrays, cannot be null, cannot contain null
+	 * @return a new array containing a shallow copy of all the input arrays
+	 */
+	public static final short[] concat(short[]... arys) {
+		int totalSize = 0;
+		for(short[] ary : arys) {
+			totalSize += ary.length;
+		}
+
+		short[] r = new short[totalSize];
+
+		int offset = 0;
+		for(short[] ary : arys) {
+			System.arraycopy(ary, 0, r, offset, ary.length);
+			offset += ary.length;
+		}
+
+		return r;
+	}
+
+
 	/** Return an array containing a copy of array {@code a} and {@code b}
 	 * @param a the first array
 	 * @param b the second array
@@ -707,6 +831,35 @@ public final class ArrayUtil {
 	}
 
 
+	/** @see #concat(short[], int, int, short[], int, int, int, int)
+	 */
+	public static final short[] concat(short[] a, short[] b, int dstOff, int dstTotalLength) {
+		return concat(a, 0, a.length, b, 0, b.length, dstOff, dstTotalLength);
+	}
+
+
+	/** Return a new array containing a copy of array {@code a} and {@code b}
+	 * @param a the first array
+	 * @param b the second array
+	 * @param dstOff the offset into {@code dst} at which to append array {@code a} and {@code b}
+	 * @param dstTotalLength the total length of the new array to return
+	 * @return a new array containing a shallow copy of both arrays
+	 */
+	public static final short[] concat(short[] a, int offA, int lenA, short[] b, int offB, int lenB, int dstOff, int dstTotalLength) {
+		short[] dst = new short[dstTotalLength];
+		System.arraycopy(a, offA, dst, dstOff, lenA);
+		System.arraycopy(b, offB, dst, dstOff + lenA, lenB);
+		return dst;
+	}
+
+
+	/** @see #concat(short[], int, int, short[], int, int, short[], int)
+	 */
+	public static final short[] concat(short[] a, short[] b, short[] dst, int dstOff) {
+		return concat(a, 0, a.length, b, 0, b.length, dst, dstOff);
+	}
+
+
 	/** Return an array containing a copy of array {@code a} and {@code b}
 	 * @param a the first array
 	 * @param b the second array
@@ -714,9 +867,9 @@ public final class ArrayUtil {
 	 * @param dstOff the offset into {@code dst} at which to append array {@code a} and {@code b}
 	 * @return a new array containing a shallow copy of both arrays
 	 */
-	public static final short[] concat(short[] a, short[] b, short[] dst, int dstOff) {
-		System.arraycopy(a, 0, dst, dstOff, a.length);
-		System.arraycopy(b, 0, dst, dstOff + a.length, b.length);
+	public static final short[] concat(short[] a, int offA, int lenA, short[] b, int offB, int lenB, short[] dst, int dstOff) {
+		System.arraycopy(a, offA, dst, dstOff, lenA);
+		System.arraycopy(b, offB, dst, dstOff + lenA, lenB);
 		return dst;
 	}
 
@@ -1050,6 +1203,28 @@ public final class ArrayUtil {
 
 
 
+	/** Return an array containing a copy of all of the input arrays
+	 * @param arys the input arrays, cannot be null, cannot contain null
+	 * @return a new array containing a shallow copy of all the input arrays
+	 */
+	public static final char[] concat(char[]... arys) {
+		int totalSize = 0;
+		for(char[] ary : arys) {
+			totalSize += ary.length;
+		}
+
+		char[] r = new char[totalSize];
+
+		int offset = 0;
+		for(char[] ary : arys) {
+			System.arraycopy(ary, 0, r, offset, ary.length);
+			offset += ary.length;
+		}
+
+		return r;
+	}
+
+
 	/** Return an array containing a copy of array {@code a} and {@code b}
 	 * @param a the first array
 	 * @param b the second array
@@ -1062,6 +1237,35 @@ public final class ArrayUtil {
 	}
 
 
+	/** @see #concat(char[], int, int, char[], int, int, int, int)
+	 */
+	public static final char[] concat(char[] a, char[] b, int dstOff, int dstTotalLength) {
+		return concat(a, 0, a.length, b, 0, b.length, dstOff, dstTotalLength);
+	}
+
+
+	/** Return a new array containing a copy of array {@code a} and {@code b}
+	 * @param a the first array
+	 * @param b the second array
+	 * @param dstOff the offset into {@code dst} at which to append array {@code a} and {@code b}
+	 * @param dstTotalLength the total length of the new array to return
+	 * @return a new array containing a shallow copy of both arrays
+	 */
+	public static final char[] concat(char[] a, int offA, int lenA, char[] b, int offB, int lenB, int dstOff, int dstTotalLength) {
+		char[] dst = new char[dstTotalLength];
+		System.arraycopy(a, offA, dst, dstOff, lenA);
+		System.arraycopy(b, offB, dst, dstOff + lenA, lenB);
+		return dst;
+	}
+
+
+	/** @see #concat(char[], int, int, char[], int, int, char[], int)
+	 */
+	public static final char[] concat(char[] a, char[] b, char[] dst, int dstOff) {
+		return concat(a, 0, a.length, b, 0, b.length, dst, dstOff);
+	}
+
+
 	/** Return an array containing a copy of array {@code a} and {@code b}
 	 * @param a the first array
 	 * @param b the second array
@@ -1069,9 +1273,9 @@ public final class ArrayUtil {
 	 * @param dstOff the offset into {@code dst} at which to append array {@code a} and {@code b}
 	 * @return a new array containing a shallow copy of both arrays
 	 */
-	public static final char[] concat(char[] a, char[] b, char[] dst, int dstOff) {
-		System.arraycopy(a, 0, dst, dstOff, a.length);
-		System.arraycopy(b, 0, dst, dstOff + a.length, b.length);
+	public static final char[] concat(char[] a, int offA, int lenA, char[] b, int offB, int lenB, char[] dst, int dstOff) {
+		System.arraycopy(a, offA, dst, dstOff, lenA);
+		System.arraycopy(b, offB, dst, dstOff + lenA, lenB);
 		return dst;
 	}
 
@@ -1405,6 +1609,28 @@ public final class ArrayUtil {
 
 
 
+	/** Return an array containing a copy of all of the input arrays
+	 * @param arys the input arrays, cannot be null, cannot contain null
+	 * @return a new array containing a shallow copy of all the input arrays
+	 */
+	public static final int[] concat(int[]... arys) {
+		int totalSize = 0;
+		for(int[] ary : arys) {
+			totalSize += ary.length;
+		}
+
+		int[] r = new int[totalSize];
+
+		int offset = 0;
+		for(int[] ary : arys) {
+			System.arraycopy(ary, 0, r, offset, ary.length);
+			offset += ary.length;
+		}
+
+		return r;
+	}
+
+
 	/** Return an array containing a copy of array {@code a} and {@code b}
 	 * @param a the first array
 	 * @param b the second array
@@ -1417,6 +1643,35 @@ public final class ArrayUtil {
 	}
 
 
+	/** @see #concat(int[], int, int, int[], int, int, int, int)
+	 */
+	public static final int[] concat(int[] a, int[] b, int dstOff, int dstTotalLength) {
+		return concat(a, 0, a.length, b, 0, b.length, dstOff, dstTotalLength);
+	}
+
+
+	/** Return a new array containing a copy of array {@code a} and {@code b}
+	 * @param a the first array
+	 * @param b the second array
+	 * @param dstOff the offset into {@code dst} at which to append array {@code a} and {@code b}
+	 * @param dstTotalLength the total length of the new array to return
+	 * @return a new array containing a shallow copy of both arrays
+	 */
+	public static final int[] concat(int[] a, int offA, int lenA, int[] b, int offB, int lenB, int dstOff, int dstTotalLength) {
+		int[] dst = new int[dstTotalLength];
+		System.arraycopy(a, offA, dst, dstOff, lenA);
+		System.arraycopy(b, offB, dst, dstOff + lenA, lenB);
+		return dst;
+	}
+
+
+	/** @see #concat(int[], int, int, int[], int, int, int[], int)
+	 */
+	public static final int[] concat(int[] a, int[] b, int[] dst, int dstOff) {
+		return concat(a, 0, a.length, b, 0, b.length, dst, dstOff);
+	}
+
+
 	/** Return an array containing a copy of array {@code a} and {@code b}
 	 * @param a the first array
 	 * @param b the second array
@@ -1424,9 +1679,9 @@ public final class ArrayUtil {
 	 * @param dstOff the offset into {@code dst} at which to append array {@code a} and {@code b}
 	 * @return a new array containing a shallow copy of both arrays
 	 */
-	public static final int[] concat(int[] a, int[] b, int[] dst, int dstOff) {
-		System.arraycopy(a, 0, dst, dstOff, a.length);
-		System.arraycopy(b, 0, dst, dstOff + a.length, b.length);
+	public static final int[] concat(int[] a, int offA, int lenA, int[] b, int offB, int lenB, int[] dst, int dstOff) {
+		System.arraycopy(a, offA, dst, dstOff, lenA);
+		System.arraycopy(b, offB, dst, dstOff + lenA, lenB);
 		return dst;
 	}
 
@@ -1760,6 +2015,28 @@ public final class ArrayUtil {
 
 
 
+	/** Return an array containing a copy of all of the input arrays
+	 * @param arys the input arrays, cannot be null, cannot contain null
+	 * @return a new array containing a shallow copy of all the input arrays
+	 */
+	public static final long[] concat(long[]... arys) {
+		int totalSize = 0;
+		for(long[] ary : arys) {
+			totalSize += ary.length;
+		}
+
+		long[] r = new long[totalSize];
+
+		int offset = 0;
+		for(long[] ary : arys) {
+			System.arraycopy(ary, 0, r, offset, ary.length);
+			offset += ary.length;
+		}
+
+		return r;
+	}
+
+
 	/** Return an array containing a copy of array {@code a} and {@code b}
 	 * @param a the first array
 	 * @param b the second array
@@ -1772,6 +2049,35 @@ public final class ArrayUtil {
 	}
 
 
+	/** @see #concat(long[], int, int, long[], int, int, int, int)
+	 */
+	public static final long[] concat(long[] a, long[] b, int dstOff, int dstTotalLength) {
+		return concat(a, 0, a.length, b, 0, b.length, dstOff, dstTotalLength);
+	}
+
+
+	/** Return a new array containing a copy of array {@code a} and {@code b}
+	 * @param a the first array
+	 * @param b the second array
+	 * @param dstOff the offset into {@code dst} at which to append array {@code a} and {@code b}
+	 * @param dstTotalLength the total length of the new array to return
+	 * @return a new array containing a shallow copy of both arrays
+	 */
+	public static final long[] concat(long[] a, int offA, int lenA, long[] b, int offB, int lenB, int dstOff, int dstTotalLength) {
+		long[] dst = new long[dstTotalLength];
+		System.arraycopy(a, offA, dst, dstOff, lenA);
+		System.arraycopy(b, offB, dst, dstOff + lenA, lenB);
+		return dst;
+	}
+
+
+	/** @see #concat(long[], int, int, long[], int, int, long[], int)
+	 */
+	public static final long[] concat(long[] a, long[] b, long[] dst, int dstOff) {
+		return concat(a, 0, a.length, b, 0, b.length, dst, dstOff);
+	}
+
+
 	/** Return an array containing a copy of array {@code a} and {@code b}
 	 * @param a the first array
 	 * @param b the second array
@@ -1779,9 +2085,9 @@ public final class ArrayUtil {
 	 * @param dstOff the offset into {@code dst} at which to append array {@code a} and {@code b}
 	 * @return a new array containing a shallow copy of both arrays
 	 */
-	public static final long[] concat(long[] a, long[] b, long[] dst, int dstOff) {
-		System.arraycopy(a, 0, dst, dstOff, a.length);
-		System.arraycopy(b, 0, dst, dstOff + a.length, b.length);
+	public static final long[] concat(long[] a, int offA, int lenA, long[] b, int offB, int lenB, long[] dst, int dstOff) {
+		System.arraycopy(a, offA, dst, dstOff, lenA);
+		System.arraycopy(b, offB, dst, dstOff + lenA, lenB);
 		return dst;
 	}
 
@@ -2115,6 +2421,28 @@ public final class ArrayUtil {
 
 
 
+	/** Return an array containing a copy of all of the input arrays
+	 * @param arys the input arrays, cannot be null, cannot contain null
+	 * @return a new array containing a shallow copy of all the input arrays
+	 */
+	public static final float[] concat(float[]... arys) {
+		int totalSize = 0;
+		for(float[] ary : arys) {
+			totalSize += ary.length;
+		}
+
+		float[] r = new float[totalSize];
+
+		int offset = 0;
+		for(float[] ary : arys) {
+			System.arraycopy(ary, 0, r, offset, ary.length);
+			offset += ary.length;
+		}
+
+		return r;
+	}
+
+
 	/** Return an array containing a copy of array {@code a} and {@code b}
 	 * @param a the first array
 	 * @param b the second array
@@ -2127,6 +2455,35 @@ public final class ArrayUtil {
 	}
 
 
+	/** @see #concat(float[], int, int, float[], int, int, int, int)
+	 */
+	public static final float[] concat(float[] a, float[] b, int dstOff, int dstTotalLength) {
+		return concat(a, 0, a.length, b, 0, b.length, dstOff, dstTotalLength);
+	}
+
+
+	/** Return a new array containing a copy of array {@code a} and {@code b}
+	 * @param a the first array
+	 * @param b the second array
+	 * @param dstOff the offset into {@code dst} at which to append array {@code a} and {@code b}
+	 * @param dstTotalLength the total length of the new array to return
+	 * @return a new array containing a shallow copy of both arrays
+	 */
+	public static final float[] concat(float[] a, int offA, int lenA, float[] b, int offB, int lenB, int dstOff, int dstTotalLength) {
+		float[] dst = new float[dstTotalLength];
+		System.arraycopy(a, offA, dst, dstOff, lenA);
+		System.arraycopy(b, offB, dst, dstOff + lenA, lenB);
+		return dst;
+	}
+
+
+	/** @see #concat(float[], int, int, float[], int, int, float[], int)
+	 */
+	public static final float[] concat(float[] a, float[] b, float[] dst, int dstOff) {
+		return concat(a, 0, a.length, b, 0, b.length, dst, dstOff);
+	}
+
+
 	/** Return an array containing a copy of array {@code a} and {@code b}
 	 * @param a the first array
 	 * @param b the second array
@@ -2134,9 +2491,9 @@ public final class ArrayUtil {
 	 * @param dstOff the offset into {@code dst} at which to append array {@code a} and {@code b}
 	 * @return a new array containing a shallow copy of both arrays
 	 */
-	public static final float[] concat(float[] a, float[] b, float[] dst, int dstOff) {
-		System.arraycopy(a, 0, dst, dstOff, a.length);
-		System.arraycopy(b, 0, dst, dstOff + a.length, b.length);
+	public static final float[] concat(float[] a, int offA, int lenA, float[] b, int offB, int lenB, float[] dst, int dstOff) {
+		System.arraycopy(a, offA, dst, dstOff, lenA);
+		System.arraycopy(b, offB, dst, dstOff + lenA, lenB);
 		return dst;
 	}
 
@@ -2470,6 +2827,28 @@ public final class ArrayUtil {
 
 
 
+	/** Return an array containing a copy of all of the input arrays
+	 * @param arys the input arrays, cannot be null, cannot contain null
+	 * @return a new array containing a shallow copy of all the input arrays
+	 */
+	public static final double[] concat(double[]... arys) {
+		int totalSize = 0;
+		for(double[] ary : arys) {
+			totalSize += ary.length;
+		}
+
+		double[] r = new double[totalSize];
+
+		int offset = 0;
+		for(double[] ary : arys) {
+			System.arraycopy(ary, 0, r, offset, ary.length);
+			offset += ary.length;
+		}
+
+		return r;
+	}
+
+
 	/** Return an array containing a copy of array {@code a} and {@code b}
 	 * @param a the first array
 	 * @param b the second array
@@ -2482,6 +2861,35 @@ public final class ArrayUtil {
 	}
 
 
+	/** @see #concat(double[], int, int, double[], int, int, int, int)
+	 */
+	public static final double[] concat(double[] a, double[] b, int dstOff, int dstTotalLength) {
+		return concat(a, 0, a.length, b, 0, b.length, dstOff, dstTotalLength);
+	}
+
+
+	/** Return a new array containing a copy of array {@code a} and {@code b}
+	 * @param a the first array
+	 * @param b the second array
+	 * @param dstOff the offset into {@code dst} at which to append array {@code a} and {@code b}
+	 * @param dstTotalLength the total length of the new array to return
+	 * @return a new array containing a shallow copy of both arrays
+	 */
+	public static final double[] concat(double[] a, int offA, int lenA, double[] b, int offB, int lenB, int dstOff, int dstTotalLength) {
+		double[] dst = new double[dstTotalLength];
+		System.arraycopy(a, offA, dst, dstOff, lenA);
+		System.arraycopy(b, offB, dst, dstOff + lenA, lenB);
+		return dst;
+	}
+
+
+	/** @see #concat(double[], int, int, double[], int, int, double[], int)
+	 */
+	public static final double[] concat(double[] a, double[] b, double[] dst, int dstOff) {
+		return concat(a, 0, a.length, b, 0, b.length, dst, dstOff);
+	}
+
+
 	/** Return an array containing a copy of array {@code a} and {@code b}
 	 * @param a the first array
 	 * @param b the second array
@@ -2489,9 +2897,9 @@ public final class ArrayUtil {
 	 * @param dstOff the offset into {@code dst} at which to append array {@code a} and {@code b}
 	 * @return a new array containing a shallow copy of both arrays
 	 */
-	public static final double[] concat(double[] a, double[] b, double[] dst, int dstOff) {
-		System.arraycopy(a, 0, dst, dstOff, a.length);
-		System.arraycopy(b, 0, dst, dstOff + a.length, b.length);
+	public static final double[] concat(double[] a, int offA, int lenA, double[] b, int offB, int lenB, double[] dst, int dstOff) {
+		System.arraycopy(a, offA, dst, dstOff, lenA);
+		System.arraycopy(b, offB, dst, dstOff + lenA, lenB);
 		return dst;
 	}
 
@@ -2844,6 +3252,30 @@ public final class ArrayUtil {
 	}
 
 
+	/** Return an array containing a copy of all of the input arrays
+	 * @param arys the input arrays, cannot be null, cannot contain null
+	 * @return a new array containing a shallow copy of all the input arrays
+	 */
+	@SafeVarargs
+	public static final <T> T[] concat(T[]... arys) {
+		int totalSize = 0;
+		for(T[] ary : arys) {
+			totalSize += ary.length;
+		}
+
+		@SuppressWarnings("unchecked")
+		T[] r = (T[])new Object[totalSize];
+
+		int offset = 0;
+		for(T[] ary : arys) {
+			System.arraycopy(ary, 0, r, offset, ary.length);
+			offset += ary.length;
+		}
+
+		return r;
+	}
+
+
 	/** Return an array containing a copy of array {@code a} and {@code b}
 	 * @param a the first array
 	 * @param b the second array
@@ -2856,6 +3288,36 @@ public final class ArrayUtil {
 	}
 
 
+	/** @see #concat(Object[], int, int, Object[], int, int, int, int)
+	 */
+	public static final <T> T[] concat(T[] a, T[] b, int dstOff, int dstTotalLength) {
+		return concat(a, 0, a.length, b, 0, b.length, dstOff, dstTotalLength);
+	}
+
+
+	/** Return a new array containing a copy of array {@code a} and {@code b}
+	 * @param a the first array
+	 * @param b the second array
+	 * @param dstOff the offset into {@code dst} at which to append array {@code a} and {@code b}
+	 * @param dstTotalLength the total length of the new array to return
+	 * @return a new array containing a shallow copy of both arrays
+	 */
+	@SuppressWarnings("unchecked")
+	public static final <T> T[] concat(T[] a, int offA, int lenA, T[] b, int offB, int lenB, int dstOff, int dstTotalLength) {
+		Object[] dst = new Object[dstTotalLength];
+		System.arraycopy(a, offA, dst, dstOff, lenA);
+		System.arraycopy(b, offB, dst, dstOff + lenA, lenB);
+		return (T[])dst;
+	}
+
+
+	/** @see #concat(Object[], int, int, Object[], int, int, Object[], int)
+	 */
+	public static final <T> T[] concat(T[] a, T[] b, T[] dst, int dstOff) {
+		return concat(a, 0, a.length, b, 0, b.length, dst, dstOff);
+	}
+
+
 	/** Return an array containing a copy of array {@code a} and {@code b}
 	 * @param a the first array
 	 * @param b the second array
@@ -2863,9 +3325,9 @@ public final class ArrayUtil {
 	 * @param dstOff the offset into {@code dst} at which to append array {@code a} and {@code b}
 	 * @return a new array containing a shallow copy of both arrays
 	 */
-	public static final <T> T[] concat(T[] a, T[] b, T[] dst, int dstOff) {
-		System.arraycopy(a, 0, dst, dstOff, a.length);
-		System.arraycopy(b, 0, dst, dstOff + a.length, b.length);
+	public static final <T> T[] concat(T[] a, int offA, int lenA, T[] b, int offB, int lenB, T[] dst, int dstOff) {
+		System.arraycopy(a, offA, dst, dstOff, lenA);
+		System.arraycopy(b, offB, dst, dstOff + lenA, lenB);
 		return dst;
 	}
 
