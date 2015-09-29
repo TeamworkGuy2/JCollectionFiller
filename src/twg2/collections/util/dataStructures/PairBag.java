@@ -1,5 +1,6 @@
 package twg2.collections.util.dataStructures;
 
+import java.util.AbstractCollection;
 import java.util.AbstractList;
 import java.util.AbstractMap;
 import java.util.Arrays;
@@ -8,6 +9,7 @@ import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import java.util.RandomAccess;
 
@@ -124,7 +126,7 @@ public class PairBag<K, V> implements PairCollection<K, V>, IndexedMap<K, V>, It
 		System.arraycopy(this.keys, 0, copy.keys, 0, this.keys.length);
 
 		copy.values = new Object[this.values.length];
-		System.arraycopy(this.values, 0, copy.keys, 0, this.values.length);
+		System.arraycopy(this.values, 0, copy.values, 0, this.values.length);
 
 		copy.size = this.size;
 		//copy.action = this.action;
@@ -537,6 +539,22 @@ public class PairBag<K, V> implements PairCollection<K, V>, IndexedMap<K, V>, It
 
 	public IndexedMap<K, V> getKeyValueView() {
 		return getKeyValueViewPrivate();
+	}
+
+
+	public Collection<Map.Entry<K, V>> entryCollection() {
+		return new AbstractCollection<Map.Entry<K,V>>() {
+
+			@Override
+			public Iterator<Entry<K, V>> iterator() {
+				return new BagMapIterator();
+			}
+
+			@Override
+			public int size() {
+				return PairBag.this.size;
+			}
+		};
 	}
 
 
