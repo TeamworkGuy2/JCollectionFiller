@@ -4,13 +4,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import twg2.collections.interfaces.PairCollection;
-import twg2.collections.interfaces.RandomAccessCollection;
 import twg2.collections.util.ToStringUtil;
 
 /** Map implementation which allows duplicate keys and values 
@@ -21,12 +22,13 @@ import twg2.collections.util.ToStringUtil;
  * be self explanatory.
  * This is basically a {@code List<Map.Entry<K, V>>} with the ability to store duplicate key-value pairs.
  */
-public class SortedPairList<K, V> implements RandomAccessCollection<K>, PairCollection<K, V> {
+public class SortedPairList<K, V> implements PairCollection<K, V> {
 	private List<K> keys; // List of Map keys
 	private List<V> values; // List of Map values
 	private List<K> keysIm; // Immutable copy of the keys
 	private List<V> valuesIm; // Immutable copy of the values
 	private Comparator<K> comparator;
+	private volatile int mod;
 
 
 	/** Create a pair list from a {@link Map} of keys and values.
@@ -87,6 +89,7 @@ public class SortedPairList<K, V> implements RandomAccessCollection<K>, PairColl
 	 */
 	@Override
 	public void clear() {
+		mod++;
 		keys.clear();
 		values.clear();
 	}
@@ -151,24 +154,13 @@ public class SortedPairList<K, V> implements RandomAccessCollection<K>, PairColl
 	}
 
 
-	/** returns the key corresponding to the index given,
-	 * same as {@link #getKey(int)} for compatibility with {@link RandomAccessCollection}.
-	 * @param index the index of the key to be returned
-	 * @return the key found at the specified index
-	 */
-	@Override
-	public K get(int index) {
-		return getKey(index);
-	}
-
-
-	/** getKey, returns the key corresponding to the index given
+	/** returns the key corresponding to the index given
 	 * @param index the index of the key to be returned
 	 * @return the key found at the specified index
 	 */
 	@Override
 	public K getKey(int index) {
-		if(index < 0 || index > this.size()-1) {
+		if(index < 0 || index > this.size() - 1) {
 			throw new IndexOutOfBoundsException(Integer.toString(index));
 		}
 		else {
@@ -177,17 +169,47 @@ public class SortedPairList<K, V> implements RandomAccessCollection<K>, PairColl
 	}
 
 
-	/** getValue, returns the value corresponding to the index given
+	/** returns the value corresponding to the index given
 	 * @param index the index of the value to be returned
 	 * @return the value found at the specified index
 	 */
 	@Override
 	public V getValue(int index) {
-		if(index < 0 || index > this.size()-1) {
+		if(index < 0 || index > this.size() - 1) {
 			throw new IndexOutOfBoundsException(Integer.toString(index));
 		}
 		else {
 			return values.get(index);
+		}
+	}
+
+
+	/** returns the last key
+	 * @return the last key in the sorted pair list, or an error if the sorted pair list is empty
+	 */
+	@Override
+	public K getLastKey() {
+		int size = this.keys.size();
+		if(size < 1) {
+			throw new IndexOutOfBoundsException("0 of sorted pair list size " + size);
+		}
+		else {
+			return keys.get(size - 1);
+		}
+	}
+
+
+	/** returns the last value
+	 * @return the last value in the sorted pair list, or an error if the sorted pair list is empty
+	 */
+	@Override
+	public V getLastValue() {
+		int size = this.keys.size();
+		if(size < 1) {
+			throw new IndexOutOfBoundsException("0 of sorted pair list size " + size);
+		}
+		else {
+			return values.get(size - 1);
 		}
 	}
 
@@ -231,6 +253,7 @@ public class SortedPairList<K, V> implements RandomAccessCollection<K>, PairColl
 		int index = keys.indexOf(key);
 		if(index > -1) {
 			V val = values.get(index);
+			mod++;
 			keys.set(index, key);
 			values.set(index, value);
 			return val;
@@ -282,7 +305,7 @@ public class SortedPairList<K, V> implements RandomAccessCollection<K>, PairColl
 	@Override
 	public void putAll(PairCollection<? extends K, ? extends V> listPairs) {
 		for(int i = 0, size = listPairs.size(); i < size; i++) {
-			addPair(listPairs.get(i), listPairs.getValue(i));
+			addPair(listPairs.getKey(i), listPairs.getValue(i));
 		}
 	}
 
@@ -304,6 +327,7 @@ public class SortedPairList<K, V> implements RandomAccessCollection<K>, PairColl
 
 
 	public void removeIndex(int index) {
+		mod++;
 		values.remove(index);
 		keys.remove(index);
 	}
@@ -328,6 +352,12 @@ public class SortedPairList<K, V> implements RandomAccessCollection<K>, PairColl
 
 
 	@Override
+	public Iterator<Entry<K, V>> iterator() {
+		return new SortedPairListIterator<>(this);
+	}
+
+
+	@Override
 	public String toString() {
 		StringBuilder builder = ToStringUtil.toStringKeyValuePairs(this.keys, this.values, this.keys.size(), null);
 		return builder.toString();
@@ -337,10 +367,12 @@ public class SortedPairList<K, V> implements RandomAccessCollection<K>, PairColl
 	private void addPair(K key, V value) {
 		int index = calcInsertIndex(key);
 		if(index >= this.keys.size()) {
+			mod++;
 			this.keys.add(key);
 			this.values.add(value);
 		}
 		else {
+			mod++;
 			this.keys.add(index, key);
 			this.values.add(index, value);
 		}
@@ -362,6 +394,71 @@ public class SortedPairList<K, V> implements RandomAccessCollection<K>, PairColl
 	public static final <V> SortedPairList<String, V> newStringPairList() {
 		SortedPairList<String, V> pairList = new SortedPairList<>((s1, s2) -> s1.compareTo(s2));
 		return pairList;
+	}
+
+
+	/**
+	 * @author TeamworkGuy2
+	 * @since 2015-10-5
+	 */
+	public static class SortedPairListIterator<K, V> implements Iterator<Entry<K, V>> {
+		private final SortedPairList<K, V> list;
+		private int index;
+		private SortedPairListEntry<K, V> entry;
+		private final int expectedMod;
+
+
+		public SortedPairListIterator(SortedPairList<K, V> list) {
+			this.list = list;
+			this.index = -1; // so that first call to next() works and 'index' always matches current iterator position
+			this.entry = new SortedPairListEntry<>();
+			this.expectedMod = list.mod;
+		}
+
+
+		@Override
+		public boolean hasNext() {
+			if(expectedMod != list.mod) {
+				throw new ConcurrentModificationException("sorted pair list change while iterating");
+			}
+			return index + 1 < list.size();
+		}
+
+		@Override
+		public Entry<K, V> next() {
+			if(expectedMod != list.mod) {
+				throw new ConcurrentModificationException("sorted pair list change while iterating");
+			}
+			index++;
+			K nextKey = list.getKey(index);
+			V nextVal = list.getValue(index);
+			entry.key = nextKey;
+			entry.value = nextVal;
+			return entry;
+		}
+		
+	}
+
+
+	static class SortedPairListEntry<K, V> implements Map.Entry<K, V> {
+		private K key;
+		private V value;
+
+
+		@Override
+		public K getKey() {
+			return key;
+		}
+
+		@Override
+		public V getValue() {
+			return value;
+		}
+
+		@Override
+		public V setValue(V value) {
+			throw new UnsupportedOperationException("Entry.setValue()");
+		}
 	}
 
 }

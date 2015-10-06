@@ -1,5 +1,6 @@
 package twg2.collections.util.dataStructures;
 
+import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -30,6 +31,7 @@ public class Bag<T> implements ModifiableCollection<T>, CollectionRemove<T>, Ite
 	private int size;
 	/** Used by iterators to ensure that the list has not been modified while iterating */
 	private volatile int action;
+	private BagListView listView = new BagListView();
 
 
 	/** Creates an unsorted collection with a default size of 16
@@ -429,6 +431,10 @@ public class Bag<T> implements ModifiableCollection<T>, CollectionRemove<T>, Ite
 	}
 
 
+	public List<T> listView() {
+		return listView;
+	}
+
 
 	@Override
 	public int hashCode() {
@@ -515,6 +521,55 @@ public class Bag<T> implements ModifiableCollection<T>, CollectionRemove<T>, Ite
 			// are replaced with items from the end of the group
 			currentIndex--;
 		}
+	}
+
+
+
+
+	/** A view of this Bag as a list, performance may not be a good as this Bag as not all methods are implemented (i.e. uses {@link AbstractList})
+	 * @author TeamworkGuy2
+	 * @since 2015-10-6
+	 */
+	protected class BagListView extends AbstractList<T> {
+
+		@Override
+		public T get(int index) {
+			return Bag.this.get(index);
+		}
+
+		@SuppressWarnings("unchecked")
+		@Override
+		public int indexOf(Object o) {
+			return Bag.this.indexOf((T)o);
+		}
+
+		@SuppressWarnings("unchecked")
+		@Override
+		public int lastIndexOf(Object o) {
+			return Bag.this.lastIndexOf((T)o);
+		}
+
+		@SuppressWarnings("unchecked")
+		@Override
+		public boolean contains(Object o) {
+			return Bag.this.contains((T)o);
+		}
+
+		@Override
+		public int size() {
+			return Bag.this.size;
+		}
+
+		@Override
+		public void clear() {
+			Bag.this.clear();
+		}
+
+		@Override
+		public Iterator<T> iterator() {
+			return Bag.this.iterator();
+		}
+
 	}
 
 }

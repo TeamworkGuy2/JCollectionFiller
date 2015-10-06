@@ -3,13 +3,14 @@ package twg2.collections.util.dataStructures;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import twg2.collections.interfaces.PairCollection;
-import twg2.collections.interfaces.RandomAccessCollection;
 import twg2.collections.util.ToStringUtil;
 
 /** Map implementation which allows duplicate keys and values 
@@ -20,11 +21,12 @@ import twg2.collections.util.ToStringUtil;
  * be self explanatory.
  * This is basically a {@code List<Map.Entry<K, V>>} with the ability to store duplicate key-value pairs.
  */
-public class PairList<K, V> implements RandomAccessCollection<K>, PairCollection<K, V> {
+public class PairList<K, V> implements PairCollection<K, V> {
 	private List<K> keys; // List of Map keys
 	private List<V> values; // List of Map values
 	private List<K> keysIm; // Immutable copy of the keys
 	private List<V> valuesIm; // Immutable copy of the values
+	private volatile int mod;
 
 
 	/** Create a PairList with a default size of 10.
@@ -130,23 +132,13 @@ public class PairList<K, V> implements RandomAccessCollection<K>, PairCollection
 			return null;
 		}
 		else {
-			return values.get( keys.indexOf(key) );
+			int idx = keys.indexOf(key);
+			return values.get(idx);
 		}
 	}
 
 
-	/** returns the key corresponding to the index given,
-	 * same as {@link #getKey(int)} for compatibility with {@link RandomAccessCollection}.
-	 * @param index the index of the key to be returned
-	 * @return the key found at the specified index
-	 */
-	@Override
-	public K get(int index) {
-		return getKey(index);
-	}
-
-
-	/** getKey, returns the key corresponding to the index given
+	/** returns the key corresponding to the index given
 	 * @param index the index of the key to be returned
 	 * @return the key found at the specified index
 	 */
@@ -161,7 +153,7 @@ public class PairList<K, V> implements RandomAccessCollection<K>, PairCollection
 	}
 
 
-	/** getValue, returns the value corresponding to the index given
+	/** returns the value corresponding to the index given
 	 * @param index the index of the value to be returned
 	 * @return the value found at the specified index
 	 */
@@ -173,6 +165,28 @@ public class PairList<K, V> implements RandomAccessCollection<K>, PairCollection
 		else {
 			return values.get(index);
 		}
+	}
+
+
+	/** returns the last key
+	 * @return the last key in this pair list
+	 */
+	@Override
+	public K getLastKey() {
+		if(this.size() < 0) { throw new IndexOutOfBoundsException("0 of pair list size " + this.size()); }
+
+		return keys.get(this.keys.size() - 1);
+	}
+
+
+	/** returns the last value
+	 * @return the last value in this pair list
+	 */
+	@Override
+	public V getLastValue() {
+		if(this.size() < 0) { throw new IndexOutOfBoundsException("0 of pair list size " + this.size()); }
+
+		return values.get(this.keys.size() - 1);
 	}
 
 
@@ -258,6 +272,7 @@ public class PairList<K, V> implements RandomAccessCollection<K>, PairCollection
 		int index = keys.indexOf(key);
 		if(index > -1) {
 			V val = values.get(index);
+			mod++;
 			keys.set(index, key);
 			values.set(index, value);
 			return val;
@@ -271,6 +286,7 @@ public class PairList<K, V> implements RandomAccessCollection<K>, PairCollection
 
 	@Override
 	public void add(K key, V value) {
+		mod++;
 		keys.add(key);
 		values.add(value);
 	}
@@ -297,6 +313,8 @@ public class PairList<K, V> implements RandomAccessCollection<K>, PairCollection
 	@Override
 	public void putAll(Map<? extends K, ? extends V> mapPairs) {
 		Set<? extends K> keySet = mapPairs.keySet();
+		mod++;
+
 		for(K key : keySet) {
 			keys.add(key);
 		}
@@ -314,6 +332,7 @@ public class PairList<K, V> implements RandomAccessCollection<K>, PairCollection
 	 */
 	@Override
 	public void putAll(PairCollection<? extends K, ? extends V> listPairs) {
+		mod++;
 		keys.addAll(listPairs.keyList());
 		values.addAll(listPairs.values());
 	}
@@ -336,6 +355,7 @@ public class PairList<K, V> implements RandomAccessCollection<K>, PairCollection
 
 
 	public void removeIndex(int index) {
+		mod++;
 		values.remove(index);
 		keys.remove(index);
 	}
@@ -345,6 +365,7 @@ public class PairList<K, V> implements RandomAccessCollection<K>, PairCollection
 	 */
 	@Override
 	public void clear() {
+		mod++;
 		keys.clear();
 		values.clear();
 	}
@@ -369,9 +390,80 @@ public class PairList<K, V> implements RandomAccessCollection<K>, PairCollection
 
 
 	@Override
+	public Iterator<Entry<K, V>> iterator() {
+		return new PairListIterator<>(this);
+	}
+
+
+	@Override
 	public String toString() {
 		StringBuilder builder = ToStringUtil.toStringKeyValuePairs(this.keys, this.values, this.keys.size(), null);
 		return builder.toString();
+	}
+
+
+	/**
+	 * @author TeamworkGuy2
+	 * @since 2015-10-5
+	 */
+	public static class PairListIterator<K, V> implements Iterator<Entry<K, V>> {
+		private final PairList<K, V> list;
+		private int index;
+		private PairListEntry<K, V> entry;
+		private final int expectedMod;
+
+
+		public PairListIterator(PairList<K, V> list) {
+			this.list = list;
+			this.index = -1; // so that first call to next() works and 'index' always matches current iterator position
+			this.entry = new PairListEntry<>();
+			this.expectedMod = list.mod;
+		}
+
+
+		@Override
+		public boolean hasNext() {
+			if(expectedMod != list.mod) {
+				throw new ConcurrentModificationException("pair list change while iterating");
+			}
+			return index + 1 < list.size();
+		}
+
+		@Override
+		public Entry<K, V> next() {
+			if(expectedMod != list.mod) {
+				throw new ConcurrentModificationException("pair list change while iterating");
+			}
+			index++;
+			K nextKey = list.getKey(index);
+			V nextVal = list.getValue(index);
+			entry.key = nextKey;
+			entry.value = nextVal;
+			return entry;
+		}
+		
+	}
+
+
+	static class PairListEntry<K, V> implements Map.Entry<K, V> {
+		private K key;
+		private V value;
+
+
+		@Override
+		public K getKey() {
+			return key;
+		}
+
+		@Override
+		public V getValue() {
+			return value;
+		}
+
+		@Override
+		public V setValue(V value) {
+			throw new UnsupportedOperationException("Entry.setValue()");
+		}
 	}
 
 }

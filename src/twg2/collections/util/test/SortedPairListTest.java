@@ -1,6 +1,9 @@
 package twg2.collections.util.test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Map.Entry;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -17,7 +20,7 @@ public class SortedPairListTest {
 
 	@Test
 	public void testSortedPairList() {
-		SortedPairList<String, Integer> pairs = new SortedPairList<>((str1, str2) -> str1.compareTo(str2));
+		SortedPairList<String, Integer> pairs = SortedPairList.newStringPairList();
 		pairs.add("red", 1);
 		pairs.add("green", 2);
 
@@ -36,11 +39,29 @@ public class SortedPairListTest {
 
 		Assert.assertTrue(pairs.containsKey("B"));
 		Assert.assertTrue(pairs.indexOf("B") == 1);
-		Assert.assertEquals("green", pairs.getLast());
+		Assert.assertEquals("green", pairs.getLastKey());
 
 		pairs.clear();
 
 		Assert.assertTrue(pairs.isEmpty());
+	}
+
+
+	@Test
+	public void testSortedPairListIterator() {
+		SortedPairList<String, Integer> pairs = SortedPairList.newStringPairList();
+		pairs.add("red", 1);
+		pairs.add("green", 2);
+		pairs.add("blue", 3);
+
+		List<String> expect = Arrays.asList("blue", "green", "red");
+
+		List<String> pairKeys = new ArrayList<>();
+		for(Entry<String, Integer> entry : pairs) {
+			pairKeys.add(entry.getKey());
+		}
+
+		Assert.assertEquals(expect, pairs.keyList());
 	}
 
 }

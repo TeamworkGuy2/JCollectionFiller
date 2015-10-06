@@ -2,19 +2,21 @@ package twg2.collections.interfaces;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.RandomAccess;
 
 /** Map implementation which allows duplicate keys and values 
  * ({@link HashMap} and {@link LinkedHashMap} do not allow duplicate keys).<br>
- * Implementations should have constant-time access performance
- * (i.e. O(1) for {@link #get(int)}, see {@link RandomAccessCollection})
+ * Implementations should have constant-time access performance (i.e. O(1) for {@link #getKey(int)} and {@link #getValue(int)})
  * @author TeamworkGuy2
  * @since 2015-4-5
  * @param <K> the data type of keys, the first value, in each pair of keys/values
  * @param <V> the data type of values, the second value, in each pair of keys/values
  */
-public interface PairCollectionImmutable<K, V> extends RandomAccessCollection<K>, Sized {
+public interface PairCollectionImmutable<K, V> extends RandomAccess, Sized, Iterable<Entry<K, V>> {
 
 	/** Check if this pair collection contains a specific key
 	 * @param key Object to check for in this instance's list of keys
@@ -51,6 +53,22 @@ public interface PairCollectionImmutable<K, V> extends RandomAccessCollection<K>
 	public V getValue(int index);
 
 
+	/**
+	 * @return the last key in the pair collection
+	 */
+	public default K getLastKey() {
+		return this.getKey(this.size() - 1);
+	}
+
+
+	/**
+	 * @return the last value in the pair collection
+	 */
+	public default V getLastValue() {
+		return this.getValue(this.size() - 1);
+	}
+
+
 	/** keyList, (Replaces the purpose of keySet)
 	 * @return the List of keys from this map 
 	 */
@@ -74,6 +92,10 @@ public interface PairCollectionImmutable<K, V> extends RandomAccessCollection<K>
 	 * @return a Collection of this instance's values
 	 */
 	public Collection<V> values();
+
+
+	@Override
+	public Iterator<Entry<K, V>> iterator();
 
 
 	@Override

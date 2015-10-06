@@ -1,5 +1,6 @@
 package twg2.collections.interfaces;
 
+import java.util.Iterator;
 import java.util.RandomAccess;
 
 /** An interface to provide generic access to a group/collection/set of objects
@@ -9,7 +10,7 @@ import java.util.RandomAccess;
  * @author TeamworkGuy2
  * @since 2013-12-26
  */
-public interface RandomAccessCollection<T> extends Sized, RandomAccess {
+public interface RandomAccessCollection<T> extends Sized, RandomAccess, Iterable<T> {
 
 
 	/**
@@ -27,6 +28,10 @@ public interface RandomAccessCollection<T> extends Sized, RandomAccess {
 	public default T getLast() {
 		return this.get(this.size() - 1);
 	}
+
+
+	@Override
+	Iterator<T> iterator();
 
 
 	@Override

@@ -16,6 +16,7 @@ import twg2.collections.util.AddCondition;
 import twg2.collections.util.ListAdd;
 import twg2.collections.util.ListUtil;
 import twg2.collections.util.MapBuilder;
+import checks.CheckCollections;
 import checks.CheckTask;
 
 
@@ -80,6 +81,17 @@ public final class BuilderTests {
 		Collections.sort(listA, comparator);
 		Collections.sort(listB, comparator);
 		Assert.assertEquals(listA, listB);
+	}
+
+
+	@Test
+	public void testDiff() {
+		List<String> a = Arrays.asList("a", "Bb", "Ccc", "DdD", "eEe");
+		List<String> b = Arrays.asList("a", "Ccc", "eEe", "G");
+		List<String> expect = Arrays.asList("DdD", "Bb", "G");
+
+		List<String> abDiff = ListUtil.diff(a, b);
+		CheckCollections.assertLooseEquals(expect, abDiff);
 	}
 
 }

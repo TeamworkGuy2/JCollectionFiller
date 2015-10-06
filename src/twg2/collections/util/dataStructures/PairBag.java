@@ -152,12 +152,6 @@ public class PairBag<K, V> implements PairCollection<K, V>, IndexedMap<K, V>, It
 	}
 
 
-	@Override
-	public K get(int index) {
-		return getKey(index);
-	}
-
-
 	/** Get the key at the specified index from this group of key value pairs
 	 * @param index the index between {@code [0, }{@link #size()}{@code -1]}
 	 * inclusive to retrieve
@@ -165,7 +159,7 @@ public class PairBag<K, V> implements PairCollection<K, V>, IndexedMap<K, V>, It
 	 */
 	@Override
 	public K getKey(int index) {
-		if(index < 0 || index >= size) { throw new ArrayIndexOutOfBoundsException(index); }
+		if(index < 0 || index >= size) { throw new IndexOutOfBoundsException("" + index); }
 		@SuppressWarnings("unchecked")
 		K key = (K)keys[index];
 		return key;
@@ -179,8 +173,27 @@ public class PairBag<K, V> implements PairCollection<K, V>, IndexedMap<K, V>, It
 	 */
 	@Override
 	public V getValue(int index) {
+		if(index < 0 || index >= size) { throw new IndexOutOfBoundsException("" + index); }
 		@SuppressWarnings("unchecked")
 		V value = (V)values[index];
+		return value;
+	}
+
+
+	@Override
+	public K getLastKey() {
+		if(this.size < 1) { throw new IndexOutOfBoundsException("0 of pair bag size " + this.size); }
+		@SuppressWarnings("unchecked")
+		K key = (K)keys[this.size - 1];
+		return key;
+	}
+
+
+	@Override
+	public V getLastValue() {
+		if(this.size < 1) { throw new IndexOutOfBoundsException("0 of pair bag size " + this.size); }
+		@SuppressWarnings("unchecked")
+		V value = (V)values[this.size - 1];
 		return value;
 	}
 
@@ -346,13 +359,13 @@ public class PairBag<K, V> implements PairCollection<K, V>, IndexedMap<K, V>, It
 		// avoid creating iterator if the list is random access
 		if(values instanceof RandomAccess) {
 			for(int i = 0, size = listPairs.size(); i < size; i++) {
-				add(listPairs.get(i), values.get(i));
+				add(listPairs.getKey(i), values.get(i));
 			}
 		}
 		else {
 			int i = 0;
 			for(V v : values) {
-				add(listPairs.get(i), v);
+				add(listPairs.getKey(i), v);
 				i++;
 			}
 		}
@@ -364,7 +377,7 @@ public class PairBag<K, V> implements PairCollection<K, V>, IndexedMap<K, V>, It
 	 * @return the key removed from the specified index
 	 */
 	public K remove(int index) {
-		if(index < 0 || index >= size) { throw new ArrayIndexOutOfBoundsException(index); }
+		if(index < 0 || index >= size) { throw new IndexOutOfBoundsException("" + index); }
 		action++;
 		// Get the item to remove
 		@SuppressWarnings("unchecked")
@@ -386,7 +399,7 @@ public class PairBag<K, V> implements PairCollection<K, V>, IndexedMap<K, V>, It
 	 * @return the key-value pair removed from the specified index
 	 */
 	public Map.Entry<K, V> removeEntry(int index) {
-		if(index < 0 || index >= size) { throw new ArrayIndexOutOfBoundsException(index); }
+		if(index < 0 || index >= size) { throw new IndexOutOfBoundsException("" + index); }
 		action++;
 		// Get the item to remove
 		@SuppressWarnings("unchecked")

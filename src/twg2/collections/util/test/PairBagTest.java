@@ -1,13 +1,16 @@
 package twg2.collections.util.test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Map.Entry;
 
 import org.junit.Assert;
 import org.junit.Test;
 
-import checks.CheckCollections;
 import twg2.collections.tuple.Tuples;
 import twg2.collections.util.dataStructures.PairBag;
+import checks.CheckCollections;
 
 /**
  * @author TeamworkGuy2
@@ -54,6 +57,19 @@ public class PairBagTest {
 		int idx = bag.getKeyIndex("F");
 		Assert.assertTrue(idx > -1);
 		bag.setKeyValue(idx, "end", 123);
+	}
+
+
+	@Test
+	public void testIterator() {
+		PairBag<String, Integer> bag = new PairBag<>(Arrays.asList(Tuples.of("a", 1), Tuples.of("b", 2), Tuples.of("c", 3)));
+		List<String> expect = Arrays.asList("a", "b", "c");
+
+		List<String> bagKeys = new ArrayList<>();
+		for(Entry<String, Integer> entry : bag) {
+			bagKeys.add(entry.getKey());
+		}
+		Assert.assertEquals(expect, bagKeys);
 	}
 
 }

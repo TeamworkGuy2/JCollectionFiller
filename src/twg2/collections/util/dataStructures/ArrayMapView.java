@@ -286,15 +286,6 @@ public final class ArrayMapView<K, V> implements PairCollectionImmutable<K, V>, 
 
 
 	@Override
-	public K get(int index) {
-		checkIndex(index);
-		@SuppressWarnings("unchecked")
-		K key = (K)keys[keysOff + index];
-		return key;
-	}
-
-
-	@Override
 	public List<K> keyList() {
 		return keysView.getArrayView();
 	}
