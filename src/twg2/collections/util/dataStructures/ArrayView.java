@@ -99,9 +99,7 @@ public final class ArrayView<E> implements List<E>, RandomAccessCollection<E> {
 
 	@Override
 	public E get(int index) {
-		if(off + index > len) {
-			throw new IndexOutOfBoundsException();
-		}
+		checkIndex(index);
 		@SuppressWarnings("unchecked")
 		E obj = (E)objs[off + index];
 		return obj;
@@ -128,17 +126,10 @@ public final class ArrayView<E> implements List<E>, RandomAccessCollection<E> {
 
 	@Override
 	public int indexOf(Object o) {
-		int modCached = mod;
 		for(int i = off, size = off + len; i < size; i++) {
 			if(o != null ? o.equals(objs[i]) : objs[i] == null) {
-				if(modCached != mod) {
-					throw new ConcurrentModificationException();
-				}
 				return i - off;
 			}
-		}
-		if(modCached != mod) {
-			throw new ConcurrentModificationException();
 		}
 		return -1;
 	}
@@ -146,17 +137,10 @@ public final class ArrayView<E> implements List<E>, RandomAccessCollection<E> {
 
 	@Override
 	public int lastIndexOf(Object o) {
-		int modCached = mod;
 		for(int i = off + len - 1; i >= off; i--) {
 			if(o != null ? o.equals(objs[i]) : objs[i] == null) {
-				if(modCached != mod) {
-					throw new ConcurrentModificationException();
-				}
 				return i - off;
 			}
-		}
-		if(modCached != mod) {
-			throw new ConcurrentModificationException();
 		}
 		return -1;
 	}
@@ -286,14 +270,10 @@ public final class ArrayView<E> implements List<E>, RandomAccessCollection<E> {
 
 	@Override
 	public boolean containsAll(Collection<?> c) {
-		int modCached = mod;
 		for(Object obj : c) {
 			if(!contains(obj)) {
 				return false;
 			}
-		}
-		if(modCached != mod) {
-			throw new ConcurrentModificationException();
 		}
 		return true;
 	}
@@ -337,12 +317,7 @@ public final class ArrayView<E> implements List<E>, RandomAccessCollection<E> {
 
 	@Override
 	public String toString() {
-		int modCached = mod;
 		String str = ArrayUtil.toString(objs, off, len);
-
-		if(modCached != mod) {
-			throw new ConcurrentModificationException();
-		}
 		return str;
 	}
 
@@ -358,9 +333,7 @@ public final class ArrayView<E> implements List<E>, RandomAccessCollection<E> {
 		if(!allowSet) {
 			throw new UnsupportedOperationException("cannot modified immutable view");
 		}
-		if(index < 0 || index >= len) {
-			throw new IndexOutOfBoundsException(index + " of view size " + len);
-		}
+		checkIndex(index);
 		objs[off + index] = element;
 		mod++;
 		return null;
@@ -382,6 +355,13 @@ public final class ArrayView<E> implements List<E>, RandomAccessCollection<E> {
 	@Override
 	public List<E> subList(int fromIndex, int toIndex) {
 		throw new UnsupportedOperationException("cannot create sub list of view");
+	}
+
+
+	private final void checkIndex(int index) {
+		if(index < 0 || index >= len) {
+			throw new IndexOutOfBoundsException(index + " of view size " + len);
+		}
 	}
 
 }

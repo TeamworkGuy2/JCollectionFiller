@@ -224,11 +224,7 @@ public final class ArrayMapView<K, V> implements PairCollectionImmutable<K, V>, 
 
 	@Override
 	public String toString() {
-		int modCached = mod;
 		StringBuilder strB = ToStringUtil.toStringKeyValuePairs(this.keys, this.keysOff, this.values, this.valuesOff, this.len, null);
-		if(modCached != mod) {
-			throw new ConcurrentModificationException();
-		}
 		return strB.toString();
 	}
 
@@ -319,48 +315,30 @@ public final class ArrayMapView<K, V> implements PairCollectionImmutable<K, V>, 
 
 
 	public boolean containsAllKeys(Collection<? extends K> k) {
-		int modCached = mod;
 		for(K key : k) {
 			if(!containsKey(key)) {
 				return false;
 			}
-		}
-		if(modCached != mod) {
-			throw new ConcurrentModificationException();
 		}
 		return true;
 	}
 
 
 	public int indexOf(Object o) {
-		int modCached = mod;
 		for(int i = keysOff, size = keysOff + len; i < size; i++) {
 			if(o != null ? o.equals(keys[i]) : keys[i] == null) {
-				if(modCached != mod) {
-					throw new ConcurrentModificationException();
-				}
 				return i;
 			}
-		}
-		if(modCached != mod) {
-			throw new ConcurrentModificationException();
 		}
 		return -1;
 	}
 
 
 	public int lastIndexOf(Object o) {
-		int modCached = mod;
 		for(int i = keysOff + len - 1; i >= keysOff; i--) {
 			if(o != null ? o.equals(keys[i]) : keys[i] == null) {
-				if(modCached != mod) {
-					throw new ConcurrentModificationException();
-				}
 				return i;
 			}
-		}
-		if(modCached != mod) {
-			throw new ConcurrentModificationException();
 		}
 		return -1;
 	}
@@ -368,34 +346,20 @@ public final class ArrayMapView<K, V> implements PairCollectionImmutable<K, V>, 
 
 
 	public int indexOfValue(V o) {
-		int modCached = mod;
 		for(int i = valuesOff, size = valuesOff + len; i < size; i++) {
 			if(o != null ? o.equals(values[i]) : values[i] == null) {
-				if(modCached != mod) {
-					throw new ConcurrentModificationException();
-				}
 				return i;
 			}
-		}
-		if(modCached != mod) {
-			throw new ConcurrentModificationException();
 		}
 		return -1;
 	}
 
 
 	public int lastIndexOfValue(V o) {
-		int modCached = mod;
 		for(int i = valuesOff + len - 1; i >= valuesOff; i--) {
 			if(o != null ? o.equals(values[i]) : values[i] == null) {
-				if(modCached != mod) {
-					throw new ConcurrentModificationException();
-				}
 				return i;
 			}
-		}
-		if(modCached != mod) {
-			throw new ConcurrentModificationException();
 		}
 		return -1;
 	}
@@ -436,7 +400,7 @@ public final class ArrayMapView<K, V> implements PairCollectionImmutable<K, V>, 
 	}
 
 
-	private void checkIndex(int index) {
+	private final void checkIndex(int index) {
 		if(index < 0 || index >= len) {
 			throw new IndexOutOfBoundsException(index + " of view size " + len);
 		}

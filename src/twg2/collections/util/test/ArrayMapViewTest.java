@@ -43,6 +43,9 @@ public class ArrayMapViewTest {
 			for(Map.Entry<String, Integer> entry : view) {
 				Assert.assertTrue("key mismatch, found '" + entry + "' expected '" + keys[keysOff + i] + "=" + values[valsOff + i] + "'", entry.getKey().equals(keys[keysOff + i]));
 				Assert.assertTrue("value mismatch, found '" + entry + "' expected '" + keys[keysOff + i] + "=" + values[valsOff + i] + "'", entry.getValue().equals(values[valsOff + i]));
+
+				Assert.assertTrue("key mismatch, found '" + entry + "' expected '" + view.getKey(i) + "=" + view.getValue(i) + "'", entry.getKey().equals(view.getKey(i)));
+				Assert.assertTrue("value mismatch, found '" + entry + "' expected '" + view.getKey(i) + "=" + view.getValue(i) + "'", entry.getValue().equals(view.getValue(i)));
 				i++;
 			}
 

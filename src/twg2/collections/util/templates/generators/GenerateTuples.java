@@ -5,8 +5,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
 
-import codeTemplate.ClassTemplate;
-import codeTemplate.render.TemplateRenders;
+import org.stringtemplate.v4.ST;
+
+import twg2.template.codeTemplate.ClassTemplate;
+import twg2.template.codeTemplate.render.STTemplates;
+import twg2.template.codeTemplate.render.TemplateImports;
+import twg2.template.codeTemplate.render.TemplateRenderBuilder;
 
 /**
  * @author TeamworkGuy2
@@ -28,6 +32,7 @@ public class GenerateTuples {
 
 	private static String tmplDir = "src/twg2/collections/util/templates/";
 	private static String pkgName = "twg2.collections.tuple";
+	private static TemplateImports importsMapper = TemplateImports.emptyInst();
 
 
 	public static void generateTuples() {
@@ -49,7 +54,11 @@ public class GenerateTuples {
 
 		info.types = Arrays.asList(IntStream.range(startIndex, startIndex + count).mapToObj((i) -> Arrays.asList(IntStream.range(0, i).boxed().toArray((s) -> new Integer[s]))).toArray((s) -> new List[s]));
 
-		TemplateRenders.renderClassTemplate(tmplDir + "TTuples.stg", "TTuples", info);
+		ST stTmpl = STTemplates.fromFile(tmplDir + "TTuples.stg", "TTuples", importsMapper);
+		TemplateRenderBuilder.newInst()
+				.addParam("var", info)
+				.writeDst(info)
+				.render(stTmpl);
 	}
 
 
@@ -64,7 +73,11 @@ public class GenerateTuples {
 
 		info.types = Arrays.asList(IntStream.range(0, count).boxed().toArray((s) -> new Integer[s]));
 
-		TemplateRenders.renderClassTemplate(tmplDir + "TTuple.stg", "TTuple", info);
+		ST stTmpl = STTemplates.fromFile(tmplDir + "TTuple.stg", "TTuple", importsMapper);
+		TemplateRenderBuilder.newInst()
+				.addParam("var", info)
+				.writeDst(info)
+				.render(stTmpl);
 	}
 
 

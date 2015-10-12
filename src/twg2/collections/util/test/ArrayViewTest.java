@@ -32,6 +32,7 @@ public class ArrayViewTest {
 			int i = 0;
 			for(String str : view) {
 				Assert.assertTrue("found '" + str + "' expected '" + objs[off + i] + "'", str.equals(objs[off + i]));
+				Assert.assertTrue("found '" + str + "' expected '" + view.get(i) + "'", str.equals(view.get(i)));
 				i++;
 			}
 			Assert.assertArrayEquals(viewAry, view.toArray(new String[len]));

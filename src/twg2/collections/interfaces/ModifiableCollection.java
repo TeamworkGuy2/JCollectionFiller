@@ -6,7 +6,7 @@ package twg2.collections.interfaces;
  * @author TeamworkGuy2
  * @since 2014-4-12
  */
-public interface ModifiableCollection<T> extends RandomAccessCollection<T>, CollectionAdd<T> {
+public interface ModifiableCollection<T> extends RandomAccessCollection<T>, CollectionAdd<T>, CollectionRemove<T> {
 
 	/** Remove the item at the specified index. Subsequent items after the inserted item
 	 * are shifted one index lower (toward 0).
@@ -51,6 +51,7 @@ public interface ModifiableCollection<T> extends RandomAccessCollection<T>, Coll
 	/** Remove all of the items in this collection.
 	 * Once this call returns {@link #size()} should return 0.
 	 */
+	@Override
 	public void clear();
 
 }
