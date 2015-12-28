@@ -2,12 +2,21 @@ package twg2.collections.util;
 
 import java.awt.Color;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.Reader;
+import java.io.UncheckedIOException;
+import java.io.Writer;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 /** A utility to manage various properties, such as floats, ints, booleans, colors, etc.
  * These values are stored in the map passed to this class' constructor {@link #PropertyMap(Map)}.<br/>
@@ -19,12 +28,38 @@ public class PropertyMap {
 	private Map<String, String> usedProperties;
 
 
+	public PropertyMap() {
+		this.properties = new HashMap<>();
+		this.usedProperties = new HashMap<String, String>();
+	}
+
+
 	/** Create a property map using the specified map
 	 * @param map the map to read and write property values to and from
 	 */
 	public PropertyMap(Map<String, String> map) {
 		this.properties = map;
 		this.usedProperties = new HashMap<String, String>();
+	}
+
+
+	public void store(OutputStream os, String comments) {
+		Properties props = _propertyMapToProperties(this);
+		try {
+			props.store(os, comments);
+		} catch (IOException e) {
+			throw new UncheckedIOException(e);
+		}
+	}
+
+
+	public void store(Writer writer, String comments) {
+		Properties props = _propertyMapToProperties(this);
+		try {
+			props.store(writer, comments);
+		} catch (IOException e) {
+			throw new UncheckedIOException(e);
+		}
 	}
 
 
@@ -328,6 +363,64 @@ public class PropertyMap {
 
 	public void setFloat(String name, float value) {
 		setString(name, Float.toString(value));
+	}
+
+
+	public static final PropertyMap loadFromFile(File file) {
+		try {
+			return loadFromStream(new FileInputStream(file));
+		}  catch (FileNotFoundException e) {
+			System.err.println("properties file '" + file + "' not found");
+		}
+		return new PropertyMap();
+	}
+
+
+	public static final PropertyMap loadFromReader(Reader reader) {
+		return _loadFromNamedReader(reader, null);
+	}
+
+
+	public static final PropertyMap loadFromStream(InputStream is) {
+		Properties settingsProps = new Properties();
+		try {
+			settingsProps.load(is);
+		} catch (IOException e) {
+			throw new UncheckedIOException(e);
+		}
+		return _propertiesToPropertyMap(settingsProps);
+	}
+
+
+	private static final PropertyMap _loadFromNamedReader(Reader reader, Object srcName) {
+		Properties settingsProps = new Properties();
+		try {
+			settingsProps.load(reader);
+		} catch (IOException e) {
+			throw new UncheckedIOException(e);
+		}
+		return _propertiesToPropertyMap(settingsProps);
+	}
+
+
+	private static final PropertyMap _propertiesToPropertyMap(Properties props) {
+		Map<String, String> tmpMap = new HashMap<>();
+		for(Map.Entry<Object, Object> setting : props.entrySet()) {
+			tmpMap.put((String)setting.getKey(), (String)setting.getValue());
+		}
+
+		PropertyMap propMap = new PropertyMap(tmpMap);
+		return propMap;
+	}
+
+
+	private static final Properties _propertyMapToProperties(PropertyMap propMap) {
+		Properties props = new Properties();
+		for(Map.Entry<String, String> setting : propMap.getProperties().entrySet()) {
+			props.setProperty(setting.getKey(), setting.getValue());
+		}
+
+		return props;
 	}
 
 }

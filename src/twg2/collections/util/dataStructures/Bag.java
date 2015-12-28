@@ -8,10 +8,10 @@ import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.List;
 
+import twg2.arrays.ArrayManaged;
+import twg2.arrays.ArrayUtil;
 import twg2.collections.interfaces.CollectionRemove;
 import twg2.collections.interfaces.ModifiableCollection;
-import twg2.collections.util.arrayUtils.ArrayManaged;
-import twg2.collections.util.arrayUtils.ArrayUtil;
 
 /** Bag, a collection similar to an {@link ArrayList} that does not preserve the insertion order of items. 
  * All operations are O(1), except {@link #remove(Object) remove(T)} and {@link #add(Object) add(T)} when

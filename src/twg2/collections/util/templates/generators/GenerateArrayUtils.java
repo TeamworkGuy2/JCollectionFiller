@@ -42,7 +42,7 @@ public class GenerateArrayUtils {
 	public static final void generateArrayUtil() throws IOException {
 		ArrayInfo info = new ArrayInfo();
 		info.className = "ArrayUtil";
-		info.packageName = "twg2.collections.util.arrayUtils";
+		info.packageName = "twg2.arrays";
 
 		info.types = aryTypes;
 
@@ -58,7 +58,7 @@ public class GenerateArrayUtils {
 	public static final void generateArrayManaged() throws IOException {
 		ArrayInfo info = new ArrayInfo();
 		info.className = "ArrayManaged";
-		info.packageName = "twg2.collections.util.arrayUtils";
+		info.packageName = "twg2.arrays";
 
 		info.types = aryTypes;
 

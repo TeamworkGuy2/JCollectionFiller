@@ -1,4 +1,4 @@
-package twg2.collections.util.arrayUtils;
+package twg2.arrays;
 
 /**
  * @author TeamworkGuy2

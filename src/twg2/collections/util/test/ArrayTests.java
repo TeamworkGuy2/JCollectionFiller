@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-import twg2.collections.util.arrayUtils.ArrayUtil;
+import twg2.arrays.ArrayUtil;
 import checks.CheckTask;
 
 /**

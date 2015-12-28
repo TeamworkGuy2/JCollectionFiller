@@ -7,8 +7,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
+import twg2.arrays.ArrayUtil;
 import twg2.collections.interfaces.RandomAccessCollection;
-import twg2.collections.util.arrayUtils.ArrayUtil;
 
 /** An {@link List} backed by an array.<br>
  * All modify methods, such as {@link #add(Object) add()} and {@link #remove(Object) remove()}
