@@ -3567,6 +3567,13 @@ public final class ArrayUtil {
 	// end XOR
 
 
+	public static final <T> T[] emptyArray() {
+		@SuppressWarnings("unchecked")
+		T[] ary = (T[])EMPTY_OBJECT_ARRAY;
+		return ary;
+	}
+
+
 
 
 	public static final class Generic {

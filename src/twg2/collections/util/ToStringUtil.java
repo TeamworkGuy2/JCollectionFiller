@@ -34,7 +34,7 @@ public final class ToStringUtil {
 
 
 	public static StringBuilder toStringKeyValuePairs(Object[] keys, int keysOff, Object[] values, int valuesOff, int len, StringBuilder dstOptional) {
-		StringBuilder sb = dstOptional != null ? dstOptional : new StringBuilder();
+		StringBuilder sb = dstOptional != null ? dstOptional : new StringBuilder(len > 50 ? 512 : len * 8);
 		sb.append('[');
 		if(len > 0) {
 			int count = len - 1;
@@ -60,7 +60,7 @@ public final class ToStringUtil {
 	 * @param dstOptional the {@link StringBuilder} to store the key-value string representation in, can be null in which case a default StringBuilder is created
 	 */
 	public static <K, V> StringBuilder toStringKeyValuePairs(List<? extends K> keys, List<? extends V> values, int size, StringBuilder dstOptional) {
-		StringBuilder sb = dstOptional != null ? dstOptional : new StringBuilder();
+		StringBuilder sb = dstOptional != null ? dstOptional : new StringBuilder(size > 50 ? 512 : size * 8);
 		sb.append('[');
 		if(size > 0) {
 			int sizeTemp = size - 1;
