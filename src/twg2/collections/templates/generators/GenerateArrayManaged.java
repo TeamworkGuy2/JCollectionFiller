@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.stringtemplate.v4.ST;
 
-import twg2.collections.templates.ArrayInfo;
+import twg2.arrays.templates.ArrayInfo;
 import twg2.template.codeTemplate.primitiveTemplate.PrimitiveTemplates;
 import twg2.template.codeTemplate.render.STTemplates;
 import twg2.template.codeTemplate.render.TemplateImports;
@@ -16,7 +16,7 @@ import twg2.template.codeTemplate.render.TemplateRenderBuilder;
  * @author TeamworkGuy2
  * @since 2014-12-28
  */
-public class GenerateArrayUtils {
+public class GenerateArrayManaged {
 	private static String tmplDir = "src.twg2.collections.templates".replace('.', '/') + '/';
 	private static TemplateImports importsMapper = TemplateImports.emptyInst();
 	private static ArrayInfo.Default genericType = new ArrayInfo.Default(true, "<T>", ".equals", false, "null");
@@ -39,22 +39,6 @@ public class GenerateArrayUtils {
 	}
 
 
-	public static final void generateArrayUtil() throws IOException {
-		ArrayInfo info = new ArrayInfo();
-		info.className = "ArrayUtil";
-		info.packageName = "twg2.arrays";
-
-		info.types = aryTypes;
-
-		ST stTmpl = STTemplates.fromFile(tmplDir + "TArrayUtil.stg", "TArrayUtil", importsMapper);
-		TemplateRenderBuilder.newInst()
-				.addParam("var", info)
-				.writeDst(info)
-				.render(stTmpl);
-	}
-
-
-
 	public static final void generateArrayManaged() throws IOException {
 		ArrayInfo info = new ArrayInfo();
 		info.className = "ArrayManaged";
@@ -69,9 +53,9 @@ public class GenerateArrayUtils {
 				.render(stTmpl);
 	}
 
+
 	public static void main(String[] args) throws IOException {
-		generateArrayUtil();
-		//generateArrayManaged();
+		generateArrayManaged();
 	}
 
 }
