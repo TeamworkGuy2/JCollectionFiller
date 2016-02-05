@@ -3,13 +3,10 @@ package twg2.collections.builder;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.RandomAccess;
-import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
@@ -75,19 +72,6 @@ public final class ListUtil {
 			}
 		}
 		return true;
-	}
-
-
-	@SafeVarargs
-	public static final <E> List<E> ofMutable(E... elements) {
-		List<E> list = new ArrayList<>();
-		if(elements != null) {
-			Collections.addAll(list, elements);
-			for(E elem : elements) {
-				list.add(elem);
-			}
-		}
-		return list;
 	}
 
 
@@ -304,24 +288,6 @@ public final class ListUtil {
 			}
 		}
 		return dst;
-	}
-
-
-	/** The symmetric difference between two lists. The values in list {@code e1} and {@code e2} that aren't contained in both lists.
-	 * @param e1 the first list
-	 * @param e2 the section list
-	 * @return a new list containing the values from {@code e1} and {@code e2} that aren't contained in both lists
-	 */
-	public static final <E> List<E> diff(final List<E> e1, final List<E> e2) {
-		List<E> diff = new ArrayList<>(e1);
-		diff.addAll(e2);
-
-		Set<E> commonToBoth = new HashSet<>(e1);
-		commonToBoth.retainAll(e2);
-
-		diff.removeAll(commonToBoth);
-
-		return diff;
 	}
 
 }

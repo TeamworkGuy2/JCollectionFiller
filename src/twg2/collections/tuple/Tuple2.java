@@ -5,7 +5,7 @@ package twg2.collections.tuple;
  * @since 2014-8-6
  */
 @javax.annotation.Generated("StringTemplate")
-public final class Tuple2<A0, A1> implements java.util.Map.Entry<A0, A1> {
+public class Tuple2<A0, A1> implements java.util.Map.Entry<A0, A1> {
 	// package-private
 	final A0 value0;
 	final A1 value1;
@@ -58,10 +58,50 @@ public final class Tuple2<A0, A1> implements java.util.Map.Entry<A0, A1> {
 		throw new IllegalStateException("cannot modify immutable tuple");
 	}
 
+
 	@Override
 	public String toString() {
 		return this.value0 + "=" + this.value1;
 	}
+
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((value0 == null) ? 0 : value0.hashCode());
+		result = prime * result + ((value1 == null) ? 0 : value1.hashCode());
+		return result;
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) { return true; }
+		if (obj == null) { return false; }
+		if (!(obj instanceof Tuple2)) {
+			return false;
+		}
+
+		@SuppressWarnings("unchecked")
+		Tuple2<A0, A1> other = (Tuple2<A0, A1>)obj;
+		if (value0 == null) {
+			if (other.value0 != null) { return false; }
+		}
+		else if (!value0.equals(other.value0)) {
+			return false;
+		}
+
+		if (value1 == null) {
+			if (other.value1 != null) { return false; }
+		}
+		else if (!value1.equals(other.value1)) {
+			return false;
+		}
+
+		return true;
+	}
+
 
 	/** Convert a set of values to a tuple
 	 * @return the newly created tuple

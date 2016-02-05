@@ -15,38 +15,38 @@ public class ListBuilder {
 
 	@SafeVarargs
 	public static <E> List<E> of(E... elements) {
-		return newImmutable(elements);
+		return immutable(elements);
 	}
 	
 
 	public static <E> List<E> of(Iterable<E> iter) {
-		return newImmutable(iter);
+		return immutable(iter);
 	}
 
 
 	public static <E> List<E> of(Iterator<E> iter) {
-		return newImmutable(iter);
+		return immutable(iter);
 	}
 
 
 	@SafeVarargs
-	public static <E> List<E> newImmutable(E... elements) {
-		return Collections.unmodifiableList(newMutable(elements));
+	public static <E> List<E> immutable(E... elements) {
+		return Collections.unmodifiableList(mutable(elements));
 	}
 	
 
-	public static <E> List<E> newImmutable(Iterable<E> iter) {
-		return Collections.unmodifiableList(newMutable(iter));
+	public static <E> List<E> immutable(Iterable<E> iter) {
+		return Collections.unmodifiableList(mutable(iter));
 	}
 
 
-	public static <E> List<E> newImmutable(Iterator<E> iter) {
-		return Collections.unmodifiableList(newMutable(iter));
+	public static <E> List<E> immutable(Iterator<E> iter) {
+		return Collections.unmodifiableList(mutable(iter));
 	}
 
 
 	@SafeVarargs
-	public static <E> List<E> newMutable(E... elements) {
+	public static <E> List<E> mutable(E... elements) {
 		ArrayList<E> list = new ArrayList<>();
 		for(E elem : elements) {
 			list.add(elem);
@@ -55,7 +55,7 @@ public class ListBuilder {
 	}
 
 
-	public static <E> List<E> newMutable(Iterable<E> iter) {
+	public static <E> List<E> mutable(Iterable<E> iter) {
 		ArrayList<E> list = new ArrayList<>();
 		for(E elem : iter) {
 			list.add(elem);
@@ -64,7 +64,7 @@ public class ListBuilder {
 	}
 
 
-	public static <E> List<E> newMutable(Iterator<E> iter) {
+	public static <E> List<E> mutable(Iterator<E> iter) {
 		ArrayList<E> list = new ArrayList<>();
 		while(iter.hasNext()) {
 			E elem = iter.next();

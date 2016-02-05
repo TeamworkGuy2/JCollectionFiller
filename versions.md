@@ -1,8 +1,19 @@
 --------
+####0.3.0
+date: 2016-2-5
+
+commit: ?
+
+* Added Tuple* hashCode() and equals() methods
+* Renamed ListBuilder and MapBuilder newMutable() and newImmutable() to mutable() and immutable()
+* Moved/renamed ListUtil.diff() -> ListDiff.looseDiff(), added ListDiff.diff()
+
+
+--------
 ####0.2.0
 date: 2016-1-18
 
-commit: ?
+commit: e7c6bc519a003a6916c151c5af9958ab4e65422e
 
 * Moved package twg2.arrays to separate JArrays library
 

@@ -78,6 +78,7 @@ public class GenerateTuples {
 				.addParam("var", info)
 				.writeDst(info)
 				.render(stTmpl);
+
 	}
 
 
