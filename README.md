@@ -1,6 +1,6 @@
 JCollectionUtil
 ==============
-version: 0.3.0
+version: 0.3.1
 
 Data structures which the Java APIs do not have equivalents for, including:
 * Array views and two-arrays-as-a-map views

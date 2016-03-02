@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.RandomAccess;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
@@ -286,6 +287,57 @@ public final class ListUtil {
 					dst.add(obj);
 				}
 			}
+		}
+		return dst;
+	}
+
+
+	public static final <E1, E2, R> List<R> combine(Collection<? extends E1> col1, Collection<? extends E2> col2, BiFunction<E1, E2, R> combiner) {
+		return combine(col1, col2, combiner, new ArrayList<R>());
+	}
+
+
+	public static final <E1, E2, R, S extends Collection<R>> S combine(Collection<? extends E1> col1, Collection<? extends E2> col2, BiFunction<E1, E2, R> combiner, S dst) {
+		int size1 = col1.size();
+		int size2 = col2.size();
+		if(size1 != size2) {
+			throw new IllegalArgumentException("cannot combine collections with different lengths, collection 1 has " + size1 + " elements, collection 2 has " + size2);
+		}
+
+		Iterator<? extends E1> iter1 = col1.iterator();
+		Iterator<? extends E2> iter2 = col2.iterator();
+
+		for(int i = 0; i < size1; i++) {
+			if(!iter1.hasNext() || !iter2.hasNext()) {
+				throw new IllegalArgumentException((!iter1.hasNext() ? "collection 1" : "collection 2") + " had fewer elements (" + i + ") than expected size (" + size1 + ")");
+			}
+			E1 e1 = iter1.next();
+			E2 e2 = iter2.next();
+			R res = combiner.apply(e1, e2);
+			dst.add(res);
+		}
+		return dst;
+	}
+
+
+	public static final <E1, E2, R> R[] combineArray(Collection<? extends E1> col1, Collection<? extends E2> col2, BiFunction<E1, E2, R> combiner, R[] dst) {
+		int size1 = col1.size();
+		int size2 = col2.size();
+		if(size1 != size2) {
+			throw new IllegalArgumentException("cannot combine collections with different lengths, collection 1 has " + size1 + " elements, collection 2 has " + size2);
+		}
+
+		Iterator<? extends E1> iter1 = col1.iterator();
+		Iterator<? extends E2> iter2 = col2.iterator();
+
+		for(int i = 0; i < size1; i++) {
+			if(!iter1.hasNext() || !iter2.hasNext()) {
+				throw new IllegalArgumentException((!iter1.hasNext() ? "collection 1" : "collection 2") + " had fewer elements (" + i + ") than expected size (" + size1 + ")");
+			}
+			E1 e1 = iter1.next();
+			E2 e2 = iter2.next();
+			R res = combiner.apply(e1, e2);
+			dst[i] = res;
 		}
 		return dst;
 	}

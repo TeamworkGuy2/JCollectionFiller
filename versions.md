@@ -1,8 +1,19 @@
 --------
+####0.3.1
+date: 2016-3-2
+
+commit: ?
+
+* Added SplitList
+* Added ListUtil.combine() and some additional unit tests
+* Moved test classes to separate test directory
+
+
+--------
 ####0.3.0
 date: 2016-2-5
 
-commit: ?
+commit: f3bee5f147741597afd34841e97c1e8e2e50dc97
 
 * Added Tuple* hashCode() and equals() methods
 * Renamed ListBuilder and MapBuilder newMutable() and newImmutable() to mutable() and immutable()
