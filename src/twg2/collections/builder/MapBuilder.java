@@ -77,7 +77,7 @@ public final class MapBuilder {
 	 */
 	@SafeVarargs
 	public static final <K, V> Map<K, V> mutable(Map.Entry<K, V>... entries) {
-		Map<K, V> entryMap = new HashMap<>();
+		Map<K, V> entryMap = new HashMap<>(entries.length);
 		for(Map.Entry<K, V> entry : entries) {
 			entryMap.put(entry.getKey(), entry.getValue());
 		}
@@ -127,16 +127,6 @@ public final class MapBuilder {
 	/** Creates an immutable mapping of enum constant names to enum constants
 	 * @param enumClass an {@link Enum} class
 	 * @return a map of the enum constant names to enums constants from the specified enum
-	 * @see #immutableEnumNames(Class)
-	 */
-	public static final <E extends Enum<E>> Map<String, E> ofEnumNames(Class<E> enumClass) {
-		return immutableEnumNames(enumClass);
-	}
-
-
-	/** Creates an immutable mapping of enum constant names to enum constants
-	 * @param enumClass an {@link Enum} class
-	 * @return a map of the enum constant names to enums constants from the specified enum
 	 */
 	public static final <E extends Enum<E>> Map<String, E> immutableEnumNames(Class<E> enumClass) {
 		return Collections.unmodifiableMap(mutableEnumNames(enumClass));
@@ -154,13 +144,6 @@ public final class MapBuilder {
 			entryMap.put(enumI.name(), enumI);
 		}
 		return entryMap;
-	}
-
-
-	/** @see #mutableEnumNames(Class, Function)
-	 */
-	public static final <E extends Enum<E>, R> Map<R, E> ofEnumNames(Class<E> enumClass, Function<E, R> enumToKey) {
-		return immutableEnumNames(enumClass, enumToKey);
 	}
 
 

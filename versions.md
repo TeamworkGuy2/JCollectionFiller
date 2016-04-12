@@ -1,8 +1,18 @@
 --------
+####0.4.0
+date: 2016-4-12
+
+commit: ?
+
+* Removed MapBuilder.ofEnumNames() in favor of MapBuilder.immutableEnumNames()
+* Added ListBuilder, ListUtil, MapBuilder, and MapUtil constructor size hints where possible
+
+
+--------
 ####0.3.1
 date: 2016-3-2
 
-commit: ?
+commit: 7be55912b02426933da9ae30730ad20b637044c8
 
 * Added SplitList
 * Added ListUtil.combine() and some additional unit tests

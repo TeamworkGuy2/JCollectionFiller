@@ -47,7 +47,7 @@ public class ListBuilder {
 
 	@SafeVarargs
 	public static <E> List<E> mutable(E... elements) {
-		ArrayList<E> list = new ArrayList<>();
+		ArrayList<E> list = new ArrayList<>(elements.length);
 		for(E elem : elements) {
 			list.add(elem);
 		}

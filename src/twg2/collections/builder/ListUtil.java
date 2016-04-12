@@ -135,23 +135,31 @@ public final class ListUtil {
 	}
 
 
+	/** Transforms a collection of values into a new {@link ArrayList}
+	 * @see #map(Iterator, Function, Collection)
+	 */
+	public static final <E, R> List<R> map(Collection<? extends E> srcColl, Function<E, R> transformer) {
+		return map(srcColl, transformer, new ArrayList<>(srcColl.size()));
+	}
+
+
 	/** Transforms an iterator of values into a new {@link ArrayList}
 	 * @see #map(Iterator, Function, Collection)
 	 */
-	public static final <E, R> List<R> map(Iterator<? extends E> valueIter, Function<E, R> transformer) {
-		return map(valueIter, transformer, new ArrayList<>());
+	public static final <E, R> List<R> map(Iterator<? extends E> srcIter, Function<E, R> transformer) {
+		return map(srcIter, transformer, new ArrayList<>());
 	}
 
 
 	/** Map the values from an iterator to a destination collection using a a mapping function
-	 * @param valueIter the input collection to convert
+	 * @param srcIter the input collection to convert
 	 * @param transformer the function to transform the input list values
 	 * @param dst the destination list to store the transformed values in
 	 * @return the input {@code dst} list filled with the transformed values
 	 */
-	public static final <E, R, S extends Collection<R>> S map(Iterator<? extends E> valueIter, Function<E, R> transformer, S dst) {
-		while(valueIter.hasNext()) {
-			E val = valueIter.next();
+	public static final <E, R, S extends Collection<R>> S map(Iterator<? extends E> srcIter, Function<E, R> transformer, S dst) {
+		while(srcIter.hasNext()) {
+			E val = srcIter.next();
 			R obj = transformer.apply(val);
 			dst.add(obj);
 		}
@@ -162,8 +170,8 @@ public final class ListUtil {
 	/** Transforms a list of values into a new {@link ArrayList}
 	 * @see #map(Iterable, Function, Collection)
 	 */
-	public static final <E, R> List<R> map(Iterable<? extends E> list, Function<E, R> transformer) {
-		return map(list, transformer, new ArrayList<>());
+	public static final <E, R> List<R> map(Iterable<? extends E> src, Function<E, R> transformer) {
+		return map(src, transformer, new ArrayList<>());
 	}
 
 
@@ -194,8 +202,8 @@ public final class ListUtil {
 
 
 	@SafeVarargs
-	public static final <E, R> Collection<R> map(Function<E, R> transformer, E... values) {
-		return map(transformer, new ArrayList<>(), values);
+	public static final <E, R> List<R> map(Function<E, R> transformer, E... values) {
+		return map(transformer, new ArrayList<>(values.length), values);
 	}
 
 

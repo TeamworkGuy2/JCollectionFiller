@@ -99,7 +99,7 @@ public final class MapBuilderTest {
 				expect.put(r.name(), r);
 			}
 
-			Map<String, RetentionPolicy> map = MapBuilder.ofEnumNames(RetentionPolicy.class);
+			Map<String, RetentionPolicy> map = MapBuilder.immutableEnumNames(RetentionPolicy.class);
 			Assert.assertEquals(expect, map);
 		}
 
@@ -109,7 +109,7 @@ public final class MapBuilderTest {
 				expect.put(r.name() + "@" + r.hashCode(), r);
 			}
 
-			Map<String, RetentionPolicy> map = MapBuilder.ofEnumNames(RetentionPolicy.class, (r) -> r.name() + "@" + r.hashCode());
+			Map<String, RetentionPolicy> map = MapBuilder.immutableEnumNames(RetentionPolicy.class, (r) -> r.name() + "@" + r.hashCode());
 			Assert.assertEquals(expect, map);
 		}
 	}

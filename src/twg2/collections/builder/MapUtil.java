@@ -27,7 +27,7 @@ public class MapUtil {
 	 * @return the input {@code map} filled with the transformed values
 	 */
 	public static final <K, V, R, S> Map<R, S> mapReuse(Map<? extends K, ? extends V> map, BiFunction<K, V, Map.Entry<R, S>> transformer) {
-		ArrayList<Map.Entry<R, S>> transformedKeyValues = new ArrayList<>();
+		ArrayList<Map.Entry<R, S>> transformedKeyValues = new ArrayList<>(map.size());
 		map.forEach((k, v) -> {
 			Map.Entry<R, S> entry = transformer.apply(k, v);
 			transformedKeyValues.add(entry);
@@ -47,7 +47,7 @@ public class MapUtil {
 	 * @see #map(Map, BiFunction, Map)
 	 */
 	public static final <K, V, R, S> Map<R, S> map(Map<? extends K, ? extends V> map, BiFunction<K, V, Map.Entry<R, S>> transformer) {
-		return map(map, transformer, new HashMap<>());
+		return map(map, transformer, new HashMap<>(map.size()));
 	}
 
 
@@ -71,7 +71,7 @@ public class MapUtil {
 	 * @see #map(Map, BiFunction, Map)
 	 */
 	public static final <K, V> Map<K, V> filter(Map<? extends K, ? extends V> map, BiPredicate<K, V> filter) {
-		return filter(map, filter, new HashMap<>());
+		return filter(map, filter, new HashMap<>(map.size()));
 	}
 
 
@@ -95,7 +95,7 @@ public class MapUtil {
 	 * @see #filterMap(Map, BiPredicate, BiFunction, Map)
 	 */
 	public static final <K, V, R, S> Map<R, S> filterMap(Map<? extends K, ? extends V> map, BiPredicate<K, V> filter, BiFunction<K, V, Map.Entry<R, S>> transformer) {
-		return filterMap(map, filter, transformer, new HashMap<>());
+		return filterMap(map, filter, transformer, new HashMap<>(map.size()));
 	}
 
 
@@ -181,7 +181,7 @@ public class MapUtil {
 	 */
 	@SafeVarargs
 	public static final <E, K, V> Map<K, V> map(Function<E, Map.Entry<K, V>> transformer, E... values) {
-		return map(transformer, new HashMap<>(), values);
+		return map(transformer, new HashMap<>(values.length), values);
 	}
 
 
@@ -194,7 +194,7 @@ public class MapUtil {
 	 */
 	@SafeVarargs
 	public static final <E, K, V> Map<K, V> map(Function<E, Map.Entry<K, V>> transformer, Map<K, V> dst, E... values) {
-		Map<K, V> resMap = new HashMap<>();
+		Map<K, V> resMap = new HashMap<>(values.length);
 		for(E val : values) {
 			Map.Entry<K, V> entry = transformer.apply(val);
 			resMap.put(entry.getKey(), entry.getValue());
