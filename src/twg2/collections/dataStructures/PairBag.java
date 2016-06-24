@@ -13,7 +13,7 @@ import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import java.util.RandomAccess;
 
-import twg2.collections.interfaces.IndexedMap;
+import twg2.collections.interfaces.MapIndexed;
 import twg2.collections.interfaces.PairCollection;
 import twg2.collections.interfaces.RandomAccessCollection;
 import twg2.collections.util.ToStringUtil;
@@ -29,7 +29,7 @@ import twg2.collections.util.ToStringUtil;
  * @author TeamworkGuy2
  * @since 2013-1-20
  */
-public class PairBag<K, V> implements PairCollection<K, V>, IndexedMap<K, V>, Iterable<Map.Entry<K, V>> {
+public class PairBag<K, V> implements PairCollection<K, V>, MapIndexed<K, V>, Iterable<Map.Entry<K, V>> {
 	private Object[] keys;
 	private Object[] values;
 	/** The highest currently empty index to insert new items into,
@@ -39,7 +39,7 @@ public class PairBag<K, V> implements PairCollection<K, V>, IndexedMap<K, V>, It
 	private volatile int action;
 	private BagMapKeyView keyView;
 	private BagMapValueView valueView;
-	private IndexedMap<K, V> keyValueView;
+	private MapIndexed<K, V> keyValueView;
 
 
 	/** Creates an unsorted group of items with a default size of 16
@@ -517,7 +517,7 @@ public class PairBag<K, V> implements PairCollection<K, V>, IndexedMap<K, V>, It
 	}
 
 
-	private IndexedMap<K, V> getKeyValueViewPrivate() {
+	private MapIndexed<K, V> getKeyValueViewPrivate() {
 		return keyValueView == null ? (keyValueView = new BagMapKeyValueView()) : keyValueView;
 	}
 
@@ -550,7 +550,7 @@ public class PairBag<K, V> implements PairCollection<K, V>, IndexedMap<K, V>, It
 	}
 
 
-	public IndexedMap<K, V> getKeyValueView() {
+	public MapIndexed<K, V> getKeyValueView() {
 		return getKeyValueViewPrivate();
 	}
 
@@ -778,7 +778,7 @@ public class PairBag<K, V> implements PairCollection<K, V>, IndexedMap<K, V>, It
 	}
 
 
-	public class BagMapKeyValueView implements IndexedMap<K, V> {
+	public class BagMapKeyValueView implements MapIndexed<K, V> {
 		@Override
 		public int size() {
 			return PairBag.this.size;

@@ -8,7 +8,7 @@ import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.List;
 
-import twg2.arrays.ArrayManaged;
+import twg2.arrays.ArrayManager;
 import twg2.arrays.ArrayUtil;
 import twg2.collections.interfaces.CollectionRemove;
 import twg2.collections.interfaces.ModifiableCollection;
@@ -183,7 +183,7 @@ public class Bag<T> implements ModifiableCollection<T>, CollectionRemove<T>, Ite
 	public boolean add(T item) {
 		// If the bag is to small, expand it
 		if(size + 1 > data.length) {
-			this.data = ArrayManaged.expandArray(data);
+			this.data = ArrayManager.expand(data);
 		}
 		action++;
 		// Add the new item
@@ -203,7 +203,7 @@ public class Bag<T> implements ModifiableCollection<T>, CollectionRemove<T>, Ite
 
 		int itemCount = items.size();
 		if(size + itemCount > data.length) {
-			this.data = ArrayManaged.expandArray(data, size + itemCount);
+			this.data = ArrayManager.expand(data, size + itemCount);
 		}
 		action++;
 		System.arraycopy(items.data, 0, this.data, this.size, itemCount);
@@ -231,7 +231,7 @@ public class Bag<T> implements ModifiableCollection<T>, CollectionRemove<T>, Ite
 		}
 
 		if(size + iteratorSize > data.length) {
-			this.data = ArrayManaged.expandArray(data, size + iteratorSize);
+			this.data = ArrayManager.expand(data, size + iteratorSize);
 		}
 		action++;
 		for(T item : items) {
@@ -257,7 +257,7 @@ public class Bag<T> implements ModifiableCollection<T>, CollectionRemove<T>, Ite
 		}
 
 		if(size + len > data.length) {
-			this.data = ArrayManaged.expandArray(data, size + len);
+			this.data = ArrayManager.expand(data, size + len);
 		}
 		action++;
 		System.arraycopy(items, off, this.data, size, len);
@@ -359,7 +359,7 @@ public class Bag<T> implements ModifiableCollection<T>, CollectionRemove<T>, Ite
 		size = itemsCount;
 
 		if(itemsCount > data.length) {
-			this.data = ArrayManaged.expandArray(data, itemsCount);
+			this.data = ArrayManager.expand(data, itemsCount);
 		}
 
 		for(int i = 0; i < itemsCount; i++) {
