@@ -4,7 +4,13 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 
 
 --------
-###[0.5.0](https://github.com/TeamworkGuy2/JCollectionFiller/commit/b152efab85cc3e0f9f4c18e05cd3bcb2a42c4e33) - 2016-04-12
+###[0.5.1](N/A) - 2016-06-25
+####Added
+* Additional SortedList addItem() and calcInsertIndex() methods which require Comparable parameters instead of an explicit Comparator
+
+
+--------
+###[0.5.0](https://github.com/TeamworkGuy2/JCollectionFiller/commit/69d8d3fe6daba71b46828517c335d9a64471b3bd) - 2016-04-12
 ####Changed
 * Switched versions.md to CHANGELOG.md format, see http://keepachangelog.com/
 * Updated to use JCollectionInterfaces library instead of twg2.collections.interfaces package (which now resides in that library)
