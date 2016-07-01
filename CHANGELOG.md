@@ -4,7 +4,18 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 
 
 --------
-###[0.5.1](N/A) - 2016-06-25
+###[0.6.0](N/A) - 2016-07-01
+####Changed
+Moved byte array/buffer helper classes to new JBuffers library
+
+####Removed
+* ByteBufferArray
+* CircularByteArray
+* SimpleByteArray
+
+
+--------
+###[0.5.1](https://github.com/TeamworkGuy2/JCollectionFiller/commit/f51a505f2bba6a17e66f4f81d5a94debd3cfb786) - 2016-06-26
 ####Added
 * Additional SortedList addItem() and calcInsertIndex() methods which require Comparable parameters instead of an explicit Comparator
 
