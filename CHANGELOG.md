@@ -4,7 +4,7 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 
 
 --------
-###[0.6.0](N/A) - 2016-07-01
+###[0.6.0](https://github.com/TeamworkGuy2/JCollectionFiller/commit/afa95c13c83e0f405390426ad9f8af0b20a9dd26) - 2016-07-01
 ####Changed
 Moved byte array/buffer helper classes to new JBuffers library
 
