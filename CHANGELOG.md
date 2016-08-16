@@ -4,7 +4,18 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 
 
 --------
-###[0.6.0](https://github.com/TeamworkGuy2/JCollectionFiller/commit/afa95c13c83e0f405390426ad9f8af0b20a9dd26) - 2016-07-01
+###[0.6.1](N/A) - 2016-08-15
+####Added
+* ListUtil filter() and map() overloads that accept BaseStream
+* ListUtil.filter() Collection overload changed to accept Iterable
+* Additional ListUtil test cases
+
+####Fixed
+* one of the filterMap() overloads was incorrect
+
+
+--------
+###[0.6.0](https://github.com/TeamworkGuy2/JCollectionFiller/commit/b0efedf02f142ac40daaa441af0579a1dcbed3c2) - 2016-07-01
 ####Changed
 Moved byte array/buffer helper classes to new JBuffers library
 

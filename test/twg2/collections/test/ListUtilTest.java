@@ -1,7 +1,10 @@
 package twg2.collections.test;
 
 import java.util.AbstractMap;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map.Entry;
 
@@ -48,6 +51,9 @@ public class ListUtilTest {
 		for(int i = 0, size = inputs.size(); i < size; i++) {
 			String[] res = ListUtil.toArray(inputs.get(i));
 			Assert.assertArrayEquals(expected.get(i), res);
+
+			res = ListUtil.toArray(new LinkedList<>(inputs.get(i)));
+			Assert.assertArrayEquals(expected.get(i), res);
 		}
 	}
 
@@ -65,10 +71,116 @@ public class ListUtilTest {
 		);
 
 		for(int i = 0, size = inputs.size(); i < size; i++) {
+			// list
 			List<Entry<Integer, String>> res = ListUtil.map(inputs.get(i), (s) -> pair(s.length(), s));
 			Assert.assertEquals(expected.get(i), res);
 
+			res = ListUtil.map(inputs.get(i), (s) -> pair(s.length(), s), new ArrayList<>());
+			Assert.assertEquals(expected.get(i), res);
+
+			// collection
+			res = ListUtil.map((Collection<String>)new LinkedList<>(inputs.get(i)), (s) -> pair(s.length(), s));
+			Assert.assertEquals(expected.get(i), res);
+
+			res = ListUtil.map((Collection<String>)new LinkedList<>(inputs.get(i)), (s) -> pair(s.length(), s), new ArrayList<>());
+			Assert.assertEquals(expected.get(i), res);
+
+			// iterable
+			res = ListUtil.map((Iterable<String>)inputs.get(i), (s) -> pair(s.length(), s));
+			Assert.assertEquals(expected.get(i), res);
+
+			res = ListUtil.map((Iterable<String>)inputs.get(i), (s) -> pair(s.length(), s), new ArrayList<>());
+			Assert.assertEquals(expected.get(i), res);
+
+			// iterator
 			res = ListUtil.map(inputs.get(i).iterator(), (s) -> pair(s.length(), s));
+			Assert.assertEquals(expected.get(i), res);
+
+			res = ListUtil.map(inputs.get(i).iterator(), (s) -> pair(s.length(), s), new ArrayList<>());
+			Assert.assertEquals(expected.get(i), res);
+
+			// stream
+			res = ListUtil.map(inputs.get(i).stream(), (s) -> pair(s.length(), s));
+			Assert.assertEquals(expected.get(i), res);
+
+			res = ListUtil.map(inputs.get(i).stream(), (s) -> pair(s.length(), s), new ArrayList<>());
+			Assert.assertEquals(expected.get(i), res);
+		}
+	}
+
+
+	@Test
+	public void filterTest() {
+		List<List<Entry<Integer, String>>> inputs = Arrays.asList(
+			Arrays.asList(pair(1, "a"), pair(2, "bb"), pair(3, "ccc"), pair(4, "dddd")),
+			Arrays.asList(pair(5, "eeeee"))
+		);
+
+		List<List<Entry<Integer, String>>> expected = Arrays.asList(
+			Arrays.asList(pair(2, "bb"), pair(4, "dddd")),
+			Arrays.asList()
+		);
+
+		for(int i = 0, size = inputs.size(); i < size; i++) {
+			// list
+			List<Entry<Integer, String>> res = ListUtil.filter(inputs.get(i), (s) -> s.getKey() % 2 == 0);
+			Assert.assertEquals(expected.get(i), res);
+
+			res = ListUtil.filter(inputs.get(i), (s) -> s.getKey() % 2 == 0, new ArrayList<>());
+			Assert.assertEquals(expected.get(i), res);
+
+			// collection
+			res = ListUtil.filter((Collection<Entry<Integer, String>>)new LinkedList<>(inputs.get(i)), (s) -> s.getKey() % 2 == 0);
+			Assert.assertEquals(expected.get(i), res);
+
+			res = ListUtil.filter((Collection<Entry<Integer, String>>)new LinkedList<>(inputs.get(i)), (s) -> s.getKey() % 2 == 0, new ArrayList<>());
+			Assert.assertEquals(expected.get(i), res);
+
+			// iterable
+			res = ListUtil.filter((Iterable<Entry<Integer, String>>)inputs.get(i), (s) -> s.getKey() % 2 == 0);
+			Assert.assertEquals(expected.get(i), res);
+
+			res = ListUtil.filter((Iterable<Entry<Integer, String>>)inputs.get(i), (s) -> s.getKey() % 2 == 0, new ArrayList<>());
+			Assert.assertEquals(expected.get(i), res);
+
+			// iterator
+			res = ListUtil.filter(inputs.get(i).iterator(), (s) -> s.getKey() % 2 == 0);
+			Assert.assertEquals(expected.get(i), res);
+
+			res = ListUtil.filter(inputs.get(i).iterator(), (s) -> s.getKey() % 2 == 0, new ArrayList<>());
+			Assert.assertEquals(expected.get(i), res);
+
+			// stream
+			res = ListUtil.filter(inputs.get(i).stream(), (s) -> s.getKey() % 2 == 0);
+			Assert.assertEquals(expected.get(i), res);
+
+			res = ListUtil.filter(inputs.get(i).stream(), (s) -> s.getKey() % 2 == 0, new ArrayList<>());
+			Assert.assertEquals(expected.get(i), res);
+		}
+	}
+
+
+	@Test
+	public void filterMapTest() {
+		List<List<Entry<Integer, String>>> inputs = Arrays.asList(
+			Arrays.asList(pair(1, "a"), pair(2, "bb"), pair(3, "ccc"), pair(4, "dddd")),
+			Arrays.asList(pair(5, "eeeee"))
+		);
+
+		List<List<Integer>> expected = Arrays.asList(
+			Arrays.asList(2, 4),
+			Arrays.asList()
+		);
+
+		for(int i = 0, size = inputs.size(); i < size; i++) {
+			// collection
+			List<Integer> res = ListUtil.filterMap(inputs.get(i), (s) -> s.getKey() % 2 == 0, (s) -> s.getKey());
+			Assert.assertEquals(expected.get(i), res);
+
+			res = ListUtil.filterMap(inputs.get(i), (s) -> s.getKey() % 2 == 0, (s) -> s.getKey(), new ArrayList<>());
+			Assert.assertEquals(expected.get(i), res);
+
+			res = ListUtil.filterMap(new LinkedList<>(inputs.get(i)), (s) -> s.getKey() % 2 == 0, (s) -> s.getKey(), new ArrayList<>());
 			Assert.assertEquals(expected.get(i), res);
 		}
 	}

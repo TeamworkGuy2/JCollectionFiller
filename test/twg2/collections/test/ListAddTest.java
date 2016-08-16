@@ -42,10 +42,14 @@ public class ListAddTest {
 			// add items with duplicates, but don't allow duplicates and check for duplicates
 			ListAdd.addCollectionToList(new HashSet<>(Arrays.asList("e", "f")), strs, AddCondition.NO_NULL_OR_CONTAINS);
 			Assert.assertTrue("list should be unique", ListUtil.isUnique(strs));
+			Assert.assertTrue("list should be unique", ListUtil.isUnique(strs, 0, strs.size()));
+			Assert.assertTrue("collection should be unique", ListUtil.isUnique(new LinkedList<>(strs)));
 
 			// add a duplicate item and check for duplicates
 			ListAdd.addCollectionToList(new HashSet<>(Arrays.asList("f")), strs, AddCondition.ADD_ALL);
 			Assert.assertTrue("list should have duplicate", !ListUtil.isUnique(strs));
+			Assert.assertTrue("list should have duplicate", !ListUtil.isUnique(strs, 0, strs.size()));
+			Assert.assertTrue("collection should have duplicate", !ListUtil.isUnique(new LinkedList<>(strs)));
 		}
 
 		{

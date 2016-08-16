@@ -10,6 +10,7 @@ import java.util.RandomAccess;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.BaseStream;
 
 /** Utility methods for dealing with {@link List lists}.
  * For example, check if a list contains no duplicate values, get the union between
@@ -167,6 +168,16 @@ public final class ListUtil {
 	}
 
 
+	public static final <E, G extends BaseStream<? extends E, G>, R> List<R> map(BaseStream<? extends E, ? extends G> stream, Function<E, R> filter) {
+		return map(stream.iterator(), filter, new ArrayList<R>());
+	}
+
+
+	public static final <E, G extends BaseStream<? extends E, G>, R, S extends Collection<R>> S map(BaseStream<? extends E, ? extends G> stream, Function<E, R> filter, S dst) {
+		return map(stream.iterator(), filter, dst);
+	}
+
+
 	/** Transforms a list of values into a new {@link ArrayList}
 	 * @see #map(Iterable, Function, Collection)
 	 */
@@ -224,9 +235,9 @@ public final class ListUtil {
 
 
 	/** Filters a list of values into a new {@link ArrayList}
-	 * @see #filter(Collection, Predicate, Collection)
+	 * @see #filter(Iterable, Predicate, Collection)
 	 */
-	public static final <E> List<E> filter(Collection<? extends E> list, Predicate<E> filter) {
+	public static final <E> List<E> filter(Iterable<? extends E> list, Predicate<E> filter) {
 		return filter(list, filter, new ArrayList<>());
 	}
 
@@ -238,7 +249,7 @@ public final class ListUtil {
 	 * @param dst the destination list to store the values in that pass the filter test
 	 * @return the input {@code dst} list filled with the filtered values
 	 */
-	public static final <E, S extends Collection<E>> S filter(Collection<? extends E> coll, Predicate<E> filter, S dst) {
+	public static final <E, S extends Collection<E>> S filter(Iterable<? extends E> coll, Predicate<E> filter, S dst) {
 		if(coll instanceof List && coll instanceof RandomAccess) {
 			@SuppressWarnings("unchecked")
 			List<E> collList = (List<E>)coll;
@@ -260,11 +271,52 @@ public final class ListUtil {
 	}
 
 
+	public static final <E> List<E> filter(Iterator<? extends E> srcIter, Predicate<E> filter) {
+		return filter(srcIter, filter, new ArrayList<E>());
+	}
+
+
+	/** Filter the values from an iterator using a filter function and store the resulting values
+	 * in a given destination list
+	 * @param srcIter the input iterator to filter
+	 * @param filter the function to filter the input list values
+	 * @param dst the destination list to store the values in that pass the filter test
+	 * @return the input {@code dst} list filled with the filtered values
+	 */
+	public static final <E, S extends Collection<E>> S filter(Iterator<? extends E> srcIter, Predicate<E> filter, S dst) {
+		while(srcIter.hasNext()) {
+			E val = srcIter.next();
+			if(filter.test(val)) {
+				dst.add(val);
+			}
+		}
+		return dst;
+	}
+
+
+	/** Filter a stream using a filter function and store the resulting values
+	 * in a given destination list
+	 * @see #filter(Iterator, Predicate, Collection)
+	 */
+	public static final <E, G extends BaseStream<? extends E, G>> List<E> filter(BaseStream<? extends E, ? extends G> stream, Predicate<E> filter) {
+		return filter(stream.iterator(), filter, new ArrayList<E>());
+	}
+
+
+	/** Filter a stream using a filter function and store the resulting values
+	 * in a given destination list
+	 * @see #filter(Iterator, Predicate, Collection)
+	 */
+	public static final <E, G extends BaseStream<? extends E, G>, S extends Collection<E>> S filter(BaseStream<? extends E, ? extends G> stream, Predicate<E> filter, S dst) {
+		return filter(stream.iterator(), filter, dst);
+	}
+
+
 	/** Filers and transforms a list of values into a new {@link ArrayList}
 	 * @see #filterMap(Collection, Predicate, Function, Collection)
 	 */
 	public static final <E, R> List<R> filterMap(Collection<? extends E> list, Predicate<E> filter, Function<E, R> transformer) {
-		return map(list, transformer, new ArrayList<>());
+		return filterMap(list, filter, transformer, new ArrayList<>());
 	}
 
 
