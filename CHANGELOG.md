@@ -4,7 +4,14 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 
 
 --------
-###[0.6.1](N/A) - 2016-08-15
+###[0.6.2](N/A) - 2016-08-15
+####Changed
+* Forgot to add compiled jar files
+* Changed compiled jar file path to /bin/
+
+
+--------
+###[0.6.1](https://github.com/TeamworkGuy2/JCollectionFiller/commit/a37959147a47d3c99069c33d9eec4737843a11bf) - 2016-08-15
 ####Added
 * ListUtil filter() and map() overloads that accept BaseStream
 * ListUtil.filter() Collection overload changed to accept Iterable
