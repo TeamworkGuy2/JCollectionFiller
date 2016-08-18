@@ -6,8 +6,8 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 
+import twg2.collections.builder.AddedRemoved;
 import twg2.collections.builder.ListDiff;
-import twg2.collections.builder.ListDiff.AddedRemoved;
 import checks.CheckCollections;
 
 /**

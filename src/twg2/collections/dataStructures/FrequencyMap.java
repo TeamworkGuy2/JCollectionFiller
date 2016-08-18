@@ -3,7 +3,7 @@ package twg2.collections.dataStructures;
 import java.util.HashMap;
 import java.util.Map;
 
-import twg2.primitiveIoTypes.JNumericType;
+import twg2.simpleTypes.ioPrimitives.JNumericType;
 
 /**
  * @author TeamworkGuy2

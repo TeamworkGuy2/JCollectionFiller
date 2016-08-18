@@ -5,39 +5,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import twg2.collections.tuple.Tuple2;
-
 /**
  * @author TeamworkGuy2
  * @since 2016-2-4
  */
 public class ListDiff {
-
-	/**
-	 * @author TeamworkGuy2
-	 * @since 2016-2-4
-	 * @param <E> the type of elements 
-	 */
-	public static class AddedRemoved<E> extends Tuple2<List<E>, List<E>> {
-
-		public AddedRemoved(List<E> a, List<E> b) {
-			super(a, b);
-		}
-
-
-		public List<E> getAdded() {
-			return super.getKey();
-		}
-
-
-		public List<E> getRemoved() {
-			return super.getValue();
-		}
-
-	}
-
-
-
 
 	/**
 	 * @param a

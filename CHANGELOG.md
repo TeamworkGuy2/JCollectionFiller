@@ -4,7 +4,14 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 
 
 --------
-###[0.6.2](N/A) - 2016-08-15
+###[0.6.3](N/A) - 2016-08-18
+####Changed
+* Extracted AddedRemoved from ListDiff into its own class
+* Updated dependency jsimple-types to latest 0.5.0 version
+
+
+--------
+###[0.6.2](https://github.com/TeamworkGuy2/JCollectionFiller/commit/9e397f40fbb2934f87a8fd8074c19ec2694daa44) - 2016-08-15
 ####Changed
 * Forgot to add compiled jar files
 * Changed compiled jar file path to /bin/
