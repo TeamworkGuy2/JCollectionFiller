@@ -1,5 +1,6 @@
 package twg2.collections.test;
 
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -9,7 +10,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import twg2.collections.dataStructures.PairBag;
-import twg2.collections.tuple.Tuples;
 import checks.CheckCollections;
 
 /**
@@ -38,10 +38,10 @@ public class PairBagTest {
 
 	public void testPut(PairBag<String, Integer> bag) {
 		bag.add("A", 1);
-		bag.add(Tuples.of("B", 2));
+		bag.add(entry("B", 2));
 		bag.put("C", 3);
-		bag.put(Tuples.of("D", 4));
-		bag.putAll(new PairBag<>(Tuples.of("E", 5), Tuples.of("F", 6)));
+		bag.put(entry("D", 4));
+		bag.putAll(new PairBag<>(entry("E", 5), entry("F", 6)));
 	}
 
 
@@ -62,7 +62,7 @@ public class PairBagTest {
 
 	@Test
 	public void testIterator() {
-		PairBag<String, Integer> bag = new PairBag<>(Arrays.asList(Tuples.of("a", 1), Tuples.of("b", 2), Tuples.of("c", 3)));
+		PairBag<String, Integer> bag = new PairBag<>(Arrays.asList(entry("a", 1), entry("b", 2), entry("c", 3)));
 		List<String> expect = Arrays.asList("a", "b", "c");
 
 		List<String> bagKeys = new ArrayList<>();
@@ -70,6 +70,11 @@ public class PairBagTest {
 			bagKeys.add(entry.getKey());
 		}
 		Assert.assertEquals(expect, bagKeys);
+	}
+
+
+	private static <K, V> Entry<K, V> entry(K key, V value) {
+		return new AbstractMap.SimpleImmutableEntry<>(key, value);
 	}
 
 }

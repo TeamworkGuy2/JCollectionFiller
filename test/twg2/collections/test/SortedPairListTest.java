@@ -1,16 +1,17 @@
 package twg2.collections.test;
 
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import org.junit.Assert;
 import org.junit.Test;
 
-import twg2.collections.builder.MapBuilder;
 import twg2.collections.dataStructures.SortedPairList;
-import twg2.collections.tuple.Tuples;
 
 /**
  * @author TeamworkGuy2
@@ -33,7 +34,7 @@ public class SortedPairListTest {
 
 		Assert.assertEquals(Arrays.asList("green"), pairs.keyList());
 
-		pairs.putAll(MapBuilder.of(Tuples.of("A", 65), Tuples.of("B", 66), Tuples.of("C", 67)));
+		pairs.putAll(map(entry("A", 65), entry("B", 66), entry("C", 67)));
 
 		Assert.assertEquals(Arrays.asList("A", "B", "C", "green"), pairs.keyList());
 
@@ -62,6 +63,21 @@ public class SortedPairListTest {
 		}
 
 		Assert.assertEquals(expect, pairs.keyList());
+	}
+
+
+	@SafeVarargs
+	private static final <K, V> Map<K, V> map(Entry<K, V>... entries) {
+		Map<K, V> m = new HashMap<>();
+		for(Entry<K, V> entry : entries) {
+			m.put(entry.getKey(), entry.getValue());
+		}
+		return m;
+	}
+
+
+	private static <K, V> Entry<K, V> entry(K key, V value) {
+		return new AbstractMap.SimpleImmutableEntry<>(key, value);
 	}
 
 }

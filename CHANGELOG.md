@@ -4,10 +4,17 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 
 
 --------
-###[0.6.3](N/A) - 2016-08-18
+###[0.7.0](N/A) - 2016-08-21
+####Removed
+* twg2.collections.builder (moved to new JCollectionBuilders project)
+* twg2.collections.tuple (moved to new JTuples project)
+
+
+--------
+###[0.6.3](https://github.com/TeamworkGuy2/JCollectionFiller/commit/2306ca2ae09c3e841874b8ba0085f774d3865549) - 2016-08-18
 ####Changed
 * Extracted AddedRemoved from ListDiff into its own class
-* Updated dependency jsimple-types to latest 0.5.0 version
+* Updated dependency jsimple-types to latest 0.5.0 version (package name change)
 
 
 --------
