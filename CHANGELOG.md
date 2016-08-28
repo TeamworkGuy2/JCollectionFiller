@@ -4,7 +4,13 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 
 
 --------
-###[0.7.0](N/A) - 2016-08-21
+###[0.7.1](N/A) - 2016-08-28
+####Changed
+* Renamed remote git repository
+
+
+--------
+###[0.7.0](https://github.com/TeamworkGuy2/JCollectionFiller/commit/0c9f43f0a4722ca6f8776f047e91034a8c54c394) - 2016-08-21
 ####Removed
 * twg2.collections.builder (moved to new JCollectionBuilders project)
 * twg2.collections.tuple (moved to new JTuples project)
