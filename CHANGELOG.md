@@ -4,7 +4,7 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 
 
 --------
-###[0.7.2](N/A) - 2016-10-07
+###[0.7.2](N/A) - 2016-10-06
 #### Changed
 * Updated jarrays dependency and test-checks test library to latest version
 
