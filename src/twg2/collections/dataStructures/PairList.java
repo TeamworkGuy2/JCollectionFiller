@@ -32,8 +32,8 @@ public class PairList<K, V> implements PairCollection<K, V> {
 	/** Create a PairList with a default size of 10.
 	 */
 	public PairList() {
-		this.keys = new ArrayList<K>(); // Initialize key List
-		this.values = new ArrayList<V>(); // Initialize values List
+		this.keys = new ArrayList<K>();
+		this.values = new ArrayList<V>();
 		this.keysIm = Collections.unmodifiableList(this.keys);
 		this.valuesIm = Collections.unmodifiableList(this.values);
 	}
@@ -43,8 +43,8 @@ public class PairList<K, V> implements PairCollection<K, V> {
 	 * @param initialSize the initial size of this PairList
 	 */
 	public PairList(int initialSize) {
-		this.keys = new ArrayList<K>(initialSize); // Initialize key List
-		this.values = new ArrayList<V>(initialSize); // Initialize values List
+		this.keys = new ArrayList<K>(initialSize);
+		this.values = new ArrayList<V>(initialSize);
 		this.keysIm = Collections.unmodifiableList(this.keys);
 		this.valuesIm = Collections.unmodifiableList(this.values);
 	}
@@ -74,6 +74,7 @@ public class PairList<K, V> implements PairCollection<K, V> {
 
 	@SafeVarargs
 	public PairList(Map.Entry<? extends K, ? extends V>... entries) {
+		this(entries.length);
 		for(Map.Entry<? extends K, ? extends V> entry : entries) {
 			this.keys.add(entry.getKey());
 			this.values.add(entry.getValue());
@@ -101,7 +102,7 @@ public class PairList<K, V> implements PairCollection<K, V> {
 	 * @param values the values to put in this pair list
 	 */
 	public PairList(Collection<? extends K> keys, Collection<? extends V> values) {
-		this();
+		this(keys != null ? keys.size() : (values != null ? values.size() : 0));
 		if(keys == null || values == null || keys.size() != values.size()) {
 			throw new IllegalArgumentException("the number of keys (" + (keys != null ? keys.size() : "null") + ") " +
 					"does not equal the number of values (" + (values != null ? values.size() : "null"));

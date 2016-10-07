@@ -9,7 +9,7 @@ import org.junit.Test;
 
 import twg2.collections.dataStructures.ArrayMapView;
 import twg2.collections.dataStructures.ArrayMapViewHandle;
-import checks.Check;
+import checks.CheckArrays;
 
 /** Unit tests for {@link ArrayMapView}
  * @author TeamworkGuy2
@@ -28,8 +28,8 @@ public class ArrayMapViewTest {
 		int valsOff = 2;
 		int len = 3;
 
-		Check.assertArrayLengths(keys, values);
-		Check.assertArrayLengths(viewKeyAry, viewValAry);
+		CheckArrays.assertArrayLengths(keys, values);
+		CheckArrays.assertArrayLengths(viewKeyAry, viewValAry);
 
 		ArrayMapViewHandle<String, Integer> viewHdl = new ArrayMapViewHandle<>(keys, keysOff, values, valsOff, len);
 		ArrayMapView<String, Integer> view = viewHdl.getArrayView();
@@ -62,8 +62,8 @@ public class ArrayMapViewTest {
 		valsOff = 1;
 		len = 3;
 
-		Check.assertArrayLengths(keys, values);
-		Check.assertArrayLengths(viewKeyAry, viewValAry);
+		CheckArrays.assertArrayLengths(keys, values);
+		CheckArrays.assertArrayLengths(viewKeyAry, viewValAry);
 
 		viewHdl.setArrayView(keys, keysOff, values, valsOff, len);
 
@@ -95,7 +95,7 @@ public class ArrayMapViewTest {
 		String[] keys = new String[] { "alpha", "beta", "gamma" };
 		Integer[] values = new Integer[] { 1, 1, 3 };
 
-		Check.assertArrayLengths(keys, values);
+		CheckArrays.assertArrayLengths(keys, values);
 
 		// TODO test set() on ArrayView with allowSet = true
 		ArrayMapViewHandle<String, Integer> viewHdl = new ArrayMapViewHandle<>(keys, 0, values, 0, keys.length, true);
