@@ -15,6 +15,7 @@ import java.util.RandomAccess;
 
 import twg2.collections.interfaces.MapIndexed;
 import twg2.collections.interfaces.PairCollection;
+import twg2.collections.interfaces.PairCollectionImmutable;
 import twg2.collections.interfaces.RandomAccessCollection;
 import twg2.collections.util.ToStringUtil;
 
@@ -354,7 +355,7 @@ public class PairBag<K, V> implements PairCollection<K, V>, MapIndexed<K, V>, It
 
 
 	@Override
-	public void putAll(PairCollection<? extends K, ? extends V> listPairs) {
+	public void putAll(PairCollectionImmutable<? extends K, ? extends V> listPairs) {
 		List<? extends V> values = listPairs.valueList();
 		// avoid creating iterator if the list is random access
 		if(values instanceof RandomAccess) {

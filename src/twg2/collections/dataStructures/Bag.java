@@ -12,6 +12,7 @@ import twg2.arrays.ArrayManager;
 import twg2.arrays.ArrayUtil;
 import twg2.collections.interfaces.CollectionRemove;
 import twg2.collections.interfaces.ModifiableCollection;
+import twg2.collections.interfaces.Sized;
 
 /** Bag, a collection similar to an {@link ArrayList} that does not preserve the insertion order of items. 
  * All operations are O(1), except {@link #remove(Object) remove(T)} and {@link #add(Object) add(T)} when
@@ -156,7 +157,7 @@ public class Bag<T> implements ModifiableCollection<T>, CollectionRemove<T>, Ite
 
 
 	@Override
-	public boolean removeAll(Collection<? extends T> elems) {
+	public boolean removeAll(Iterable<? extends T> elems) {
 		boolean res = true;
 		for(T elem : elems) {
 			res &= remove(elem);
@@ -215,8 +216,18 @@ public class Bag<T> implements ModifiableCollection<T>, CollectionRemove<T>, Ite
 	 * @param items the items to add to this group of elements
 	 */
 	@Override
-	public boolean addAll(Collection<? extends T> items) {
-		addAll(items, items.size());
+	public boolean addAll(Iterable<? extends T> items) {
+		if(items instanceof Collection) {
+			addAll(items, ((Collection<?>)items).size());
+		}
+		else if(items instanceof Sized) {
+			addAll(items, ((Sized)items).size());
+		}
+		else {
+			for(T item : items) {
+				add(item);
+			}
+		}
 		return true;
 	}
 
