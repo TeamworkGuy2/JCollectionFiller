@@ -4,7 +4,14 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 
 
 --------
-### [0.7.4](N/A) - 2017-09-23
+### [0.7.5](N/A) - 2018-09-23
+#### Added
+* `BaseList` implementation of `List` and `ListReadOnly`
+* `ArrayView` and `PairBag` changed to implement sub-interface `ListReadOnly` instead of `RandomAccessCollection`
+
+
+--------
+### [0.7.4](https://github.com/TeamworkGuy2/JCollectionUtil/commit/775255b652bba3fd36e09a8fc03fd3bafa3edf5e) - 2018-09-22
 #### Changed
 * Upgrade to Java 10
 * Upgrade to JUnit 5

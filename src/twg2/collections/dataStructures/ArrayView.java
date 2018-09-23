@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.ListIterator;
 
 import twg2.arrays.ArrayUtil;
-import twg2.collections.interfaces.RandomAccessCollection;
+import twg2.collections.interfaces.ListReadOnly;
 
 /** An {@link List} backed by an array.<br>
  * All modify methods, such as {@link #add(Object) add()} and {@link #remove(Object) remove()}
@@ -20,7 +20,7 @@ import twg2.collections.interfaces.RandomAccessCollection;
  * @author TeamworkGuy2
  * @since 2014-11-29
  */
-public final class ArrayView<E> implements List<E>, RandomAccessCollection<E> {
+public final class ArrayView<E> implements List<E>, ListReadOnly<E> {
 	private Object[] objs;
 	private int off;
 	private int len;
@@ -135,10 +135,30 @@ public final class ArrayView<E> implements List<E>, RandomAccessCollection<E> {
 	}
 
 
+	public int indexOfRef(Object o) {
+		for(int i = off, size = off + len; i < size; i++) {
+			if(objs[i] == o) {
+				return i - off;
+			}
+		}
+		return -1;
+	}
+
+
 	@Override
 	public int lastIndexOf(Object o) {
 		for(int i = off + len - 1; i >= off; i--) {
 			if(o != null ? o.equals(objs[i]) : objs[i] == null) {
+				return i - off;
+			}
+		}
+		return -1;
+	}
+
+
+	public int lastIndexOfRef(Object o) {
+		for(int i = off + len - 1; i >= off; i--) {
+			if(objs[i] == o) {
 				return i - off;
 			}
 		}
@@ -225,7 +245,7 @@ public final class ArrayView<E> implements List<E>, RandomAccessCollection<E> {
 
 			@Override
 			public void remove() {
-				throw new UnsupportedOperationException("cannot modified immutable list iterator");
+				throw new UnsupportedOperationException("cannot modify immutable list iterator");
 			}
 
 
@@ -241,7 +261,7 @@ public final class ArrayView<E> implements List<E>, RandomAccessCollection<E> {
 
 			@Override
 			public void add(E e) {
-				throw new UnsupportedOperationException("cannot modified immutable list iterator");
+				throw new UnsupportedOperationException("cannot modify immutable list iterator");
 			}
 		};
 	}
@@ -281,57 +301,50 @@ public final class ArrayView<E> implements List<E>, RandomAccessCollection<E> {
 
 	@Override
 	public boolean add(E e) {
-		throw new UnsupportedOperationException("cannot modified immutable view");
+		throw new UnsupportedOperationException("cannot modify immutable view");
 	}
 
 
 	@Override
 	public boolean remove(Object o) {
-		throw new UnsupportedOperationException("cannot modified immutable view");
+		throw new UnsupportedOperationException("cannot modify immutable view");
 	}
 
 
 	@Override
 	public boolean addAll(Collection<? extends E> c) {
-		throw new UnsupportedOperationException("cannot modified immutable view");
+		throw new UnsupportedOperationException("cannot modify immutable view");
 	}
 
 
 	@Override
 	public boolean removeAll(Collection<?> c) {
-		throw new UnsupportedOperationException("cannot modified immutable view");
+		throw new UnsupportedOperationException("cannot modify immutable view");
 	}
 
 
 	@Override
 	public boolean retainAll(Collection<?> c) {
-		throw new UnsupportedOperationException("cannot modified immutable view");
+		throw new UnsupportedOperationException("cannot modify immutable view");
 	}
 
 
 	@Override
 	public void clear() {
-		throw new UnsupportedOperationException("cannot modified immutable view");
-	}
-
-
-	@Override
-	public String toString() {
-		String str = ArrayUtil.toString(objs, off, len);
-		return str;
+		throw new UnsupportedOperationException("cannot modify immutable view");
 	}
 
 
 	@Override
 	public boolean addAll(int index, Collection<? extends E> c) {
-		throw new UnsupportedOperationException("cannot modified immutable view");
+		throw new UnsupportedOperationException("cannot modify immutable view");
 	}
 
 
 	@Override
 	public E set(int index, E element) {
 		if(!allowSet) {
-			throw new UnsupportedOperationException("cannot modified immutable view");
+			throw new UnsupportedOperationException("cannot modify immutable view");
 		}
 		checkIndex(index);
 		objs[off + index] = element;
@@ -342,19 +355,26 @@ public final class ArrayView<E> implements List<E>, RandomAccessCollection<E> {
 
 	@Override
 	public void add(int index, E element) {
-		throw new UnsupportedOperationException("cannot modified immutable view");
+		throw new UnsupportedOperationException("cannot modify immutable view");
 	}
 
 
 	@Override
 	public E remove(int index) {
-		throw new UnsupportedOperationException("cannot modified immutable view");
+		throw new UnsupportedOperationException("cannot modify immutable view");
 	}
 
 
 	@Override
 	public List<E> subList(int fromIndex, int toIndex) {
 		throw new UnsupportedOperationException("cannot create sub list of view");
+	}
+
+
+	@Override
+	public String toString() {
+		String str = ArrayUtil.toString(objs, off, len);
+		return str;
 	}
 
 

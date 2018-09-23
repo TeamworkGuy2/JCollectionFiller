@@ -1,6 +1,6 @@
 JCollectionUtil
 ==============
-version: 0.7.4
+version: 0.7.5
 
 Data structures which the Java APIs do not have equivalents for, including:
 * Array views and two-arrays-as-a-map views, see: `ArrayMapView`, `ArrayMapViewHandle`, `ArrayView`, `ArrayViewHandle`
@@ -13,4 +13,4 @@ Data structures which the Java APIs do not have equivalents for, including:
 * `FrequencyMap` - for tracking and incrementing/decrementing occurrences of keys
 * `PropertyMap` - for easily loading/saving Java '.properties' files and automatically parsing boolean, int, float, hexadecimal int, String, Color, File, and Path properties.
 
-Take a look at the twg2.collections.util.tests package for examples of how the APIs can be used.
+Take a look at the `twg2.collections.util.tests` package for examples of how the APIs can be used.

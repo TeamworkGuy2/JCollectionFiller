@@ -13,6 +13,7 @@ import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import java.util.RandomAccess;
 
+import twg2.collections.interfaces.ListReadOnly;
 import twg2.collections.interfaces.MapIndexed;
 import twg2.collections.interfaces.PairCollection;
 import twg2.collections.interfaces.PairCollectionReadOnly;
@@ -658,7 +659,7 @@ public class PairBag<K, V> implements PairCollection<K, V>, MapIndexed<K, V>, It
 	}
 
 
-	private class BagMapKeyView extends AbstractList<K> implements RandomAccessCollection<K> {
+	private class BagMapKeyView extends AbstractList<K> implements ListReadOnly<K> {
 
 		@Override
 		public int size() {
@@ -718,7 +719,7 @@ public class PairBag<K, V> implements PairCollection<K, V>, MapIndexed<K, V>, It
 	}
 
 
-	private class BagMapValueView extends AbstractList<V> implements RandomAccessCollection<V> {
+	private class BagMapValueView extends AbstractList<V> implements ListReadOnly<V> {
 
 		@Override
 		public int size() {
