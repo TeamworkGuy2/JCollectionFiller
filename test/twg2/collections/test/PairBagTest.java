@@ -10,7 +10,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import twg2.collections.dataStructures.PairBag;
-import checks.CheckCollections;
+import twg2.junitassist.checks.CheckCollections;
 
 /**
  * @author TeamworkGuy2

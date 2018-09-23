@@ -9,7 +9,7 @@ import org.junit.Test;
 
 import twg2.collections.dataStructures.ArrayMapView;
 import twg2.collections.dataStructures.ArrayMapViewHandle;
-import checks.CheckArrays;
+import twg2.junitassist.checks.CheckArrays;
 
 /** Unit tests for {@link ArrayMapView}
  * @author TeamworkGuy2

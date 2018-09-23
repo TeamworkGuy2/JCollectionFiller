@@ -12,7 +12,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import twg2.collections.interfaces.PairCollection;
-import twg2.collections.interfaces.PairCollectionImmutable;
+import twg2.collections.interfaces.PairCollectionReadOnly;
 import twg2.collections.util.ToStringUtil;
 
 /** Map implementation which allows duplicate keys and values 
@@ -304,7 +304,7 @@ public class SortedPairList<K, V> implements PairCollection<K, V> {
 	 * @param listPairs pairList to add to this pairList
 	 */
 	@Override
-	public void putAll(PairCollectionImmutable<? extends K, ? extends V> listPairs) {
+	public void putAll(PairCollectionReadOnly<? extends K, ? extends V> listPairs) {
 		for(int i = 0, size = listPairs.size(); i < size; i++) {
 			addPair(listPairs.getKey(i), listPairs.getValue(i));
 		}

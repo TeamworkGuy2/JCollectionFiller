@@ -4,7 +4,16 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 
 
 --------
-### [0.7.3](N/A) - 2017-09-16
+### [0.7.4](N/A) - 2017-09-23
+#### Changed
+* Upgrade to Java 10
+* Upgrade to JUnit 5
+* Updated dependency jcollection-interfaces@0.3.0
+  * PairCollectionImmutable -> PairCollectionReadOnly
+
+
+--------
+### [0.7.3](https://github.com/TeamworkGuy2/JCollectionUtil/commit/04d3337137979b0e0d616616b49fda5ebe06e74c) - 2017-09-16
 #### Changed
 * Updated dependency jcollection-interfaces@0.2.0
   * addAll(Collection) -> addAll(Iterable)

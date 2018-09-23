@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 
-import twg2.collections.interfaces.PairCollectionImmutable;
+import twg2.collections.interfaces.PairCollectionReadOnly;
 import twg2.collections.util.ToStringUtil;
 
 /** An {@link Map} backed by key and values arrays.<br>
@@ -21,7 +21,7 @@ import twg2.collections.util.ToStringUtil;
  * @author TeamworkGuy2
  * @since 2014-11-29
  */
-public final class ArrayMapView<K, V> implements PairCollectionImmutable<K, V>, Iterable<Map.Entry<K, V>> {
+public final class ArrayMapView<K, V> implements PairCollectionReadOnly<K, V>, Iterable<Map.Entry<K, V>> {
 	private Object[] keys;
 	private Object[] values;
 	private int keysOff;
