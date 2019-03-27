@@ -44,10 +44,10 @@ public class PairBag<K, V> implements PairCollection<K, V>, MapIndexed<K, V>, It
 	private MapIndexed<K, V> keyValueView;
 
 
-	/** Creates an unsorted group of items with a default size of 16
+	/** Creates an unsorted group of items with a default size of 10
 	 */
 	public PairBag() {
-		this(16);
+		this(10);
 	}
 
 
@@ -509,51 +509,36 @@ public class PairBag<K, V> implements PairCollection<K, V>, MapIndexed<K, V>, It
 	}
 
 
-	private BagMapKeyView getKeyViewPrivate() {
-		return keyView == null ? (keyView = new BagMapKeyView()) : keyView;
-	}
-
-
-	private BagMapValueView getValueViewPrivate() {
-		return valueView == null ? (valueView = new BagMapValueView()) : valueView;
-	}
-
-
-	private MapIndexed<K, V> getKeyValueViewPrivate() {
-		return keyValueView == null ? (keyValueView = new BagMapKeyValueView()) : keyValueView;
-	}
-
-
 	@Override
 	public List<K> keyList() {
-		return getKeyViewPrivate();
+		return keyView == null ? (keyView = new BagMapKeyView()) : keyView;
 	}
 
 
 	@Override
 	public List<V> valueList() {
-		return getValueViewPrivate();
+		return valueView == null ? (valueView = new BagMapValueView()) : valueView;
 	}
 
 
 	@Override
 	public Collection<V> values() {
-		return getValueViewPrivate();
+		return valueView == null ? (valueView = new BagMapValueView()) : valueView;
 	}
 
 
 	public RandomAccessCollection<K> getKeyView() {
-		return getKeyViewPrivate();
+		return keyView == null ? (keyView = new BagMapKeyView()) : keyView;
 	}
 
 
 	public RandomAccessCollection<V> getValueView() {
-		return getValueViewPrivate();
+		return valueView == null ? (valueView = new BagMapValueView()) : valueView;
 	}
 
 
 	public MapIndexed<K, V> getKeyValueView() {
-		return getKeyValueViewPrivate();
+		return keyValueView == null ? (keyValueView = new BagMapKeyValueView()) : keyValueView;
 	}
 
 
@@ -579,7 +564,7 @@ public class PairBag<K, V> implements PairCollection<K, V>, MapIndexed<K, V>, It
 		if(oldKeys.length != oldValues.length) {
 			throw new AssertionError("key and value array lengths do not match");
 		}
-		// Expand array size 1.5x + 4, +4 instead of +1 to prevent small bags from constantly needed to resize
+		// Expand array size 1.5x + 4, +4 to prevent small bags from constantly needing to resize
 		this.keys = new Object[oldKeys.length + (oldKeys.length >>> 1) + 4];
 		this.values = new Object[oldValues.length + (oldValues.length >>> 1) + 4];
 		System.arraycopy(oldKeys, 0, this.keys, 0, oldKeys.length);

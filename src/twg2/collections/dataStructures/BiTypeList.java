@@ -13,7 +13,7 @@ import java.util.function.Consumer;
 public class BiTypeList<E1, E2> {
 	private Class<E1> class1;
 	private Class<E2> class2;
-	private List<Object> objs = new ArrayList<>();
+	private final List<Object> objs = new ArrayList<>();
 
 
 	public BiTypeList(Class<E1> class1, Class<E2> class2) {

@@ -32,13 +32,13 @@ public class Bag<T> implements ModifiableCollection<T>, CollectionRemove<T>, Ite
 	private int size;
 	/** Used by iterators to ensure that the list has not been modified while iterating */
 	private volatile int action;
-	private BagListView listView = new BagListView();
+	private BagListView listView;
 
 
-	/** Creates an unsorted collection with a default size of 16
+	/** Creates an unsorted collection with a default size of 10
 	 */
 	public Bag() {
-		this(16);
+		this(10);
 	}
 
 
@@ -443,7 +443,16 @@ public class Bag<T> implements ModifiableCollection<T>, CollectionRemove<T>, Ite
 
 
 	public List<T> listView() {
-		return listView;
+		return listView != null ? listView : (listView = new BagListView());
+	}
+
+
+	/** Warning: This function is available for performance reasons, it is highly recommended to use {@link #get(int)} or {@link #iterator()}.<br>
+	 * Note: the return value may change between calls and references to the return value should only be held in contexts where complete control over parent collection modification can be ensured.
+	 * @return the underlying array used by this collection, current implementations store data start at index 0 through {@link #size()} - 1
+	 */
+	public Object[] getRawArray() {
+		return this.data;
 	}
 
 
@@ -485,6 +494,7 @@ public class Bag<T> implements ModifiableCollection<T>, CollectionRemove<T>, Ite
 	public String toString() {
 		return ArrayUtil.toString(data, 0, size);
 	}
+
 
 
 	/** An Iterator for this class

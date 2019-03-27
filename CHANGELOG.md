@@ -4,7 +4,25 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 
 
 --------
-### [0.7.5](N/A) - 2018-09-23
+### [0.7.6](N/A) - 2019-03-27
+#### Added
+* `Bag.getRawArray()`
+* `SortedPairList(Comparator, int capacity)` capacity constructor
+
+#### Changed
+* `new Bag()` default capacity changed from 16 to 10 to match ArrayList
+* `Bag.listView()` is now lazily initialized
+* `BiTypeList.objs` private field now `final`
+* `new PairBag()` default capacity changed from 16 to 10 to match ArrayList
+* `PairBag.keyList()`, `valueList()`, `values()`, `getKeyView()`, `getValueView()`, and `getKeyValueView()` are now lazily initialized
+* `PairList` private fields `keys` and `values` now `final`
+* `PairList.keyList()`, `valueList()`, and `values()` are now lazily initialized
+* `SortedPairList` private fields `keys`, `values`, and `comparator` are now `final`
+* `SortedPairList.keyList()`, `valueList()`, and `values()` are now lazily initialized
+
+
+--------
+### [0.7.5](https://github.com/TeamworkGuy2/JCollectionUtil/commit/fdab3b9592a058e7dd8a3c7c613c8ef67e30c3db) - 2018-09-23
 #### Added
 * `BaseList` implementation of `List` and `ListReadOnly`
 * `ArrayView` and `PairBag` changed to implement sub-interface `ListReadOnly` instead of `RandomAccessCollection`

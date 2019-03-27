@@ -23,10 +23,10 @@ import twg2.collections.util.ToStringUtil;
  * This is basically a {@code List<Map.Entry<K, V>>} with the ability to store duplicate key-value pairs.
  */
 public class PairList<K, V> implements PairCollection<K, V> {
-	private List<K> keys; // List of Map keys
-	private List<V> values; // List of Map values
-	private List<K> keysIm; // Immutable copy of the keys
-	private List<V> valuesIm; // Immutable copy of the values
+	private final List<K> keys; // List of Map keys
+	private final List<V> values; // List of Map values
+	private List<K> keysIm; // Immutable view of the keys list
+	private List<V> valuesIm; // Immutable view of the values list
 	private volatile int mod;
 
 
@@ -35,8 +35,6 @@ public class PairList<K, V> implements PairCollection<K, V> {
 	public PairList() {
 		this.keys = new ArrayList<K>();
 		this.values = new ArrayList<V>();
-		this.keysIm = Collections.unmodifiableList(this.keys);
-		this.valuesIm = Collections.unmodifiableList(this.values);
 	}
 
 
@@ -46,8 +44,6 @@ public class PairList<K, V> implements PairCollection<K, V> {
 	public PairList(int initialSize) {
 		this.keys = new ArrayList<K>(initialSize);
 		this.values = new ArrayList<V>(initialSize);
-		this.keysIm = Collections.unmodifiableList(this.keys);
-		this.valuesIm = Collections.unmodifiableList(this.values);
 	}
 
 
@@ -66,6 +62,7 @@ public class PairList<K, V> implements PairCollection<K, V> {
 	 */
 	public PairList(Collection<? extends Map.Entry<? extends K, ? extends V>> keyValues) {
 		this(keyValues.size());
+
 		for(Map.Entry<? extends K, ? extends V> entry : keyValues) {
 			this.keys.add(entry.getKey());
 			this.values.add(entry.getValue());
@@ -76,6 +73,7 @@ public class PairList<K, V> implements PairCollection<K, V> {
 	@SafeVarargs
 	public PairList(Map.Entry<? extends K, ? extends V>... entries) {
 		this(entries.length);
+
 		for(Map.Entry<? extends K, ? extends V> entry : entries) {
 			this.keys.add(entry.getKey());
 			this.values.add(entry.getValue());
@@ -89,6 +87,7 @@ public class PairList<K, V> implements PairCollection<K, V> {
 	 */
 	public PairList(Iterable<? extends Map.Entry<? extends K, ? extends V>> keyValues) {
 		this();
+
 		for(Map.Entry<? extends K, ? extends V> entry : keyValues) {
 			this.keys.add(entry.getKey());
 			this.values.add(entry.getValue());
@@ -104,6 +103,7 @@ public class PairList<K, V> implements PairCollection<K, V> {
 	 */
 	public PairList(Collection<? extends K> keys, Collection<? extends V> values) {
 		this(keys != null ? keys.size() : (values != null ? values.size() : 0));
+
 		if(keys == null || values == null || keys.size() != values.size()) {
 			throw new IllegalArgumentException("the number of keys (" + (keys != null ? keys.size() : "null") + ") " +
 					"does not equal the number of values (" + (values != null ? values.size() : "null"));
@@ -119,8 +119,7 @@ public class PairList<K, V> implements PairCollection<K, V> {
 
 
 	public PairList<K, V> copy() {
-		PairList<K, V> copy = new PairList<>(this.keys, this.values);
-		return copy;
+		return new PairList<>(this.keys, this.values);
 	}
 
 
@@ -250,7 +249,7 @@ public class PairList<K, V> implements PairCollection<K, V> {
 	 */
 	@Override
 	public List<K> keyList() {
-		return this.keysIm;
+		return this.keysIm != null ? this.keysIm : (this.keysIm = Collections.unmodifiableList(this.keys));
 	}
 
 
@@ -259,7 +258,7 @@ public class PairList<K, V> implements PairCollection<K, V> {
 	 */
 	@Override
 	public List<V> valueList() {
-		return this.valuesIm;
+		return this.valuesIm != null ? this.valuesIm : (this.valuesIm = Collections.unmodifiableList(this.values));
 	}
 
 
@@ -387,7 +386,7 @@ public class PairList<K, V> implements PairCollection<K, V> {
 	 */
 	@Override
 	public Collection<V> values() {
-		return valuesIm;
+		return this.valuesIm != null ? this.valuesIm : (this.valuesIm = Collections.unmodifiableList(this.values));
 	}
 
 

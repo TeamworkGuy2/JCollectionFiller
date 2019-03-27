@@ -234,7 +234,7 @@ public class MultiBag<T> {
 	 */
 	private final void expandArray(int listId) {
 		Object[] oldData = this.arrays;
-		// Expand array size 1.5x + 4, +4 instead of +1 to prevent small bags from constantly needed to resize
+		// Expand array size 1.5x + 4, +4 to prevent small bags from constantly needing to resize
 		final int sizeIncrease = (lengths[listId] >>> 1) + 4;
 		this.arrays = new Object[oldData.length + sizeIncrease];
 		final int remainingIndex = offsets[listId] + lengths[listId];

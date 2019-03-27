@@ -1,9 +1,8 @@
 JCollectionUtil
 ==============
-version: 0.7.5
 
 Data structures which the Java APIs do not have equivalents for, including:
-* Array views and two-arrays-as-a-map views, see: `ArrayMapView`, `ArrayMapViewHandle`, `ArrayView`, `ArrayViewHandle`
+* Array views and two arrays as a map, see: `ArrayMapView`, `ArrayMapViewHandle`, `ArrayView`, `ArrayViewHandle`
 * Bags - unordered lists with O(1) index removal performance, see: `Bag`, `MultiBag`
 * `BiTypeList` - a list containing two data element types with strongly typed access to elements in the list
 * Pair collections - non-unique maps, with list, sorted list, and bag implementations, see: `PairBag`, `PairList`, `SortedPairList`

@@ -24,11 +24,11 @@ import twg2.collections.util.ToStringUtil;
  * This is basically a {@code List<Map.Entry<K, V>>} with the ability to store duplicate key-value pairs.
  */
 public class SortedPairList<K, V> implements PairCollection<K, V> {
-	private List<K> keys; // List of Map keys
-	private List<V> values; // List of Map values
+	private final List<K> keys; // List of Map keys
+	private final List<V> values; // List of Map values
 	private List<K> keysIm; // Immutable copy of the keys
 	private List<V> valuesIm; // Immutable copy of the values
-	private Comparator<K> comparator;
+	private final Comparator<K> comparator;
 	private volatile int mod;
 
 
@@ -37,7 +37,8 @@ public class SortedPairList<K, V> implements PairCollection<K, V> {
 	 * @param keyValues the map of keys and values to put in this pair list
 	 */
 	public SortedPairList(Map<? extends K, ? extends V> keyValues, Comparator<K> comparator) {
-		this(comparator);
+		this(comparator, keyValues.size());
+
 		for(Map.Entry<? extends K, ? extends V> entry : keyValues.entrySet()) {
 			addPair(entry.getKey(), entry.getValue());
 		}
@@ -51,7 +52,8 @@ public class SortedPairList<K, V> implements PairCollection<K, V> {
 	 * @param values the values to put in this pair list
 	 */
 	public SortedPairList(Collection<? extends K> keys, Collection<? extends V> values, Comparator<K> comparator) {
-		this(comparator);
+		this(comparator, keys.size());
+
 		if(keys == null || values == null || keys.size() != values.size()) {
 			throw new IllegalArgumentException("the number of keys (" + (keys != null ? keys.size() : "null") + ") " +
 					"does not equal the number of values (" + (values != null ? values.size() : "null"));
@@ -67,26 +69,33 @@ public class SortedPairList<K, V> implements PairCollection<K, V> {
 	}
 
 
+	/** Create a PairList with an initial capacity.
+	 */
+	public SortedPairList(Comparator<K> comparator, int capacity) {
+		this.comparator = comparator;
+		this.keys = new ArrayList<K>(capacity); // Initialize key List
+		this.values = new ArrayList<V>(capacity); // Initialize values List
+	}
+
+
 	/** Create a PairList with a default size of 10.
 	 */
 	public SortedPairList(Comparator<K> comparator) {
 		this.comparator = comparator;
 		this.keys = new ArrayList<K>(); // Initialize key List
 		this.values = new ArrayList<V>(); // Initialize values List
-		this.keysIm = Collections.unmodifiableList(this.keys);
-		this.valuesIm = Collections.unmodifiableList(this.values);
 	}
 
 
 	public SortedPairList<K, V> copy() {
-		SortedPairList<K, V> copy = new SortedPairList<>(this.comparator);
+		SortedPairList<K, V> copy = new SortedPairList<>(this.comparator, this.keys.size());
 		copy.keys.addAll(this.keys);
 		copy.values.addAll(this.values);
 		return copy;
 	}
 
 
-	/** clear, removes all key-value pairs from this instance
+	/** removes all key-value pairs from this instance
 	 */
 	@Override
 	public void clear() {
@@ -96,7 +105,7 @@ public class SortedPairList<K, V> implements PairCollection<K, V> {
 	}
 
 
-	/** containsKey
+	/**
 	 * @param key Object to check for in this instance's list of keys
 	 * @return true if this instance contains a key which equals the 'key' parameter
 	 */
@@ -109,7 +118,7 @@ public class SortedPairList<K, V> implements PairCollection<K, V> {
 	}
 
 
-	/** containsValue
+	/**
 	 * @param value Object to check for in this instance's list of values
 	 * @return true if this instance contains a value which equals the 'value' parameter
 	 */
@@ -122,7 +131,7 @@ public class SortedPairList<K, V> implements PairCollection<K, V> {
 	}
 
 
-	/** get, returns the value matching the first occurrence of the specified key
+	/** returns the value matching the first occurrence of the specified key
 	 * @param key key who's corresponding value is to be returned
 	 * @return the value which matches the 'key' parameter, returns null if the key does not exist
 	 */
@@ -139,7 +148,7 @@ public class SortedPairList<K, V> implements PairCollection<K, V> {
 	}
 
 
-	/** indexOf, returns the index of the specified key
+	/** returns the index of the specified key
 	 * @param key the key who's index is to be returned
 	 * @return the index where the specified key was found, or -1 if the key cannot be found
 	 */
@@ -215,8 +224,8 @@ public class SortedPairList<K, V> implements PairCollection<K, V> {
 	}
 
 
-	/** isEmpty
-	 * @return true if this PairList instance has no key-value associates, returns false otherwise
+	/**
+	 * @return true if this SortedPairList instance has no key-value associates, returns false otherwise
 	 */
 	@Override
 	public boolean isEmpty() {
@@ -225,25 +234,25 @@ public class SortedPairList<K, V> implements PairCollection<K, V> {
 	}
 
 
-	/** keyList, (Replaces the purpose of keySet)
+	/** returns a read-only view of the sorted keys in this collection
 	 * @return the List of keys from this map 
 	 */
 	@Override
 	public List<K> keyList() {
-		return this.keysIm;
+		return this.keysIm != null ? this.keysIm : (this.keysIm = Collections.unmodifiableList(this.keys));
 	}
 
 
-	/** valueList
+	/**
 	 * @return the List of values from this map 
 	 */
 	@Override
 	public List<V> valueList() {
-		return this.valuesIm;
+		return this.valuesIm != null ? this.valuesIm : (this.valuesIm = Collections.unmodifiableList(this.values));
 	}
 
 
-	/** put
+	/**
 	 * Always returns null because duplicate keys are allowed so all key-value pair passed to this method
 	 * are added
 	 * @param key key to add to this PairList instance
@@ -286,7 +295,7 @@ public class SortedPairList<K, V> implements PairCollection<K, V> {
 	
 
 
-	/** putAll
+	/**
 	 * Adds all of the pairs in the mapPairs parameter to this PairList instance
 	 * @param mapPairs map to add to this PairList instance
 	 */
@@ -299,7 +308,7 @@ public class SortedPairList<K, V> implements PairCollection<K, V> {
 	}
 
 
-	/** putAll
+	/**
 	 * Adds all of the pairs in the listPairs to this PairList instance
 	 * @param listPairs pairList to add to this pairList
 	 */
@@ -311,7 +320,7 @@ public class SortedPairList<K, V> implements PairCollection<K, V> {
 	}
 
 
-	/** remove
+	/**
 	 * @param key key to remove along with it's corresponding value
 	 * @return the previous value associated with the deleted key
 	 */
@@ -334,7 +343,7 @@ public class SortedPairList<K, V> implements PairCollection<K, V> {
 	}
 
 
-	/** size
+	/**
 	 * @return the size of this PairList instance
 	 */
 	@Override
@@ -343,12 +352,12 @@ public class SortedPairList<K, V> implements PairCollection<K, V> {
 	}
 
 
-	/** values
+	/**
 	 * @return a Collection of this instance's values
 	 */
 	@Override
 	public Collection<V> values() {
-		return valuesIm;
+		return this.valuesIm != null ? this.valuesIm : (this.valuesIm = Collections.unmodifiableList(this.values));
 	}
 
 

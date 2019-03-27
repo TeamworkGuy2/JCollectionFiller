@@ -1,5 +1,5 @@
 {
-	"version" : "0.7.5",
+	"version" : "0.7.6",
 	"name" : "jcollection-util",
 	"description" : "Java collection fillers for circular buffers, primitive collections, array-to-list views, bags (unordered lists), and array manipulation utilities",
 	"homepage" : "https://github.com/TeamworkGuy2/JCollectionUtil",
