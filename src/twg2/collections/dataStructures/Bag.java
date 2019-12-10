@@ -1,5 +1,6 @@
 package twg2.collections.dataStructures;
 
+import java.lang.reflect.Array;
 import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,9 +15,11 @@ import twg2.collections.interfaces.CollectionRemove;
 import twg2.collections.interfaces.ModifiableCollection;
 import twg2.collections.interfaces.Sized;
 
-/** Bag, a collection similar to an {@link ArrayList} that does not preserve the insertion order of items. 
- * All operations are O(1), except {@link #remove(Object) remove(T)} and {@link #add(Object) add(T)} when
- * the internal storage mechanism is full and must be expanded.
+/** Bag, a collection similar to an {@link ArrayList} that does not preserve the insertion order of items once items are removed. 
+ * All operations are O(1), except when the internal storage mechanism is full and {@link #remove(Object) remove(T)}
+ * or {@link #add(Object) add(T)} is called, requiring the internal storage to be expanded.<br>
+ * Note: the insertion order is preserved if {@code remove()} is not called. If the bag is filled by
+ * calling {@code add()} or {@code addAll()} and emptied using one of the {@code clear*()} methods, then insertion order is preserved.<br>
  * Original idea from a post on
  * <a href="http://www.java-gaming.org/topics/the-bag-fast-object-collection/24203/view.html">java-gaming.org</a>.
  * This structure is useful for
@@ -42,11 +45,20 @@ public class Bag<T> implements ModifiableCollection<T>, CollectionRemove<T>, Ite
 	}
 
 
-	/** Create an unsorted collection with the specified size as the starting size
+	/** Create an unsorted collection with the specified initial size
 	 * @param capacity the initial size of this collection
 	 */
 	public Bag(int capacity) {
 		this.data = new Object[capacity];
+		this.size = 0;
+	}
+
+
+	/** Create an unsorted collection with the specified initial size and the specified array type
+	 * @param capacity the initial size of this collection
+	 */
+	public Bag(Class<?> componentType, int capacity) {
+		this.data = (Object[]) Array.newInstance(componentType, capacity);
 		this.size = 0;
 	}
 
@@ -64,26 +76,24 @@ public class Bag<T> implements ModifiableCollection<T>, CollectionRemove<T>, Ite
 	}
 
 
+	@SuppressWarnings("unchecked")
 	public Bag<T> copy() {
-		@SuppressWarnings("unchecked")
-		Bag<T> copy = new Bag<>((T[])this.data, 0, this.size);
+		Bag<T> copy;
+		Class<?> componentType = this.data.getClass().getComponentType();
+
+		if(componentType != Object.class) {
+			copy = new Bag<>(componentType, this.size);
+			copy.addAll((T[])this.data, 0, this.size);
+		}
+		else {
+			copy = new Bag<>((T[])this.data, 0, this.size);
+		}
+
 		return copy;
 	}
 
 
-	/** Bad lock checking mechanism that allows someone to compare a past and
-	 * current action count.  If two count values returned by this method
-	 * differ than this object has been modified between the two calls
-	 * that returned the two different values.
-	 * @return the number of actions (add, remove, clear) carried out by
-	 * this bag since it was created.
-	 */
-	public int getActionCount() {
-		return action;
-	}
-
-
-	/** Get the element at the specified index from this group of elements
+	/** Get the element at the specified index from this collection
 	 * @param index the index between zero and {@link #size()}-1 inclusive to retrieve
 	 * @return the element found at the specified index
 	 */
@@ -104,7 +114,7 @@ public class Bag<T> implements ModifiableCollection<T>, CollectionRemove<T>, Ite
 	}
 
 
-	/** Remove the element at the specified index from this group of elements
+	/** Remove the element at the specified index from this collection
 	 * @param index the index between zero and {@link #size()}-1 inclusive to remove
 	 * @return the element found at the specified index
 	 */
@@ -125,7 +135,7 @@ public class Bag<T> implements ModifiableCollection<T>, CollectionRemove<T>, Ite
 	}
 
 
-	/** Remove the specified object from this group of objects
+	/** Remove the specified element from this bag
 	 * @param item the object to remove based on item.equals(get(i)) if item
 	 * is not null, or get(i)==null if item is null, where i is [0, size()-1]
 	 * @return true if the element was removed successfully, false otherwise
@@ -168,7 +178,9 @@ public class Bag<T> implements ModifiableCollection<T>, CollectionRemove<T>, Ite
 
 	@Override
 	public T set(int i, T item) {
-		if(i >= size) { throw new IndexOutOfBoundsException(i + " of [0, " + size + "]"); }
+		if(i >= size) {
+			throw new IndexOutOfBoundsException(i + " of [0, " + size + "]");
+		}
 		@SuppressWarnings("unchecked")
 		T oldItem = (T)data[i];
 		data[i] = item;
@@ -177,8 +189,8 @@ public class Bag<T> implements ModifiableCollection<T>, CollectionRemove<T>, Ite
 	}
 
 
-	/** Add the specified item to this group of elements
-	 * @param item the item to add to this group of elements
+	/** Add the specified item to this bag
+	 * @param item the item to add to this bag
 	 */
 	@Override
 	public boolean add(T item) {
@@ -194,8 +206,8 @@ public class Bag<T> implements ModifiableCollection<T>, CollectionRemove<T>, Ite
 	}
 
 
-	/** Add the specified bag of items to this group of elements
-	 * @param items the items to add to this group of elements
+	/** Add the specified bag of items to this bag
+	 * @param items the items to add to this bag
 	 */
 	public void addAll(Bag<? extends T> items) {
 		if(items == null) {
@@ -212,8 +224,8 @@ public class Bag<T> implements ModifiableCollection<T>, CollectionRemove<T>, Ite
 	}
 
 
-	/** Add the specified item to this group of elements
-	 * @param items the items to add to this group of elements
+	/** Add the specified item to this bag
+	 * @param items the items to add to this bag
 	 */
 	@Override
 	public boolean addAll(Iterable<? extends T> items) {
@@ -232,9 +244,9 @@ public class Bag<T> implements ModifiableCollection<T>, CollectionRemove<T>, Ite
 	}
 
 
-	/** Utility method for adding know size iterable group of elements to this group of elements (e.g. a collection)
-	 * @param items an iterator of items to add to this group of elements
-	 * @param iteratorSize the number of items in the iterator
+	/** Utility method for adding an iterable with a known size to this bag
+	 * @param items an iterator of items to add to this bag
+	 * @param iteratorSize the number of items in the {@code items} iterator
 	 */
 	public void addAll(Iterable<? extends T> items, int iteratorSize) {
 		if(items == null) {
@@ -252,13 +264,16 @@ public class Bag<T> implements ModifiableCollection<T>, CollectionRemove<T>, Ite
 	}
 
 
+	/**
+	 * @see #addAll(Object[], int, int)
+	 */
 	public void addAll(T[] items) {
 		this.addAll(items, 0, items.length);
 	}
 
 
 	/** Add an array of items to this collection
-	 * @param items the array of items to add to this group of elements
+	 * @param items the array of items to add to this bag
 	 * @param off the {@code items} offset
 	 * @param len the number of {@code items} to copy into this collection starting at {@code off}
 	 */
@@ -338,7 +353,8 @@ public class Bag<T> implements ModifiableCollection<T>, CollectionRemove<T>, Ite
 	}
 
 
-	/** Clear the group of elements
+	/** Clear this collection. Once complete {@link #size()} returns 0 and
+	 * all internal element references have been set to null.
 	 */
 	@Override
 	public void clear() {
@@ -352,7 +368,9 @@ public class Bag<T> implements ModifiableCollection<T>, CollectionRemove<T>, Ite
 	}
 
 
-	/** Clear the group of elements and add the specific elements
+	/** Clear this collection and add the specific elements.
+	 * Is slightly more efficient than calling {@link #clear()} and {@link #addAll(Iterable)}
+	 * since some assumptions and shortcuts can be made.
 	 */
 	public void clearAndAddAll(List<T> items) {
 		if(items == null) {
@@ -379,7 +397,9 @@ public class Bag<T> implements ModifiableCollection<T>, CollectionRemove<T>, Ite
 	}
 
 
-	/** Clear the group of elements and add the specific elements
+	/** Clear this collection and add the specific elements.
+	 * Is slightly more efficient than calling {@link #clear()} and {@link #addAll(Object[])}
+	 * since some assumptions and shortcuts can be made.
 	 */
 	public void clearAndAddAll(T[] items) {
 		if(items == null) {
@@ -400,8 +420,8 @@ public class Bag<T> implements ModifiableCollection<T>, CollectionRemove<T>, Ite
 	}
 
 
-	/** Get the current size of this group of elements
-	 * @return the size of this group of elements
+	/** Get the current size of this collection
+	 * @return the number of elements in this collection
 	 */
 	@Override
 	public int size() {
@@ -409,8 +429,8 @@ public class Bag<T> implements ModifiableCollection<T>, CollectionRemove<T>, Ite
 	}
 
 
-	/** Is this group of elements empty
-	 * @return true if this group of elements is empty, false otherwise
+	/** Is this collection of elements empty
+	 * @return true if this collection contains no elements (i.e. {@link #size()} == 0), false otherwise
 	 */
 	@Override
 	public boolean isEmpty() {
@@ -418,12 +438,19 @@ public class Bag<T> implements ModifiableCollection<T>, CollectionRemove<T>, Ite
 	}
 
 
+	/** Create an iterator over this collection
+	 * @return a new iterator over this collection
+	 */
 	@Override
 	public Iterator<T> iterator() {
 		return new BagIterator();
 	}
 
 
+	/** Returns an array containing all of the elements in this collection.
+	 * @return a new {@code Object[]} array of length {@link #size()},
+	 * containing a copy of the contents of this bag.
+	 */
 	public Object[] toArray() {
 		Object[] objs = new Object[this.size];
 		System.arraycopy(this.data, 0, objs, 0, this.size);
@@ -431,7 +458,16 @@ public class Bag<T> implements ModifiableCollection<T>, CollectionRemove<T>, Ite
 	}
 
 
-	public Object[] toArray(T[] dst) {
+	/** Returns an array containing all of the elements in this collection.
+	 * The array size is equal to {@link #size()}.
+	 * The array type matches the {@code dst} array type.
+	 * @param dst the destination array to copy this collection's contents into.
+	 * If the array is not larger enough, a large array of the same type is created and return.
+	 * @return An array containing a copy of the contents of this collection.
+	 * The {@code dst} array is returned if its length is equal to or greater then {@link #size()},
+	 * else a new array of the same type as {@code dst} is returned.
+	 */
+	public T[] toArray(T[] dst) {
 		if(dst.length < this.size) {
 			@SuppressWarnings("unchecked")
 			T[] copy = (T[])Arrays.copyOf(this.data, this.size, dst.getClass());
@@ -444,6 +480,17 @@ public class Bag<T> implements ModifiableCollection<T>, CollectionRemove<T>, Ite
 
 	public List<T> listView() {
 		return listView != null ? listView : (listView = new BagListView());
+	}
+
+
+	/** Internal lock checking mechanism which counts the number of modifications to this object.
+	 * If the count differs between two calls then this object has been modified between the
+	 * two calls that returned the two different values.
+	 * @return the number of actions (add, set, remove, clear) carried out by
+	 * this bag since it was created.
+	 */
+	public int getActionCount() {
+		return action;
 	}
 
 

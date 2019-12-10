@@ -4,7 +4,15 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 
 
 --------
-### [0.7.6](N/A) - 2019-03-27
+### [0.7.7](N/A) - 2019-12-10
+#### Changed
+* Added `new Bag(Class, int)` constructor which allows for a custom storage array type. The underlying storage array is of type `Object[]` by default.
+* `Bag.toArray(T[])` returns `T[]` instead of `Object[]`
+* Clarified and added missing method documentation to `Bag`
+
+
+--------
+### [0.7.6](https://github.com/TeamworkGuy2/JCollectionUtil/commit/12326769c48b1ec465747b7d572b4fe44cb685f1) - 2019-03-27
 #### Added
 * `Bag.getRawArray()`
 * `SortedPairList(Comparator, int capacity)` capacity constructor

@@ -21,8 +21,8 @@ public class BagTest {
 		Bag<String> bag2 = new Bag<>(Arrays.asList(strs));
 
 		bag1.addAll(Arrays.asList(strs));
-
 		Assert.assertEquals("bag1 not equal to bag2", bag1, bag2);
+
 		bag1.clearAndAddAll(Arrays.asList(strsAlt));
 
 		for(int i = bag2.size() - 1; i > -1; i--) {
@@ -31,8 +31,13 @@ public class BagTest {
 		for(int i = 0, size= strsAlt.length; i < size; i++) {
 			bag2.add(strsAlt[i]);
 		}
-
 		Assert.assertEquals("bag1 not equal to bag2", bag1, bag2);
+
+		bag2.clear();
+		bag2.addAll(strsAlt, 1, strsAlt.length - 1);
+		bag2.add(strsAlt[0]);
+		bag2.set(0, "A");
+		Assert.assertArrayEquals(new Bag<>(new String[] { "-", "A", "Y", "Z", "W" }, 1, 4).toArray(new String[0]), bag2.toArray(new String[0]));
 	}
 
 }
