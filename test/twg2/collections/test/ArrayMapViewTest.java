@@ -34,10 +34,18 @@ public class ArrayMapViewTest {
 		ArrayMapViewHandle<String, Integer> viewHdl = new ArrayMapViewHandle<>(keys, keysOff, values, valsOff, len);
 		ArrayMapView<String, Integer> view = viewHdl.getArrayView();
 
-		// test array view length
-		Assert.assertTrue("invalid length " + view.size() + " expected " + len, view.size() == len);
+		// test array view
+		Assert.assertEquals(len, view.size());
+		Assert.assertTrue(view.containsKey("D1"));
+		Assert.assertTrue(view.containsValue(3));
+		Assert.assertEquals(1, view.indexOf("D1"));
+		Assert.assertEquals(1, view.indexOfValue(3));
+		Assert.assertEquals(0, view.lastIndexOf("C1"));
+		Assert.assertEquals(0, view.lastIndexOfValue(2));
+		Assert.assertEquals(-1, view.indexOf("A1"));
+		Assert.assertEquals(-1, view.indexOfValue(1));
 
-		// test of array view values
+		// test array view values
 		for(int loopI = 0; loopI < len; loopI++) {
 			int i = 0;
 			for(Map.Entry<String, Integer> entry : view) {
@@ -82,7 +90,7 @@ public class ArrayMapViewTest {
 		ListIterator<Map.Entry<String, Integer>> itr = view.listIterator(0);
 		for(int i = 0; itr.hasNext(); i++) {
 			Map.Entry<String, Integer> entry = itr.next();
-			Assert.assertTrue("index unexpected: " + itr.nextIndex() + ", expected: " + i, i == itr.nextIndex() - 1);
+			Assert.assertEquals(i, itr.nextIndex() - 1);
 			Assert.assertTrue(i + ": (" + entry + ") != (" + viewKeyAry[i] + "=" + viewValAry[i] + ")", entry.getKey() == viewKeyAry[i] && entry.getValue() == viewValAry[i]);
 			Assert.assertTrue("invalid last index " + i + ", expected " + (viewKeyAry.length - 1),
 					(!itr.hasNext() && i == viewKeyAry.length - 1) || itr.hasNext());
@@ -104,7 +112,7 @@ public class ArrayMapViewTest {
 		view.set(2, insertVal);
 		keys[2] = insertVal.getKey();
 		values[2] = insertVal.getValue();
-		Assert.assertTrue(insertVal.equals(view.getEntry(2)));
+		Assert.assertEquals(insertVal, view.getEntry(2));
 	}
 
 }

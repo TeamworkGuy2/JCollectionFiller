@@ -4,7 +4,19 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 
 
 --------
-### [0.7.7](N/A) - 2019-12-10
+### [0.7.8](N/A) - 2020-11-20
+#### Changed
+* Added `reset()` method to `BaseList.BaseListIterator`
+* Made `BaseList.BaseListIterator` and `BaseList.SubList` classes public
+* Changed several `BaseList` and sub-class `private` fields and methods to `protected` for easier customization by sub-classes
+* Added `new Bag(Array)` constructor
+
+#### Fixed
+* Fix an index issue with `ArrayMapView` `indexOf()` and `lastIndexOf()`
+
+
+--------
+### [0.7.7](https://github.com/TeamworkGuy2/JCollectionUtil/commit/9e770e7974bc4603b7f3a9f9de3acb2e6f2349d7) - 2019-12-10
 #### Changed
 * Added `new Bag(Class, int)` constructor which allows for a custom storage array type. The underlying storage array is of type `Object[]` by default.
 * `Bag.toArray(T[])` returns `T[]` instead of `Object[]`
@@ -33,7 +45,7 @@ This project does its best to adhere to [Semantic Versioning](http://semver.org/
 ### [0.7.5](https://github.com/TeamworkGuy2/JCollectionUtil/commit/fdab3b9592a058e7dd8a3c7c613c8ef67e30c3db) - 2018-09-23
 #### Added
 * `BaseList` implementation of `List` and `ListReadOnly`
-* `ArrayView` and `PairBag` changed to implement sub-interface `ListReadOnly` instead of `RandomAccessCollection`
+* `ArrayView` and `PairBag` changed to implement `ListReadOnly` interface instead of `RandomAccessCollection`
 
 
 --------

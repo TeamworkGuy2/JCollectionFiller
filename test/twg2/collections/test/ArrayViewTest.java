@@ -24,15 +24,19 @@ public class ArrayViewTest {
 		ArrayViewHandle<String> viewHdl = new ArrayViewHandle<>(objs, off, len);
 		ArrayView<String> view = viewHdl.getArrayView();
 
-		// test array view length
-		Assert.assertTrue("invalid length " + view.size() + " expected " + len, view.size() == len);
+		// test array view
+		Assert.assertEquals(len, view.size());
+		Assert.assertTrue(view.contains("D1"));
+		Assert.assertEquals(1, view.indexOf("D1"));
+		Assert.assertEquals(0, view.lastIndexOf("C1"));
+		Assert.assertEquals(-1, view.indexOf("A1"));
 
-		// test of array view values
+		// test array view values
 		for(int loopI = 0; loopI < len; loopI++) {
 			int i = 0;
 			for(String str : view) {
-				Assert.assertTrue("found '" + str + "' expected '" + objs[off + i] + "'", str.equals(objs[off + i]));
-				Assert.assertTrue("found '" + str + "' expected '" + view.get(i) + "'", str.equals(view.get(i)));
+				Assert.assertEquals("at index " + (off + i), objs[off + i], str);
+				Assert.assertEquals("at index " + (off + i), view.get(i), str);
 				i++;
 			}
 			Assert.assertArrayEquals(viewAry, view.toArray(new String[len]));
@@ -48,7 +52,7 @@ public class ArrayViewTest {
 		for(int loopI = 0; loopI < len; loopI++) {
 			int i = 0;
 			for(String str : view) {
-				Assert.assertTrue("found '" + str + "' expected '" + objs[off + i] + "'", str.equals(objs[off + i]));
+				Assert.assertEquals("at index " + (off + i), objs[off + i], str);
 				i++;
 			}
 			Assert.assertArrayEquals(viewAry, view.toArray(new String[len]));
@@ -58,8 +62,8 @@ public class ArrayViewTest {
 		ListIterator<String> itr = view.listIterator(0);
 		for(int i = 0; itr.hasNext(); i++) {
 			String str = itr.next();
-			Assert.assertTrue("index unexpected: " + itr.nextIndex() + ", expected: " + i, i == itr.nextIndex() - 1);
-			Assert.assertTrue(i + ": " + str + " != " + viewAry[i], str == viewAry[i]);
+			Assert.assertEquals(i, itr.nextIndex() - 1);
+			Assert.assertEquals(str, viewAry[i]);
 			Assert.assertTrue("invalid last index " + i + ", expected " + (viewAry.length - 1),
 					(!itr.hasNext() && i == viewAry.length - 1) || itr.hasNext());
 		}
@@ -75,7 +79,7 @@ public class ArrayViewTest {
 		String insertVal = "delta";
 		view.set(2, insertVal);
 		vals[2] = insertVal;
-		Assert.assertTrue(view.get(2) == insertVal);
+		Assert.assertEquals(insertVal, view.get(2));
 	}
 
 }

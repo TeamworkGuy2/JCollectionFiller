@@ -327,7 +327,7 @@ public final class ArrayMapView<K, V> implements PairCollectionReadOnly<K, V>, I
 	public int indexOf(Object o) {
 		for(int i = keysOff, size = keysOff + len; i < size; i++) {
 			if(o != null ? o.equals(keys[i]) : keys[i] == null) {
-				return i;
+				return i - keysOff;
 			}
 		}
 		return -1;
@@ -337,7 +337,7 @@ public final class ArrayMapView<K, V> implements PairCollectionReadOnly<K, V>, I
 	public int lastIndexOf(Object o) {
 		for(int i = keysOff + len - 1; i >= keysOff; i--) {
 			if(o != null ? o.equals(keys[i]) : keys[i] == null) {
-				return i;
+				return i - keysOff;
 			}
 		}
 		return -1;
@@ -348,7 +348,7 @@ public final class ArrayMapView<K, V> implements PairCollectionReadOnly<K, V>, I
 	public int indexOfValue(V o) {
 		for(int i = valuesOff, size = valuesOff + len; i < size; i++) {
 			if(o != null ? o.equals(values[i]) : values[i] == null) {
-				return i;
+				return i - valuesOff;
 			}
 		}
 		return -1;
@@ -358,7 +358,7 @@ public final class ArrayMapView<K, V> implements PairCollectionReadOnly<K, V>, I
 	public int lastIndexOfValue(V o) {
 		for(int i = valuesOff + len - 1; i >= valuesOff; i--) {
 			if(o != null ? o.equals(values[i]) : values[i] == null) {
-				return i;
+				return i - valuesOff;
 			}
 		}
 		return -1;

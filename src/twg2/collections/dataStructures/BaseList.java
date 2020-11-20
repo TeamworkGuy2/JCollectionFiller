@@ -67,6 +67,9 @@ import twg2.collections.interfaces.ListReadOnly;
  * Therefore, it would be wrong to write a program that depended on this exception
  * for its correctness:  <i>the fail-fast behavior of iterators should be used
  * only to detect bugs.</i>
+ * 
+ * Note: this is a copy of {@link java.util.ArrayList} which implements {@link ListReadOnly} and makes several important members 'protected' rather than 'private'
+ * allowing for easier sub-classing.
  * @param <E> the type of elements in this list
  * @author TeamworkGuy2
  * @since 2018-09-22
@@ -183,7 +186,7 @@ public class BaseList<E> extends AbstractList<E> implements List<E>, RandomAcces
 	 * @param minCapacity the desired minimum capacity
 	 * @throws OutOfMemoryError if minCapacity is less than zero
 	 */
-	private Object[] grow(int minCapacity) {
+	protected Object[] grow(int minCapacity) {
 		return elements = Arrays.copyOf(elements, newCapacity(minCapacity));
 	}
 
@@ -195,7 +198,7 @@ public class BaseList<E> extends AbstractList<E> implements List<E>, RandomAcces
 	 * @param minCapacity the desired minimum capacity
 	 * @throws OutOfMemoryError if minCapacity is less than zero
 	 */
-	private int newCapacity(int minCapacity) {
+	protected int newCapacity(int minCapacity) {
 		// overflow check
 		int oldCapacity = elements.length;
 		int newCapacity = oldCapacity + (oldCapacity >> 1);
@@ -212,7 +215,7 @@ public class BaseList<E> extends AbstractList<E> implements List<E>, RandomAcces
 	}
 
 
-	private static int hugeCapacity(int minCapacity) {
+	protected static int hugeCapacity(int minCapacity) {
 		if (minCapacity < 0) // overflow
 			throw new OutOfMemoryError();
 		return (minCapacity > MAX_ARRAY_SIZE)
@@ -402,7 +405,7 @@ public class BaseList<E> extends AbstractList<E> implements List<E>, RandomAcces
 	 * bytecode size under 35 (the -XX:MaxInlineSize default value),
 	 * which helps when add(E) is called in a C1-compiled loop.
 	 */
-	private void add(E e, Object[] elementData, int s) {
+	protected void add(E e, Object[] elementData, int s) {
 		if (s == elementData.length)
 			elementData = grow(size + 1);
 		elementData[s] = e;
@@ -499,10 +502,10 @@ public class BaseList<E> extends AbstractList<E> implements List<E>, RandomAcces
 	}
 
 
-	/** Private remove method that skips bounds checking and does not
+	/** Protected remove method that skips bounds checking and does not
 	 * return the value removed.
 	 */
-	private void fastRemove(Object[] es, int i) {
+	protected void fastRemove(Object[] es, int i) {
 		modCount++;
 		final int newSize;
 		if ((newSize = size - 1) > i)
@@ -610,7 +613,7 @@ public class BaseList<E> extends AbstractList<E> implements List<E>, RandomAcces
 
 	/** Erases the gap from lo to hi, by sliding down following elements.
 	 */
-	private void shiftTailOverGap(Object[] es, int lo, int hi) {
+	protected void shiftTailOverGap(Object[] es, int lo, int hi) {
 		System.arraycopy(es, hi, es, lo, size - hi);
 		for (int to = size, i = (size -= hi - lo); i < to; i++)
 			es[i] = null;
@@ -946,7 +949,7 @@ public class BaseList<E> extends AbstractList<E> implements List<E>, RandomAcces
 
 	/** A version of rangeCheck used by add and addAll.
 	 */
-	private void rangeCheckForAdd(int index) {
+	protected void rangeCheckForAdd(int index) {
 		if (index > size || index < 0)
 			throw new IndexOutOfBoundsException(outOfBoundsMsg(index));
 	}
@@ -956,14 +959,14 @@ public class BaseList<E> extends AbstractList<E> implements List<E>, RandomAcces
 	 * Of the many possible refactorings of the error handling code,
 	 * this "outlining" performs best with both server and client VMs.
 	 */
-	private String outOfBoundsMsg(int index) {
+	protected String outOfBoundsMsg(int index) {
 		return "Index: " + index + ", Size: " + size;
 	}
 
 
 	/** A version used in checking (fromIndex > toIndex) condition
 	 */
-	private static String outOfBoundsMsg(int fromIndex, int toIndex) {
+	protected static String outOfBoundsMsg(int fromIndex, int toIndex) {
 		return "From Index: " + fromIndex + " > To Index: " + toIndex;
 	}
 
@@ -995,10 +998,10 @@ public class BaseList<E> extends AbstractList<E> implements List<E>, RandomAcces
 
 	/** An optimized version of AbstractList.Itr
 	 */
-	protected class BaseIterator implements Iterator<E> {
-		int cursor; // index of next element to return
-		int lastRet = -1; // index of last element returned; -1 if no such
-		int expectedModCount = modCount;
+	public class BaseIterator implements Iterator<E> {
+		protected int cursor; // index of next element to return
+		protected int lastRet = -1; // index of last element returned; -1 if no such
+		protected int expectedModCount = modCount;
 
 		// prevent creating a synthetic constructor
 		BaseIterator() {}
@@ -1071,7 +1074,7 @@ public class BaseList<E> extends AbstractList<E> implements List<E>, RandomAcces
 
 	/** An optimized version of AbstractList.ListItr
 	 */
-	protected class BaseListIterator extends BaseIterator implements ListIterator<E> {
+	public class BaseListIterator extends BaseIterator implements ListIterator<E> {
 
 		BaseListIterator(int index) {
 			super();
@@ -1143,14 +1146,25 @@ public class BaseList<E> extends AbstractList<E> implements List<E>, RandomAcces
 			}
 		}
 
+
+		// custom: WARNING: use at your own risk - allow iterator position to be reset; e.g. for reuse in critical performance situations
+		public void reset(int mark) {
+			checkModCount();
+			if(mark < 0 || mark > size) {
+				throw new IndexOutOfBoundsException(mark + " of [0, " + size + "]");
+			}
+			cursor = mark;
+			lastRet = -1;
+		}
+
 	}
 
 
 	public static class SubList<E> extends AbstractList<E> implements RandomAccess, ListReadOnly<E> {
-		private final BaseList<E> root;
-		private final SubList<E> parent;
-		private final int offset;
-		private int size;
+		protected final BaseList<E> root;
+		protected final SubList<E> parent;
+		protected final int offset;
+		protected int size;
 
 
 		/** Constructs a sublist of an arbitrary BaseList.
@@ -1166,7 +1180,7 @@ public class BaseList<E> extends AbstractList<E> implements List<E>, RandomAcces
 
 		/** Constructs a sublist of another SubList.
 		 */
-		private SubList(SubList<E> parent, int fromIndex, int toIndex) {
+		protected SubList(SubList<E> parent, int fromIndex, int toIndex) {
 			this.root = parent.root;
 			this.parent = parent;
 			this.offset = parent.offset + fromIndex;
@@ -1258,7 +1272,7 @@ public class BaseList<E> extends AbstractList<E> implements List<E>, RandomAcces
 		}
 
 
-		private boolean batchRemove(Collection<?> c, boolean complement) {
+		protected boolean batchRemove(Collection<?> c, boolean complement) {
 			checkModCount();
 			int oldSize = root.size;
 			boolean modified =
@@ -1424,24 +1438,24 @@ public class BaseList<E> extends AbstractList<E> implements List<E>, RandomAcces
 		}
 
 
-		private void rangeCheckForAdd(int index) {
+		protected void rangeCheckForAdd(int index) {
 			if (index < 0 || index > this.size)
 				throw new IndexOutOfBoundsException(outOfBoundsMsg(index));
 		}
 
 
-		private String outOfBoundsMsg(int index) {
+		protected String outOfBoundsMsg(int index) {
 			return "Index: " + index + ", Size: " + this.size;
 		}
 
 
-		private void checkModCount() {
+		protected void checkModCount() {
 			if (root.modCount != modCount)
 				throw new ConcurrentModificationException();
 		}
 
 
-		private void updateSizeAndModCount(int sizeChange) {
+		protected void updateSizeAndModCount(int sizeChange) {
 			SubList<E> slist = this;
 			do {
 				slist.size += sizeChange;

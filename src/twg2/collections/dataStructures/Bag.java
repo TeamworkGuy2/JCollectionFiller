@@ -70,6 +70,11 @@ public class Bag<T> implements ModifiableCollection<T>, CollectionRemove<T>, Ite
 	}
 
 
+	public Bag(T[] vals) {
+		this(vals, 0, vals.length);
+	}
+
+
 	public Bag(T[] vals, int off, int len) {
 		this.data = new Object[len];
 		this.addAll(vals, off, len);
